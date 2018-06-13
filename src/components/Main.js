@@ -8,7 +8,11 @@ export default class Main extends Component {
     render() {
         return (
             <main className='main'>
-                <RegistrationForm />
+                <div className="container">
+                    <div className="row">
+                        <RegistrationForm />
+                    </div>
+                </div>
             </main>
         );
     }
