@@ -1,8 +1,8 @@
-import regFormReducer from './regFormReducer'
+import formReducer from './regFormReducer'
 import { combineReducers } from 'redux';
 
 let reducer = combineReducers({
-    regForm: regFormReducer,
+    form: formReducer,
 });
 
 export default reducer

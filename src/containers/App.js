@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+import $ from "jquery";
+import 'bootstrap/dist/js/bootstrap.bundle';
+
 import Header from '../components/Header';
 import Main from '../components/Main';
 import Footer from '../components/Footer';
 
-class App extends Component {
 
+class App extends Component {
+    constructor() {
+        super();
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
+    }
     render() {
     return (
       <div className="App">

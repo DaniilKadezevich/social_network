@@ -1,82 +1,113 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './RegistrationForm.sass'
+import './RegistrationForm.sass';
 
+import NameForm from './NameForm';
+import SurnameForm from './SurnameForm';
+import MiddleNameForm from './MiddleNameForm';
+import EmailForm from './EmailForm';
+import AgeForm from './AgeForm';
+import GenderForm from './GenderForm';
+import PhotoForm from './PhotoForm';
 
 class RegistrationForm extends Component {
-    handleChange() {
-        if (this.props.form.name.text) {
-            this.props.validateName(true)
-        } else {
-            this.props.validateName(false)
+    constructor() {
+        super();
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+        console.log(this.props.form);
+        let form = {...this.props.form};
+
+        let gender = form.gender;
+        let name = form.name;
+        let surname = form.surname;
+        let middleName = form.middleName;
+        let email = form.email;
+        let age = form.age;
+        let photo = form.photo;
+
+        if (gender.isValid === 'waiting' || !gender.isValid) {
+            this.props.validateGender(false);
+        }
+        if (name.isValid === 'waiting' || !name.isValid) {
+            this.props.validateName(false);
+        }
+        if (surname.isValid === 'waiting' || !surname.isValid) {
+            this.props.validateSurname(false);
+        }
+        if (middleName.isValid === 'waiting' || !middleName.isValid) {
+            this.props.validateMiddleName(false);
+        }
+        if (email.isValid === 'waiting' || !email.isValid) {
+            this.props.validateEmail(false);
+        }
+        if (age.isValid === 'waiting' || !age.isValid) {
+            this.props.validateAge(false);
+        }
+        if (photo.isValid === 'waiting' || !photo.isValid) {
+            this.props.validatePhoto(false);
         }
 
-    }
-    render() {
-        let nameClass = 'form-control';
-        if (this.props.form.name.isValid) {
-            nameClass = 'form-control'
-        } else {
-            nameClass = 'form-control is-invalid'
+        if (
+            !(gender.isValid === 'waiting' || !gender.isValid) &&
+            !(name.isValid === 'waiting' || !name.isValid) &&
+            !(surname.isValid === 'waiting' || !surname.isValid) &&
+            !(middleName.isValid === 'waiting' || !middleName.isValid) &&
+            !(email.isValid === 'waiting' || !email.isValid) &&
+            !(age.isValid === 'waiting' || !age.isValid) &&
+            !(photo.isValid === 'waiting' || !photo.isValid)
+        ) {
+            let obj = {
+                name: name.text,
+                surname: surname.text,
+                middleName: middleName.text,
+                email: email.text,
+                age: age.text,
+                photo: photo.path,
+                gender: gender.value,
+            };
+            console.log(obj);
         }
+    }
+
+    render() {
         return (
             <div className="regFormContainer offset-6 col-4">
-                <form action="">
+                <form onSubmit={this.handleSubmit} action="">
                     <div className=" form-group form-row">
                         <div className="col-6">
-                            <input
-                                type="name"
-                                className={nameClass}
-                                id="regName"
-                                placeholder="Name"
-                                onChange={this.props.addName.bind(this)}
-                                onBlur={this.handleChange.bind(this)}
-                            />
+                            <NameForm/>
                         </div>
                         <div className="col-6">
-                            <input type="name" className="form-control" id="regSurname" placeholder="Surname"/>
+                           <SurnameForm/>
                         </div>
                     </div>
                     <div className="form-group">
-                        <input type="name" className="form-control" id="regMiddleName" placeholder="Middle name"/>
+                        <MiddleNameForm/>
                     </div>
                     <div className="form-group">
-                        <input type="email" className="form-control" id="regEmail" placeholder="Email"/>
+                        <EmailForm/>
                     </div>
-                    <div className=" form-group form-row">
+                    <div className="form-row">
                         <div className="form-group col-6">
                             <label htmlFor="regAge">
-                                 Age:
+                                Age:
                             </label>
-                            <input type="number" className="form-control" id="regAge" placeholder='Age'/>
+                            <AgeForm id="regAge"/>
                         </div>
                         <div className="form-group col-6">
                             <label htmlFor="regGender">Gender:</label>
-                            <div className="row d-flex justify-content-center mt-1">
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="regGender" id="regGenderM" value="option1"/>
-                                    <label className="form-check-label" htmlFor="regGenderM">Male</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input className="form-check-input" type="radio" name="regGender" id="regGenderF" value="option2"/>
-                                    <label className="form-check-label" htmlFor="regGenderF">Female</label>
-                                </div>
-                            </div>
-
+                            <GenderForm name="regGender"/>
                         </div>
                     </div>
-                    <fieldset className="form-group">
-                        <div className="row">
-                            <label htmlFor='regPhoto' className="col-form-label col-2 pt-0">Photo:</label>
-                            <div className="col-10">
-                                <input type="file" className="form-control-file" id="regPhoto"/>
-                            </div>
-                        </div>
-                    </fieldset>
+                    <PhotoForm/>
                     <div className="row d-flex justify-content-center">
                         <button className="btn btn-success" type="submit">Sing In</button>
                     </div>
-
                 </form>
             </div>
         )
@@ -84,13 +115,18 @@ class RegistrationForm extends Component {
 }
 function mapStateToProps(state) {
     return {
-        form: state.regForm
+        form: state.form
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addName: (e) => dispatch({type: 'ADD_NAME', payload: e.target.value}),
-        validateName: (status) => dispatch({type: 'VALIDATE_NAME', payload: status}),
+        validateName: status => dispatch({type: 'VALIDATE_NAME', status}),
+        validateSurname: status => dispatch({type: 'VALIDATE_SURNAME', status}),
+        validateMiddleName: status => dispatch({type: 'VALIDATE_MIDDLE_NAME', status}),
+        validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
+        validateAge: status => dispatch({type: 'VALIDATE_AGE', status}),
+        validateGender: status => dispatch({type: 'VALIDATE_GENDER', status}),
+        validatePhoto: status => dispatch({type: 'VALIDATE_PHOTO', status}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
