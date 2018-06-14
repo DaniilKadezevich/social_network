@@ -3,15 +3,35 @@ import { connect } from 'react-redux';
 import './RegistrationForm.sass'
 
 
-export default class RegistrationForm extends Component {
+class RegistrationForm extends Component {
+    handleChange() {
+        if (this.props.form.name.text) {
+            this.props.validateName(true)
+        } else {
+            this.props.validateName(false)
+        }
 
+    }
     render() {
+        let nameClass = 'form-control';
+        if (this.props.form.name.isValid) {
+            nameClass = 'form-control'
+        } else {
+            nameClass = 'form-control is-invalid'
+        }
         return (
             <div className="regFormContainer offset-6 col-4">
                 <form action="">
                     <div className=" form-group form-row">
                         <div className="col-6">
-                            <input type="name" className="form-control" id="regName" placeholder="Name"/>
+                            <input
+                                type="name"
+                                className={nameClass}
+                                id="regName"
+                                placeholder="Name"
+                                onChange={this.props.addName.bind(this)}
+                                onBlur={this.handleChange.bind(this)}
+                            />
                         </div>
                         <div className="col-6">
                             <input type="name" className="form-control" id="regSurname" placeholder="Surname"/>
@@ -62,3 +82,15 @@ export default class RegistrationForm extends Component {
         )
     }
 }
+function mapStateToProps(state) {
+    return {
+        form: state.regForm
+    }
+}
+function mapDispatchToProps(dispatch) {
+    return {
+        addName: (e) => dispatch({type: 'ADD_NAME', payload: e.target.value}),
+        validateName: (status) => dispatch({type: 'VALIDATE_NAME', payload: status}),
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
