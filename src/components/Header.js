@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import './Header.sass'
 
-
-
 export default class Header extends Component {
 
     render() {
@@ -12,7 +10,7 @@ export default class Header extends Component {
                     <div className="row">
                         <div className="col col-6">Header LOGO</div>
                         <div className="col col-6 d-flex justify-content-end">
-                            Log in
+                            Header
                         </div>
                     </div>
                 </div>

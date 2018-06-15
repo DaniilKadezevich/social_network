@@ -1,25 +1,28 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class AgeForm extends Component {
+import { REGEXPS } from '../constants'
+
+class AgeInput extends Component {
     constructor() {
         super();
+        this.regExp = REGEXPS.age;
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
         this.setWaitingStatus = this.setWaitingStatus.bind(this);
     }
     validation() {
-        if (/^[1-9][0-9]?$/.test(this.props.age.text)) {
+        if (this.regExp.test(this.props.age.value)) {
             this.props.validate(true);
         } else {
             this.props.validate(false);
         }
     }
     handleChange(e) {
-        let text = e.target.value;
+        let value = e.target.value;
 
-        this.props.addText(text);
+        this.props.addValue(value);
     }
     setWaitingStatus() {
         this.props.validate('waiting');
@@ -46,7 +49,7 @@ class AgeForm extends Component {
                 onFocus={this.setWaitingStatus}
                 data-toggle="tooltip"
                 data-placement="top"
-                title="Enter your age"
+                title={this.props.age.value}
             />
         )
     }
@@ -58,8 +61,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addText: (text) => dispatch({type: 'ADD_AGE', text}),
+        addValue: (value) => dispatch({type: 'ADD_AGE', value}),
         validate: (status) => dispatch({type: 'VALIDATE_AGE', status})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AgeForm)
+export default connect(mapStateToProps, mapDispatchToProps)(AgeInput)

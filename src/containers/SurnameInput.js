@@ -1,22 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { REGEXPS } from '../constants'
 
-class SurnameForm extends Component {
+class SurnameInput extends Component {
     constructor() {
         super();
+        this.regExp = REGEXPS.surname;
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
         this.setWaitingStatus = this.setWaitingStatus.bind(this);
     }
     handleChange(e) {
-        let text = e.target.value;
+        let value = e.target.value;
 
-        this.props.addText(text);
+        this.props.addValue(value);
     }
     validation() {
-        if (/^[A-Z][a-z]{1,32}$/.test(this.props.surname.text)) {
+        if (this.regExp.test(this.props.surname.value)) {
             this.props.validate(true);
         } else {
             this.props.validate(false);
@@ -57,8 +59,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addText: (text) => dispatch({type: 'ADD_SURNAME', text}),
+        addValue: (value) => dispatch({type: 'ADD_SURNAME', value}),
         validate: (status) => dispatch({type: 'VALIDATE_SURNAME', status})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(SurnameForm)
+export default connect(mapStateToProps, mapDispatchToProps)(SurnameInput)

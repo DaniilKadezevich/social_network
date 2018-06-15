@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-class MiddleNameForm extends Component {
+import { REGEXPS } from '../constants'
+
+class MiddleNameInput extends Component {
     constructor() {
         super();
+        this.regExp = REGEXPS.name;
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
         this.setWaitingStatus = this.setWaitingStatus.bind(this);
     }
     handleChange(e) {
-        let text = e.target.value;
+        let value = e.target.value;
 
-        this.props.addText(text);
+        this.props.addValue(value);
     }
     validation() {
-        if (/^[A-Z][a-z]{0,32}$/.test(this.props.middleName.text) || this.props.middleName.text === '') {
+        if (this.regExp.test(this.props.middleName.value) || this.props.middleName.value === '') {
             this.props.validate(true);
         } else {
             this.props.validate(false);
@@ -54,8 +57,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addText: (text) => dispatch({type: 'ADD_MIDDLE_NAME', text}),
+        addValue: (value) => dispatch({type: 'ADD_MIDDLE_NAME', value}),
         validate: (status) => dispatch({type: 'VALIDATE_MIDDLE_NAME', status})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(MiddleNameForm)
+export default connect(mapStateToProps, mapDispatchToProps)(MiddleNameInput)

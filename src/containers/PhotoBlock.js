@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './PhotoForm.sass'
 
-class PhotoForm extends Component {
+class PhotoBlock extends Component {
     constructor() {
         super();
 
@@ -25,7 +25,7 @@ class PhotoForm extends Component {
         event.persist();
 
         if(!allowedExtensions.exec(filePath)){
-            this.sendError('Incorrect file extension');
+            this.sendError(false, 'Incorrect file extension');
             event.target.value = '';
         } else {
             let img = new Image();
@@ -42,16 +42,16 @@ class PhotoForm extends Component {
                        let height = this.height;
 
                         if (width >= 200 && height >= 200) {
-                            self.props.setPhotoPath(imgLink);
+                            self.props.addPhotoFile(imgLink);
                         } else {
-                            self.sendError('Width and Height must be 200px or more');
+                            self.sendError(false, 'Width and Height must be 200px or more');
                             event.target.value = '';
                         }
                     };
                 };
                 reader.readAsDataURL(file);
             } else {
-                this.sendError(`File size should be from 40000 to 5000000 bytes. Current is: ${size}`);
+                this.sendError(false, `File size should be from 40000 to 5000000 bytes. Current is: ${size}`);
                 event.target.value = '';
             }
         }
@@ -72,7 +72,7 @@ class PhotoForm extends Component {
                 <div className="row">
                     <label htmlFor='regPhoto' className="col-form-label col-2 pt-0">Photo:</label>
                     <div className="col-10">
-                        <input type="file" onChange={this.fileValidation} className="form-control-file" id="regPhoto"/>
+                        <input type="file" accept="image/png,image/jpg,image/jpeg" onChange={this.fileValidation} className="form-control-file" id="regPhoto"/>
                     </div>
                 </div>
             </fieldset>
@@ -86,8 +86,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        setPhotoPath: (path) => dispatch({type: 'ADD_PHOTO', path}),
-        validate: (message) => dispatch({type: 'VALIDATE_PHOTO', message})
+        addPhotoFile: (file) => dispatch({type: 'ADD_PHOTO', file}),
+        validate: (status, message) => dispatch({type: 'VALIDATE_PHOTO', status, message})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(PhotoForm)
+export default connect(mapStateToProps, mapDispatchToProps)(PhotoBlock)

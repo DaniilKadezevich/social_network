@@ -4,9 +4,9 @@ import { connect } from 'react-redux';
 import $ from "jquery";
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-import Header from '../components/Header';
 import Main from '../components/Main';
 import Footer from '../components/Footer';
+import Notification from '../components/Notification';
 
 
 class App extends Component {
@@ -19,7 +19,7 @@ class App extends Component {
     render() {
     return (
       <div className="App">
-          <Header/>
+          <Notification />
           <Main/>
           <Footer/>
       </div>

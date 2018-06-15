@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import './GenderForm.sass'
 
-class GenderForm extends Component {
+class GenderBlock extends Component {
     constructor() {
         super();
 
@@ -58,4 +58,4 @@ function mapDispatchToProps(dispatch) {
         validate: (status) => dispatch({type: 'VALIDATE_GENDER', status})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(GenderForm)
+export default connect(mapStateToProps, mapDispatchToProps)(GenderBlock)
