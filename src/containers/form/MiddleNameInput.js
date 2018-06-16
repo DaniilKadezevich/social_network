@@ -1,28 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../constants'
+import { REGEXPS } from '../../constants'
 
-class AgeInput extends Component {
+class MiddleNameInput extends Component {
     constructor() {
         super();
-        this.regExp = REGEXPS.age;
+        this.regExp = REGEXPS.name;
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
         this.setWaitingStatus = this.setWaitingStatus.bind(this);
     }
-    validation() {
-        if (this.regExp.test(this.props.age.value)) {
-            this.props.validate(true);
-        } else {
-            this.props.validate(false);
-        }
-    }
     handleChange(e) {
         let value = e.target.value;
 
         this.props.addValue(value);
+    }
+    validation() {
+        this.props.validate(this.regExp.test(this.props.middleName.value) || this.props.middleName.value === '')
     }
     setWaitingStatus() {
         this.props.validate('waiting');
@@ -30,39 +26,36 @@ class AgeInput extends Component {
     render() {
         let stateClass;
 
-        if (this.props.age.isValid) {
+        if (this.props.middleName.isValid) {
             stateClass = 'is-valid';
         }  else {
             stateClass = 'is-invalid';
         }
-        if (this.props.age.isValid === 'waiting') {
+        if (this.props.middleName.isValid === 'waiting') {
             stateClass = ''
         }
         return(
             <input
-                type="number"
+                type="name"
                 className={`form-control ${stateClass}`}
-                id={this.props.id}
-                placeholder='Age'
+                placeholder="Middle Name"
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
-                data-toggle="tooltip"
-                data-placement="top"
-                title={this.props.age.value}
+                value={this.props.middleName.value}
             />
         )
     }
 }
 function mapStateToProps(state) {
     return {
-        age: state.form.age
+        middleName: state.form.middleName
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: (value) => dispatch({type: 'ADD_AGE', value}),
-        validate: (status) => dispatch({type: 'VALIDATE_AGE', status})
+        addValue: (value) => dispatch({type: 'ADD_MIDDLE_NAME', value}),
+        validate: (status) => dispatch({type: 'VALIDATE_MIDDLE_NAME', status})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AgeInput)
+export default connect(mapStateToProps, mapDispatchToProps)(MiddleNameInput)

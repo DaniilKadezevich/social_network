@@ -23,9 +23,9 @@ class GenderBlock extends Component {
     render() {
         let stateClass;
         if (this.props.gender.isValid) {
-            stateClass = 'border border-success'
+            stateClass = 'border border-success';
         } else {
-            stateClass = 'border border-danger'
+            stateClass = 'border border-danger';
         }
 
         if (this.props.gender.isValid === 'waiting') {
@@ -35,11 +35,11 @@ class GenderBlock extends Component {
             <div >
                 <div  className={`gender-wrapper d-flex justify-content-between  ${stateClass}`}>
                     <div onChange={this.handleChange} className="form-check form-check-inline m-0 ">
-                        <input className="form-check-input" type="radio" name={this.props.name} id="regGenderM" value="Male"/>
+                        <input className="form-check-input" checked={this.props.gender.value === 'Male'} type="radio" name={this.props.name} id="regGenderM" value="Male"/>
                         <label className="form-check-label" htmlFor="regGenderM">Male</label>
                     </div>
                     <div onChange={this.handleChange} className="form-check form-check-inline m-0">
-                        <input className="form-check-input" type="radio" name={this.props.name} id="regGenderF" value="Female"/>
+                        <input className="form-check-input" checked={this.props.gender.value === 'Female'} type="radio" name={this.props.name} id="regGenderF" value="Female"/>
                         <label className="form-check-label" htmlFor="regGenderF">Female</label>
                     </div>
                 </div>

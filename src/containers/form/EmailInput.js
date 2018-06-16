@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../constants'
+import { REGEXPS } from '../../constants'
 
-class MiddleNameInput extends Component {
+class EmailInput extends Component {
     constructor() {
         super();
-        this.regExp = REGEXPS.name;
+        this.regExp = REGEXPS.email;
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
@@ -18,11 +18,7 @@ class MiddleNameInput extends Component {
         this.props.addValue(value);
     }
     validation() {
-        if (this.regExp.test(this.props.middleName.value) || this.props.middleName.value === '') {
-            this.props.validate(true);
-        } else {
-            this.props.validate(false);
-        }
+        this.props.validate(this.regExp.test(this.props.email.value))
     }
     setWaitingStatus() {
         this.props.validate('waiting');
@@ -30,35 +26,39 @@ class MiddleNameInput extends Component {
     render() {
         let stateClass;
 
-        if (this.props.middleName.isValid) {
+        if (this.props.email.isValid) {
             stateClass = 'is-valid';
         }  else {
             stateClass = 'is-invalid';
         }
-        if (this.props.middleName.isValid === 'waiting') {
+        if (this.props.email.isValid === 'waiting') {
             stateClass = ''
         }
         return(
             <input
-                type="name"
-                className={`form-control ${stateClass}`}
-                placeholder="Middle Name"
+                type="email"
+                className={`form-control ${stateClass} ${this.props.size}`}
+                placeholder="Email"
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
+                data-toggle="tooltip"
+                data-placement="top"
+                title={this.props.email.value}
+                value={this.props.email.value}
             />
         )
     }
 }
 function mapStateToProps(state) {
     return {
-        middleName: state.form.middleName
+        email: state.form.email
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: (value) => dispatch({type: 'ADD_MIDDLE_NAME', value}),
-        validate: (status) => dispatch({type: 'VALIDATE_MIDDLE_NAME', status})
+        addValue: (value) => dispatch({type: 'ADD_EMAIL', value}),
+        validate: (status) => dispatch({type: 'VALIDATE_EMAIL', status})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(MiddleNameInput)
+export default connect(mapStateToProps, mapDispatchToProps)(EmailInput)

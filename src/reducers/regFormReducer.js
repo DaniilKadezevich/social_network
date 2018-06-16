@@ -28,6 +28,10 @@ let initialState = {
         file: '',
         isValid: 'waiting',
     },
+    password: {
+        value: '',
+        isValid: 'waiting',
+    }
 };
 export default function formReducer(state=initialState, action) {
     switch (action.type) {
@@ -62,9 +66,21 @@ export default function formReducer(state=initialState, action) {
             return {...state, gender: {...state.gender, isValid: action.status}};
 
         case 'ADD_PHOTO':
-            return {...state, photo: {...state.photo, isValid: true,  file: action.file}};
+            return {...state, photo: {...state.photo, error: '', isValid: true,  file: action.file}};
         case 'VALIDATE_PHOTO':
-            return {...state, photo: {...state.photo, isValid: action.status, error: action.message}};
+            if (!(action.status)) {
+                return {...state, photo: {...state.photo, file: '', isValid: false, error: action.message}};
+            } else {
+                return {...state, photo: {...state.photo, isValid: true, error: ''}};
+            }
+
+        case 'ADD_PASSWORD':
+            return {...state, password: {...state.password, value: action.value}};
+        case 'VALIDATE_PASSWORD':
+            return {...state, password: {...state.password, isValid: action.status}};
+
+        case 'CLEAR_FORM':
+            return initialState;
         default:
             return state
     }

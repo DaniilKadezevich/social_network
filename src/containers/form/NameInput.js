@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../constants'
+import { REGEXPS } from '../../constants'
 
  class NameInput extends Component {
      constructor() {
@@ -13,11 +13,7 @@ import { REGEXPS } from '../constants'
          this.setWaitingStatus = this.setWaitingStatus.bind(this);
      }
      validation() {
-         if (this.regExp.test(this.props.name.value)) {
-             this.props.validate(true);
-         } else {
-             this.props.validate(false);
-         }
+         this.props.validate(this.regExp.test(this.props.name.value))
      }
      handleChange(e) {
          let value = e.target.value;
@@ -49,6 +45,7 @@ import { REGEXPS } from '../constants'
                 data-toggle="tooltip"
                 data-placement="top"
                 title="What is your name?"
+                value={this.props.name.value}
             />
         )
     }

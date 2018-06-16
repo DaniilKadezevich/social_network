@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import './RegistrationForm.sass';
 
-import $ from 'jquery';
-import { validateRegFormInputs } from "../functions";
+import { Link } from 'react-router-dom';
+
+import './forms.sass';
+
+import { validateRegFormInputs } from "../../functions";
 
 import NameInput from './NameInput';
 import SurnameInput from './SurnameInput';
@@ -12,6 +14,7 @@ import EmailInput from './EmailInput';
 import AgeInput from './AgeInput';
 import GenderBlock from './GenderBlock';
 import PhotoBlock from './PhotoBlock';
+import Rerender from '../../components/Rerender';
 
 
 class RegistrationForm extends Component {
@@ -28,7 +31,7 @@ class RegistrationForm extends Component {
 
         let {gender, name, surname, middleName, email, age, photo} = form;
 
-        if (validateRegFormInputs(gender, name, surname, middleName, email, age, photo)) {
+        if (validateRegFormInputs(form)) {
             let obj = {
                 name: name.value,
                 surname: surname.value,
@@ -51,7 +54,8 @@ class RegistrationForm extends Component {
         this.props.validateMiddleName(middleName.isValid);
         this.props.validateEmail(!(email.isValid === 'waiting' || !email.isValid));
         this.props.validateAge(!(age.isValid === 'waiting' || !age.isValid));
-        this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid), 'No photo selected');
+        this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid));
+
     }
     async fetchInfoTest(obj) {
 
@@ -73,14 +77,14 @@ class RegistrationForm extends Component {
         } else {
             this.props.authorize(data.user);
             this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`);
+            this.props.clearForm();
         }
 
     }
 
     render() {
         return (
-            <div className="regFormContainer offset-4 col-4 text-center">
-                <h1 className='mb-4'>Title</h1>
+            <div className="form-container offset-4 col-4 text-center">
                 <form onSubmit={this.handleSubmit} action="">
                     <div className=" form-group form-row">
                         <div className="col-6">
@@ -113,6 +117,7 @@ class RegistrationForm extends Component {
                         <button className="btn btn-success" type="submit">Sing In</button>
                     </div>
                 </form>
+                <Rerender handleClick={this.props.clearForm} message='Have an account?' path='/login' link='Log In'/>
             </div>
         )
     }
@@ -133,7 +138,8 @@ function mapDispatchToProps(dispatch) {
         validateGender: status => dispatch({type: 'VALIDATE_GENDER', status}),
         validatePhoto: (status, message) => dispatch({type: 'VALIDATE_PHOTO', status, message}),
         showNotification: (style, message) => dispatch({type: 'SHOW_NOTIFICATION', style, message}),
-        authorize: (user) => dispatch({type: 'SING_IN', user})
+        authorize: user => dispatch({type: 'AUTHORIZE', user}),
+        clearForm: () => dispatch({type: 'CLEAR_FORM'}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

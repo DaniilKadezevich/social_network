@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../constants'
+import { REGEXPS } from '../../constants'
 
-class EmailInput extends Component {
+class SurnameInput extends Component {
     constructor() {
         super();
-        this.regExp = REGEXPS.email;
+        this.regExp = REGEXPS.surname;
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
@@ -18,50 +18,46 @@ class EmailInput extends Component {
         this.props.addValue(value);
     }
     validation() {
-        if (this.regExp.test(this.props.email.value)) {
-            this.props.validate(true);
-        } else {
-            this.props.validate(false);
-        }
+        this.props.validate(this.regExp.test(this.props.surname.value))
     }
     setWaitingStatus() {
         this.props.validate('waiting');
     }
     render() {
         let stateClass;
-
-        if (this.props.email.isValid) {
+        if (this.props.surname.isValid) {
             stateClass = 'is-valid';
         }  else {
             stateClass = 'is-invalid';
         }
-        if (this.props.email.isValid === 'waiting') {
+        if (this.props.surname.isValid === 'waiting') {
             stateClass = ''
         }
         return(
             <input
-                type="email"
-                className={`form-control ${stateClass} ${this.props.size}`}
-                placeholder="Email"
+                type="name"
+                className={`form-control ${stateClass}`}
+                placeholder="Surname"
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
                 data-toggle="tooltip"
                 data-placement="top"
-                title={this.props.email.value}
+                title="What is your surname?"
+                value={this.props.surname.value}
             />
         )
     }
 }
 function mapStateToProps(state) {
     return {
-        email: state.form.email
+        surname: state.form.surname
     }
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: (value) => dispatch({type: 'ADD_EMAIL', value}),
-        validate: (status) => dispatch({type: 'VALIDATE_EMAIL', status})
+        addValue: (value) => dispatch({type: 'ADD_SURNAME', value}),
+        validate: (status) => dispatch({type: 'VALIDATE_SURNAME', status})
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(EmailInput)
+export default connect(mapStateToProps, mapDispatchToProps)(SurnameInput)

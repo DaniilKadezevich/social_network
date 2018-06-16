@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../constants'
+import { REGEXPS } from '../../constants'
 
-class SurnameInput extends Component {
+class PasswordInput extends Component {
     constructor() {
         super();
-        this.regExp = REGEXPS.surname;
+        this.regExp = REGEXPS.password;
 
         this.handleChange = this.handleChange.bind(this);
         this.validation = this.validation.bind(this);
@@ -18,49 +18,45 @@ class SurnameInput extends Component {
         this.props.addValue(value);
     }
     validation() {
-        if (this.regExp.test(this.props.surname.value)) {
-            this.props.validate(true);
-        } else {
-            this.props.validate(false);
-        }
+        this.props.validate(this.regExp.test(this.props.password.value))
     }
     setWaitingStatus() {
         this.props.validate('waiting');
     }
     render() {
         let stateClass;
-        if (this.props.surname.isValid) {
+
+        if (this.props.password.isValid) {
             stateClass = 'is-valid';
         }  else {
             stateClass = 'is-invalid';
         }
-        if (this.props.surname.isValid === 'waiting') {
+        if (this.props.password.isValid === 'waiting') {
             stateClass = ''
         }
+
         return(
             <input
-                type="name"
-                className={`form-control ${stateClass}`}
-                placeholder="Surname"
+                type='password'
+                className={`form-control ${stateClass} ${this.props.size}`}
+                placeholder='Password'
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
-                data-toggle="tooltip"
-                data-placement="top"
-                title="What is your surname?"
+                value={this.props.password.value}
             />
         )
     }
 }
 function mapStateToProps(state) {
-    return {
-        surname: state.form.surname
+    return{
+        password: state.form.password
     }
 }
 function mapDispatchToProps(dispatch) {
-    return {
-        addValue: (value) => dispatch({type: 'ADD_SURNAME', value}),
-        validate: (status) => dispatch({type: 'VALIDATE_SURNAME', status})
+    return{
+        addValue: (value) => dispatch({type: 'ADD_PASSWORD', value}),
+        validate: (status) => dispatch({type: 'VALIDATE_PASSWORD', status}),
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(SurnameInput)
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordInput);
