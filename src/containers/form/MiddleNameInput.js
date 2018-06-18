@@ -18,6 +18,7 @@ class MiddleNameInput extends Component {
         this.props.addValue(value);
     }
     validation() {
+        this.props.middleName.value = this.props.middleName.value.trim();
         this.props.validate(this.regExp.test(this.props.middleName.value) || this.props.middleName.value === '')
     }
     setWaitingStatus() {

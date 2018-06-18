@@ -16,6 +16,8 @@ class PhotoBlock extends Component {
         let file = event.target.files[0];
         let size;
 
+        event.persist();
+
         if (file){
             size = file.size;
             if(!allowedExtensions.exec(filePath)){
@@ -53,9 +55,6 @@ class PhotoBlock extends Component {
             console.log(file);
             this.props.validate(false, 'No photo selected')
         }
-        event.persist();
-
-
     }
     render() {
         let statusClass;
@@ -72,7 +71,11 @@ class PhotoBlock extends Component {
             <fieldset className={`form-group ${statusClass}`}>
                 <div className="row d-flex align-items-center">
                     <div className=" col-6 d-flex justify-content-center">
-                        <button className='btn btn-primary' type='button' onClick={() => this.photoInput.click()}>Upload photo</button>
+                        <button
+                            className='btn btn-primary'
+                            type='button'
+                            onClick={() => this.photoInput.click()}
+                        >Upload photo</button>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
                         <input
@@ -82,10 +85,11 @@ class PhotoBlock extends Component {
                             onInput={this.fileValidation}
                             className="form-control-file"
                             id="regPhoto"
+                            name='avatar'
                             ref={photoInput => this.photoInput = photoInput}
                         />
                         <div className="img-block">
-                            <img src={this.props.photo.file} alt=""/>
+                           <img src={this.props.photo.file} alt=""/>
                         </div>
                     </div>
                 </div>

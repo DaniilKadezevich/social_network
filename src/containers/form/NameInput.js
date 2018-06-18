@@ -13,6 +13,7 @@ import { REGEXPS } from '../../constants'
          this.setWaitingStatus = this.setWaitingStatus.bind(this);
      }
      validation() {
+         this.props.name.value = this.props.name.value.trim();
          this.props.validate(this.regExp.test(this.props.name.value))
      }
      handleChange(e) {
@@ -42,9 +43,6 @@ import { REGEXPS } from '../../constants'
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
-                data-toggle="tooltip"
-                data-placement="top"
-                title="What is your name?"
                 value={this.props.name.value}
             />
         )

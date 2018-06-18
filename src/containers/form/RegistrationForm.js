@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 import './forms.sass';
 
@@ -24,6 +24,9 @@ class RegistrationForm extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.setInvalidInputs = this.setInvalidInputs.bind(this);
     }
+    componentWillMount() {
+        this.props.clearForm()
+    }
 
     handleSubmit(e) {
         e.preventDefault();
@@ -32,17 +35,17 @@ class RegistrationForm extends Component {
         let {gender, name, surname, middleName, email, age, photo} = form;
 
         if (validateRegFormInputs(form)) {
-            let obj = {
-                name: name.value,
-                surname: surname.value,
-                middleName: middleName.value,
-                email: email.value,
-                age: age.value,
-                // photo: photo.file,
-                gender: gender.value,
-            };
-            console.log(obj);
-            this.fetchInfoTest(obj);
+            let formData = new FormData();
+
+            formData.append('photo', photo.file);
+            formData.append('name', name.value);
+            formData.append('surname', surname.value);
+            formData.append('middleName', middleName.value);
+            formData.append('email', email.value);
+            formData.append('age', age.value);
+            formData.append('gender', gender.value);
+
+            this.singUp(formData);
         } else {
             this.setInvalidInputs(gender, name, surname, middleName, email, age, photo)
         }
@@ -57,17 +60,12 @@ class RegistrationForm extends Component {
         this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid));
 
     }
-    async fetchInfoTest(obj) {
+    async singUp(obj) {
 
-        let response = await fetch("post-info-test",
+        let response = await fetch("sing-up",
             {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
                 method: "POST",
-
-                body: JSON.stringify(obj),
+                body: obj
             });
 
         let data = await response.json();
@@ -79,45 +77,51 @@ class RegistrationForm extends Component {
             this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`);
             this.props.clearForm();
         }
-
     }
 
     render() {
+        if (this.props.isAuthorized) {
+            return <Redirect to='/'/>
+        }
         return (
-            <div className="form-container offset-4 col-4 text-center">
-                <form onSubmit={this.handleSubmit} action="">
-                    <div className=" form-group form-row">
-                        <div className="col-6">
-                            <NameInput/>
-                        </div>
-                        <div className="col-6">
-                           <SurnameInput/>
-                        </div>
+            <div className='container'>
+                <div className="row align-items-center">
+                    <div className="form-container offset-4 col-4 text-center">
+                        <form onSubmit={this.handleSubmit} action="">
+                            <div className=" form-group form-row">
+                                <div className="col-6">
+                                    <NameInput/>
+                                </div>
+                                <div className="col-6">
+                                    <SurnameInput/>
+                                </div>
+                            </div>
+                            <div className="form-group">
+                                <MiddleNameInput/>
+                            </div>
+                            <div className="form-group">
+                                <EmailInput/>
+                            </div>
+                            <div className="form-row">
+                                <div className="form-group col-6">
+                                    <label htmlFor="regAge">
+                                        Age:
+                                    </label>
+                                    <AgeInput id="regAge"/>
+                                </div>
+                                <div className="form-group col-6">
+                                    <label htmlFor="regGender">Gender:</label>
+                                    <GenderBlock name="regGender"/>
+                                </div>
+                            </div>
+                            <PhotoBlock/>
+                            <div className="row d-flex justify-content-center">
+                                <button className="btn btn-success" type="submit">Sing In</button>
+                            </div>
+                        </form>
+                        <Rerender message='Have an account?' path='/login' link='Log In'/>
                     </div>
-                    <div className="form-group">
-                        <MiddleNameInput/>
-                    </div>
-                    <div className="form-group">
-                        <EmailInput/>
-                    </div>
-                    <div className="form-row">
-                        <div className="form-group col-6">
-                            <label htmlFor="regAge">
-                                Age:
-                            </label>
-                            <AgeInput id="regAge"/>
-                        </div>
-                        <div className="form-group col-6">
-                            <label htmlFor="regGender">Gender:</label>
-                            <GenderBlock name="regGender"/>
-                        </div>
-                    </div>
-                    <PhotoBlock/>
-                    <div className="row d-flex justify-content-center">
-                        <button className="btn btn-success" type="submit">Sing In</button>
-                    </div>
-                </form>
-                <Rerender handleClick={this.props.clearForm} message='Have an account?' path='/login' link='Log In'/>
+                </div>
             </div>
         )
     }
@@ -125,7 +129,8 @@ class RegistrationForm extends Component {
 function mapStateToProps(state) {
     return {
         form: state.form,
-        notification: state.notification
+        notification: state.notification,
+        isAuthorized: state.user.isAuthorized,
     }
 }
 function mapDispatchToProps(dispatch) {

@@ -8,7 +8,7 @@ export default class Rerender extends Component{
         return(
             <div className='rerender mt-4'>
                 {`${this.props.message} `}
-                <Link onClick={this.props.handleClick} to={this.props.path}>{this.props.link}</Link>
+                <Link to={this.props.path}>{this.props.link}</Link>
             </div>
         )
     }

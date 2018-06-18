@@ -18,6 +18,7 @@ class SurnameInput extends Component {
         this.props.addValue(value);
     }
     validation() {
+        this.props.surname.value = this.props.surname.value.trim();
         this.props.validate(this.regExp.test(this.props.surname.value))
     }
     setWaitingStatus() {
@@ -41,9 +42,6 @@ class SurnameInput extends Component {
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
-                data-toggle="tooltip"
-                data-placement="top"
-                title="What is your surname?"
                 value={this.props.surname.value}
             />
         )

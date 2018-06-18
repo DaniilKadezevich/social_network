@@ -4,23 +4,20 @@ import { connect } from 'react-redux';
 import $ from "jquery";
 import 'bootstrap/dist/js/bootstrap.bundle';
 
+import Header from '../components/Header';
 import Main from '../components/Main';
 import Footer from '../components/Footer';
 import Notification from '../components/Notification';
 
 
 class App extends Component {
-    constructor() {
-        super();
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        });
-    }
+
     render() {
     return (
       <div className="App">
           <Notification/>
-             <Main/>
+          <Header/>
+          <Main/>
           <Footer/>
       </div>
     );

@@ -43,9 +43,6 @@ class AgeInput extends Component {
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
-                data-toggle="tooltip"
-                data-placement="top"
-                title={this.props.age.value}
                 value={this.props.age.value}
             />
         )

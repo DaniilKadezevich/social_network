@@ -42,9 +42,6 @@ class EmailInput extends Component {
                 onChange={this.handleChange}
                 onBlur={this.validation}
                 onFocus={this.setWaitingStatus}
-                data-toggle="tooltip"
-                data-placement="top"
-                title={this.props.email.value}
                 value={this.props.email.value}
             />
         )

@@ -1,26 +1,55 @@
 import React, { Component } from 'react';
-import { Switch, Route, Link } from 'react-router-dom'
+import { Switch, Route, Redirect, withRouter } from 'react-router-dom'
+
+import { connect } from 'react-redux';
 
 import RegistrationForm from '../containers/form/RegistrationForm';
 import LogInForm from '../containers/form/LogInForm';
+import HomePage from '../containers/HomePage';
 
 
 import './Main.sass'
 
-export default class Main extends Component {
+class Main extends Component {
 
     render() {
         return (
             <main className='main'>
-                <div className="container">
-                    <div className="row">
-                        <Switch>
-                            <Route exact path="/" component={RegistrationForm}/>
-                            <Route path="/login" component={LogInForm}/>
-                        </Switch>
-                    </div>
-                </div>
+                <Switch>
+                    <Route exact path='/' render={ () => (
+                        this.props.user.isAuthorized ? (
+                            <HomePage user={this.props.user}/>
+                        ) : (
+                            <Redirect to='/registration'/>
+                        )
+                    )}
+                    />
+                    <Route exact path="/registration" render={ () => (
+                        this.props.user.isAuthorized ? (
+                            <Redirect to='/'/>
+                        ) : (
+                            <RegistrationForm />
+                        )
+                    )}
+                    />
+                    <Route exact path="/login" render={ () => (
+                        this.props.user.isAuthorized ? (
+                            <Redirect to='/'/>
+                        ) : (
+                            <LogInForm />
+                        )
+                    )}
+                    />
+                </Switch>
             </main>
         );
     }
 }
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+export default withRouter(connect(mapStateToProps)(Main));
+
