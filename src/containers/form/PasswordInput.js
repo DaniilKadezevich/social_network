@@ -26,11 +26,8 @@ class PasswordInput extends Component {
     render() {
         let stateClass;
 
-        if (this.props.password.isValid) {
-            stateClass = 'is-valid';
-        }  else {
-            stateClass = 'is-invalid';
-        }
+        this.props.password.isValid ?  stateClass = 'is-valid' :  stateClass = 'is-invalid';
+
         if (this.props.password.isValid === 'waiting') {
             stateClass = ''
         }

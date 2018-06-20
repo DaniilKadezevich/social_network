@@ -6,6 +6,8 @@ const upload = multer({dest: '../images/'});
 const MongoClient = require('mongodb').MongoClient;
 const url = "mongodb://localhost:27017/";
 const bcrypt = require('bcrypt');
+const config = require('./config.json');
+const jwt = require('jsonwebtoken');
 
 let generatePassword = require('./modules/generatePassword');
 let regFormValidation = require('./modules/regFormValidation');
@@ -15,52 +17,59 @@ let regFormValidation = require('./modules/regFormValidation');
 
 app.use(bodyParser.json());
 
-app.post('/sing-up', upload.single('photo'), (req, res) => {
+app.post('/sign-up', upload.single('photo'), (req, res) => {
     let userObj = req.body;
 
     userObj.email = userObj.email.toLowerCase();
 
-    if (regFormValidation(userObj)) {
-        let password = generatePassword();
+    if (!regFormValidation(userObj)) {
 
-        MongoClient.connect(url, function(err, db) {
-            if (err) throw err;
-            let dbo = db.db("social_network");
-            let query = {email: userObj.email};
+        let response = {
+            message: 'Invalid data',
+            isError: true,
+        };
 
-            dbo.collection("users").findOne(query, function (err, result) {
-                if (result) {
-                    db.close();
+        res.send(response);
+        return;
+    }
 
+    let password = generatePassword();
+
+    connectToTheDB(function(dbo, db) {
+        let query = {email: userObj.email};
+
+        dbo.collection("users").findOne(query, function (err, result) {
+            if (result) {
+                let response = {
+                    message: 'User with this email is already registered',
+                    isError: true
+                };
+
+                res.send(response);
+                db.close();
+                return;
+            }
+
+            bcrypt.hash(password, 10, function(err, hash) {
+                dbo.collection("users").insertOne({...userObj, password: hash}, function(err, result) {
+                    if (err) throw err;
+
+                    //
+                    let token = jwt.sign({ email: result.ops[0].email}, config.secret);
+                    //
+
+                    let user = {...userObj, password};
                     let response = {
-                        message: 'User with this email is already registered',
-                        isError: true
+                        user,
+                        isError: false,
+                        token
                     };
-
                     res.send(response);
-                } else {
-                    bcrypt.hash(password, 10, function(err, hash) {
-                        dbo.collection("users").insertOne({...userObj, password: hash}, function(err, res) {
-                            if (err) throw err;
-                            db.close();
-                        });
-                        let user = {...userObj, password};
-                        let response = {
-                            user,
-                            isError: false,
-                        };
-                        res.send(response);
-                    });
-                }
+                    db.close();
+                });
             });
         });
-    } else {
-        let response = {
-            message: 'User with this email is already registered',
-            isError: false,
-        };
-        res.send(response);
-    }
+    });
 });
 
 app.post('/log-in', (req, res) => {
@@ -68,48 +77,106 @@ app.post('/log-in', (req, res) => {
 
     userInfo.email = userInfo.email.toLowerCase();
 
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        let dbo = db.db("social_network");
+    connectToTheDB(function(dbo, db) {
         let query = {email: userInfo.email};
 
-        dbo.collection("users").findOne(query, (err, result) => {
-            if (result) {
-                bcrypt.compare(userInfo.password, result.password, function(err, valid) {
-                    if (valid) {
-                        db.close();
-
-                        let response = {
-                            user: result,
-                            isError: false,
-                        };
-
-                        res.send(response);
-                    } else {
-                        db.close();
-
-                        let response = {
-                            message: 'Invalid password',
-                            isError: true,
-                        };
-
-                        res.send(response);
-                    }
-                });
-            } else {
-                db.close();
-
+        dbo.collection('users').findOne(query, (err, result) => {
+            if (!result) {
                 let response = {
                     message: 'There is no users with this email',
                     isError: true,
                 };
                 res.send(response);
+                db.close();
+                return;
             }
+
+            bcrypt.compare(userInfo.password, result.password, function(err, valid) {
+                if (!valid) {
+                    let response = {
+                        message: 'Invalid password',
+                        isError: true,
+                    };
+
+                    res.send(response);
+                    db.close();
+                    return;
+                }
+                let token = jwt.sign({ email: result.email }, config.secret);
+
+                let response = {
+                    user: {...result, password: undefined},
+                    isError: false,
+                    token
+                };
+
+                res.send(response);
+                db.close();
+
+            });
         });
     });
-
 });
 
+// CONNECT TO THE DB
+function connectToTheDB(callback) {
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        const dbo= db.db('social_network');
+        callback(dbo, db);
+    });
+}
+
+// TOKEN
+app.get('/check-token', verifyToken, (req, res) => {
+    jwt.verify(req.token, config.secret, (error, data) => {
+        if (error) {
+            res.send({
+                isValid: false,
+            });
+            return;
+        }
+
+        connectToTheDB(function (dbo, db) {
+            let query = {email: data.email};
+
+            dbo.collection('users').findOne(query, (err, result) => {
+                if (!result) {
+                    res.send({
+                        isValid: false,
+                    });
+                    db.close();
+                    return
+                }
+
+                res.send({
+                    user: {...result, password: undefined},
+                    isValid: true,
+                });
+            })
+        });
+
+    });
+});
+
+//Verify token
+function verifyToken(req, res, next) {
+    const bearerHeader = req.headers['authorization'];
+    if (typeof bearerHeader !== 'undefined') {
+        const bearer = bearerHeader.split(' ');
+        const bearerToken = bearer[1];
+
+        req.token = bearerToken;
+
+        next();
+    } else {
+        res.send({
+            isValid: false,
+        });
+    }
+}
+
+// Server
 app.listen(5000, function () {
 
 });

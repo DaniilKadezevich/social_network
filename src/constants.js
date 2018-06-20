@@ -6,3 +6,25 @@ export const REGEXPS = {
     age: /^[1-9][0-9]?$/,
     password: /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])([a-zA-Z0-9]{10,})$/,
 };
+export const sidebarMenu = [
+    {
+        text:'My account',
+        link: '/account',
+    },
+    {
+        text:'Friends',
+        link: '/friends',
+    },
+    {
+        text:'Search people',
+        link: '/search-people',
+    },
+    {
+        text:'News feed',
+        link: '/news',
+    },
+    {
+        text:'Settings',
+        link: '/settings',
+    },
+];

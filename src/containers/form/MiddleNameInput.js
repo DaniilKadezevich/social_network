@@ -27,11 +27,8 @@ class MiddleNameInput extends Component {
     render() {
         let stateClass;
 
-        if (this.props.middleName.isValid) {
-            stateClass = 'is-valid';
-        }  else {
-            stateClass = 'is-invalid';
-        }
+        this.props.middleName.isValid ? stateClass = 'is-valid' : stateClass = 'is-invalid';
+
         if (this.props.middleName.isValid === 'waiting') {
             stateClass = ''
         }

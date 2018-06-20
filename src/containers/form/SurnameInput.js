@@ -26,11 +26,9 @@ class SurnameInput extends Component {
     }
     render() {
         let stateClass;
-        if (this.props.surname.isValid) {
-            stateClass = 'is-valid';
-        }  else {
-            stateClass = 'is-invalid';
-        }
+
+        this.props.surname.isValid ?  stateClass = 'is-valid' :   stateClass = 'is-invalid';
+
         if (this.props.surname.isValid === 'waiting') {
             stateClass = ''
         }

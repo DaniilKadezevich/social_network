@@ -1,25 +1,31 @@
 let initialState = {
     name: {
+        error: '',
         value: '',
         isValid: 'waiting',
     },
     surname: {
+        error: '',
         value: '',
         isValid: 'waiting',
     },
     middleName: {
+        error: '',
         value: '',
         isValid: true,
     },
     email: {
+        error: '',
         value: '',
         isValid: 'waiting',
     },
     age: {
+        error: '',
         value: '',
         isValid: 'waiting',
     },
     gender: {
+        error: '',
         value: '',
         isValid: 'waiting',
     },
@@ -29,6 +35,7 @@ let initialState = {
         isValid: 'waiting',
     },
     password: {
+        error: '',
         value: '',
         isValid: 'waiting',
     }
@@ -58,7 +65,7 @@ export default function formReducer(state=initialState, action) {
         case 'ADD_AGE':
             return {...state, age: {...state.age, value: action.value}};
         case 'VALIDATE_AGE':
-            return {...state, age: {...state.age, isValid: action.status}};
+            return {...state, age: {...state.age, isValid: action.status,}};
 
         case 'ADD_GENDER':
             return {...state, gender: {...state.gender, isValid: true, value: action.gender}};
@@ -68,11 +75,12 @@ export default function formReducer(state=initialState, action) {
         case 'ADD_PHOTO':
             return {...state, photo: {...state.photo, error: '', isValid: true,  file: action.file}};
         case 'VALIDATE_PHOTO':
-            if (!(action.status)) {
-                return {...state, photo: {...state.photo, file: '', isValid: false, error: action.message}};
-            } else {
-                return {...state, photo: {...state.photo, isValid: true, error: ''}};
-            }
+            let newState;
+
+            !(action.status) ? newState = {...state, photo: {...state.photo, file: '', isValid: false, error: action.error}} :
+                newState = {...state, photo: {...state.photo, isValid: true, error: ''}};
+
+            return newState;
 
         case 'ADD_PASSWORD':
             return {...state, password: {...state.password, value: action.value}};

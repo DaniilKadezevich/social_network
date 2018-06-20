@@ -26,11 +26,9 @@ import { REGEXPS } from '../../constants'
      }
     render() {
          let stateClass;
-        if (this.props.name.isValid) {
-            stateClass = 'is-valid';
-        }  else {
-            stateClass = 'is-invalid';
-        }
+
+        this.props.name.isValid ? stateClass = 'is-valid' :  stateClass = 'is-invalid';
+
          if (this.props.name.isValid === 'waiting') {
              stateClass = ''
          }

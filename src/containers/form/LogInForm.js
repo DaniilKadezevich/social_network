@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass'
 
@@ -8,7 +8,6 @@ import { validateLogInFormInputs } from "../../functions";
 
 import EmailInput from './EmailInput'
 import PasswordInput from './PasswordInput'
-import Rerender from '../../components/Rerender'
 
 class LogInForm extends Component {
     constructor() {
@@ -51,10 +50,11 @@ class LogInForm extends Component {
         let data = await response.json();
 
         if (data.isError){
-            this.props.showNotification('danger', data.message);
+            this.props.showNotification('danger', data.message, true);
         } else {
             this.props.authorize(data.user);
-            this.props.showNotification('success', `Welcome back, ${data.user.name}`);
+            localStorage.setItem("token", data.token);
+            this.props.showNotification('success', `Welcome back, ${data.user.name}`, true);
             this.props.clearForm();
         }
     }
@@ -68,10 +68,11 @@ class LogInForm extends Component {
         if (this.props.isAuthorized) {
             return <Redirect to='/'/>
         }
+
         return(
             <div className='container'>
-                <div className="row">
-                    <div className='form-container  offset-4 col-4 text-center'>
+                <div className="row flex-column align-items-center">
+                    <div className='form-container col-4 text-center'>
                         <form onSubmit={this.handleSubmit}>
                             <div className="form-group">
                                 <EmailInput />
@@ -81,7 +82,10 @@ class LogInForm extends Component {
                             </div>
                             <button className="btn btn-primary" type="submit">Log In</button>
                         </form>
-                        <Rerender path='/' message={'Haven\'t got an account?'} link='Sign up'/>
+                    </div>
+                    <div className='rerender mt-3 col-4 text-center'>
+                        Haven't got an account?
+                        <Link to='/registration'> Sign up</Link>
                     </div>
                 </div>
             </div>
@@ -101,7 +105,7 @@ function mapDispatchToProps(dispatch) {
         clearForm: () => dispatch({type: 'CLEAR_FORM'}),
         validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
         validatePassword: status => dispatch({type: 'VALIDATE_PASSWORD', status}),
-        showNotification: (style, message) => dispatch({type: 'SHOW_NOTIFICATION', style, message}),
+        showNotification: (style, message, isTemporary) => dispatch({type: 'SHOW_NOTIFICATION', style, message, isTemporary}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LogInForm);

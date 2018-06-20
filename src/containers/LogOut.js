@@ -4,14 +4,18 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 
 class LogOut extends Component {
+    logOut() {
+        localStorage.clear();
+        this.props.logOut();
+    }
     render() {
         if (!this.props.user.isAuthorized) {
-            return (
+            return(
                 <div></div>
             )
         }
         return(
-            <Link onClick={this.props.logOut} to='/login'>
+            <Link onClick={this.logOut} to='/login'>
                 <button className="btn btn-primary">
                     Log out
                 </button>

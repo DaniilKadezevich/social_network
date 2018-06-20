@@ -47,29 +47,25 @@ class PhotoBlock extends Component {
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    this.validate(false, `File size should be from 40000 to 5000000 bytes. Current is: ${size}`);
+                    this.props.validate(false, `File size should be from 0.04 to 5 mb. Current is: ${size/1000000} mbs`);
                     event.target.value = '';
                 }
             }
         } else {
-            console.log(file);
             this.props.validate(false, 'No photo selected')
         }
     }
     render() {
         let statusClass;
 
-        if (this.props.photo.isValid) {
-            statusClass = 'border border-success';
-        } else {
-            statusClass = 'border border-danger'
-        }
+        this.props.photo.isValid ? statusClass = 'border border-success' : statusClass = 'border border-danger';
+
         if (this.props.photo.isValid === 'waiting') {
             statusClass = ''
         }
         return(
-            <fieldset className={`form-group ${statusClass}`}>
-                <div className="row d-flex align-items-center">
+            <div className={`form-group ${statusClass}`}>
+                <div className='row align-items-center'>
                     <div className=" col-6 d-flex justify-content-center">
                         <button
                             className='btn btn-primary'
@@ -89,11 +85,18 @@ class PhotoBlock extends Component {
                             ref={photoInput => this.photoInput = photoInput}
                         />
                         <div className="img-block">
-                           <img src={this.props.photo.file} alt=""/>
+                            <img src={this.props.photo.file} alt=""/>
                         </div>
                     </div>
+                    {this.props.photo.error &&
+                    <div className='col-12'>
+                        <div className="error-message">
+                            {this.props.photo.error}
+                        </div>
+                    </div>
+                    }
                 </div>
-            </fieldset>
+            </div>
         )
     }
 }
@@ -105,7 +108,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addPhotoFile: (file) => dispatch({type: 'ADD_PHOTO', file}),
-        validate: (status, message) => dispatch({type: 'VALIDATE_PHOTO', status, message})
+        validate: (status, error) => dispatch({type: 'VALIDATE_PHOTO', status, error})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PhotoBlock)

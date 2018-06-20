@@ -26,11 +26,8 @@ class AgeInput extends Component {
     render() {
         let stateClass;
 
-        if (this.props.age.isValid) {
-            stateClass = 'is-valid';
-        }  else {
-            stateClass = 'is-invalid';
-        }
+        this.props.age.isValid ? stateClass = 'is-valid' :  stateClass = 'is-invalid';
+
         if (this.props.age.isValid === 'waiting') {
             stateClass = ''
         }
@@ -56,7 +53,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addValue: (value) => dispatch({type: 'ADD_AGE', value}),
-        validate: (status) => dispatch({type: 'VALIDATE_AGE', status})
+        validate: (status, error) => dispatch({type: 'VALIDATE_AGE', status})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AgeInput)

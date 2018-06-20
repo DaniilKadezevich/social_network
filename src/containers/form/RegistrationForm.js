@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass';
 
 import { validateRegFormInputs } from "../../functions";
+
+import utilities from './index'
 
 import NameInput from './NameInput';
 import SurnameInput from './SurnameInput';
@@ -14,7 +16,7 @@ import EmailInput from './EmailInput';
 import AgeInput from './AgeInput';
 import GenderBlock from './GenderBlock';
 import PhotoBlock from './PhotoBlock';
-import Rerender from '../../components/Rerender';
+import PasswordInput from './PasswordInput';
 
 
 class RegistrationForm extends Component {
@@ -25,7 +27,7 @@ class RegistrationForm extends Component {
         this.setInvalidInputs = this.setInvalidInputs.bind(this);
     }
     componentWillMount() {
-        this.props.clearForm()
+        this.props.clearForm();
     }
 
     handleSubmit(e) {
@@ -57,12 +59,12 @@ class RegistrationForm extends Component {
         this.props.validateMiddleName(middleName.isValid);
         this.props.validateEmail(!(email.isValid === 'waiting' || !email.isValid));
         this.props.validateAge(!(age.isValid === 'waiting' || !age.isValid));
-        this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid));
+        this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid), 'No photo selected');
 
     }
     async singUp(obj) {
 
-        let response = await fetch("sing-up",
+        let response = await fetch('sign-up',
             {
                 method: "POST",
                 body: obj
@@ -71,22 +73,24 @@ class RegistrationForm extends Component {
         let data = await response.json();
 
         if (data.isError){
-            this.props.showNotification('danger', data.message);
+            this.props.showNotification('danger', data.message, true);
         } else {
             this.props.authorize(data.user);
-            this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`);
+            localStorage.setItem("token", data.token);
+            this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`, false);
             this.props.clearForm();
         }
     }
 
     render() {
         if (this.props.isAuthorized) {
-            return <Redirect to='/'/>
+            return <Redirect to='/' />
         }
+
         return (
             <div className='container'>
-                <div className="row align-items-center">
-                    <div className="form-container offset-4 col-4 text-center">
+                <div className="row align-items-center flex-column justify-content-center">
+                    <div className="form-container col-4 text-center">
                         <form onSubmit={this.handleSubmit} action="">
                             <div className=" form-group form-row">
                                 <div className="col-6">
@@ -119,7 +123,10 @@ class RegistrationForm extends Component {
                                 <button className="btn btn-success" type="submit">Sing In</button>
                             </div>
                         </form>
-                        <Rerender message='Have an account?' path='/login' link='Log In'/>
+                    </div>
+                    <div className='rerender mt-3 col-4 text-center'>
+                        Have an account?
+                        <Link to='/login'> Log In</Link>
                     </div>
                 </div>
             </div>
@@ -141,8 +148,8 @@ function mapDispatchToProps(dispatch) {
         validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
         validateAge: status => dispatch({type: 'VALIDATE_AGE', status}),
         validateGender: status => dispatch({type: 'VALIDATE_GENDER', status}),
-        validatePhoto: (status, message) => dispatch({type: 'VALIDATE_PHOTO', status, message}),
-        showNotification: (style, message) => dispatch({type: 'SHOW_NOTIFICATION', style, message}),
+        validatePhoto: (status, error) => dispatch({type: 'VALIDATE_PHOTO', status, error}),
+        showNotification: (style, message, isTemporary) => dispatch({type: 'SHOW_NOTIFICATION', style, message, isTemporary}),
         authorize: user => dispatch({type: 'AUTHORIZE', user}),
         clearForm: () => dispatch({type: 'CLEAR_FORM'}),
     }

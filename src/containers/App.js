@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import $ from "jquery";
+// import $ from "jquery";
 import 'bootstrap/dist/js/bootstrap.bundle';
 
 import Header from '../components/Header';
-import Main from '../components/Main';
+import Main from './Main';
 import Footer from '../components/Footer';
 import Notification from '../components/Notification';
 

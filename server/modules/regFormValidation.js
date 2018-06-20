@@ -1,7 +1,7 @@
 let costants = require('./constants');
 
 function regFormValidation(userObj) {
-    let {name, surname, middleName, email, age, gender, photo} = userObj;
+    let {name, surname, middleName, email, age, gender} = userObj;
     return (
         costants.REGEXPS.name.test(name) &&
         costants.REGEXPS.surname.test(surname) &&
@@ -9,7 +9,6 @@ function regFormValidation(userObj) {
         costants. REGEXPS.email.test(email) &&
         costants.REGEXPS.age.test(age) &&
         (gender === 'Male' || gender === 'Female')
-        // isPhotoValid
     )
 }
 module.exports = regFormValidation;

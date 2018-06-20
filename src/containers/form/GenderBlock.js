@@ -22,11 +22,8 @@ class GenderBlock extends Component {
     }
     render() {
         let stateClass;
-        if (this.props.gender.isValid) {
-            stateClass = 'border border-success';
-        } else {
-            stateClass = 'border border-danger';
-        }
+
+        this.props.gender.isValid ? stateClass = 'border border-success' : stateClass = 'border border-danger';
 
         if (this.props.gender.isValid === 'waiting') {
             stateClass = ''
