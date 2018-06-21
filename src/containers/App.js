@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
 
-// import $ from "jquery";
 import 'bootstrap/dist/js/bootstrap.bundle';
 
-import Header from '../components/Header';
-import Main from '../components/Main';
-import Footer from '../components/Footer';
-import Notification from '../components/Notification';
+import { Header, Main, Footer, Notification} from '../components/index'
 
 
 export default class App extends Component {

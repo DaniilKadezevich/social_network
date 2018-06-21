@@ -73,7 +73,7 @@ export default function formReducer(state=initialState, action) {
                 {...state, age: {...state.age, isValid: false, error: 'Number from 1 to 99'}};
 
         case 'ADD_GENDER':
-            return {...state, gender: {...state.gender, isValid: true, value: action.gender}};
+            return {...state, gender: {...state.gender, isValid: true, value: action.gender, error: ''}};
         case 'VALIDATE_GENDER':
             return action.status ? {...state, gender: {...state.gender, isValid: action.status, error: ''}} :
                 {...state, gender: {...state.gender, isValid: false, error: 'Required'}};

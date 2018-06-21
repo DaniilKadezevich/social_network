@@ -5,18 +5,15 @@ import './HomePage.sass'
 
 import { sidebarMenu } from '../constants'
 
-import UserAccount from './Sidebar/UserAccount';
-import FriendsList from './Sidebar/FriendsList';
-import SearchPeople from './Sidebar/SearchPeople';
-import News from './Sidebar/News';
-import Settings from './Sidebar/Settings';
-import PrivateRoute from './Authentication/PrivateRoute'
+
+import { UserAccount, FriendsList, SearchPeople, News, Settings } from './index'
+import { Avatar }  from '../components/index'
 
 export default class HomePage extends Component {
     render() {
         const sidebarItems =  sidebarMenu.map((el, index) => (
             <Link key={index} to={el.link}>
-                <li>{el.text}</li>
+                <li className='d-flex align-items-center'> {el.component} {el.text}</li>
             </Link>
         ));
         return(
@@ -30,11 +27,11 @@ export default class HomePage extends Component {
                         </div>
                         <div className="col-10 content">
                             <Switch>
-                                <PrivateRoute path='/account' component={UserAccount}/>
-                                <PrivateRoute path='/friends' component={FriendsList}/>
-                                <PrivateRoute path='/search-people' component={SearchPeople}/>
-                                <PrivateRoute path='/news' component={News}/>
-                                <PrivateRoute path='/settings' component={Settings}/>
+                                <Route path='/account' component={UserAccount}/>
+                                <Route path='/friends' component={FriendsList}/>
+                                <Route path='/search-people' component={SearchPeople}/>
+                                <Route path='/news' component={News}/>
+                                <Route path='/settings' component={Settings}/>
                             </Switch>
                         </div>
                     </div>

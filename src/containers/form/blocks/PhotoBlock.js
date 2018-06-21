@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 
 import './PhotoForm.sass'
 
+import { Avatar }  from '../../../components/index'
+
 class PhotoBlock extends Component {
     constructor() {
         super();
@@ -84,9 +86,8 @@ class PhotoBlock extends Component {
                             name='avatar'
                             ref={photoInput => this.photoInput = photoInput}
                         />
-                        <div className="img-block">
-                            <img src={this.props.photo.file} alt=""/>
-                        </div>
+
+                        <Avatar class='avatar-middle' src={this.props.photo.file}/>
                     </div>
                     {this.props.photo.error &&
                     <div className='col-12'>
