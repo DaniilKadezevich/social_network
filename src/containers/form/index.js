@@ -1,22 +1,20 @@
-import React from 'react';
+import NameInput from './inputs/NameInput';
+import SurnameInput from './inputs/SurnameInput';
+import MiddleNameInput from './inputs/MiddleNameInput';
+import EmailInput from './inputs/EmailInput';
+import AgeInput from './inputs/AgeInput';
+import GenderBlock from './blocks/GenderBlock';
+import PhotoBlock from './blocks/PhotoBlock';
+import PasswordInput from './inputs/PasswordInput';
 
-import NameInput from './NameInput';
-import SurnameInput from './SurnameInput';
-import MiddleNameInput from './MiddleNameInput';
-import EmailInput from './EmailInput';
-import AgeInput from './AgeInput';
-import GenderBlock from './GenderBlock';
-import PhotoBlock from './PhotoBlock';
-import PasswordInput from './PasswordInput';
-
-export default {
-    nameInput: <NameInput/>,
-    surnameInput: <SurnameInput/>,
-    middleNameInput: <MiddleNameInput/>,
-    emailInput: <EmailInput/>,
-    ageInput: <AgeInput/>,
-    genderBlock: <GenderBlock/>,
-    photoBlock: <PhotoBlock/>,
-    passwordInput: <PasswordInput/>,
+export {
+    NameInput,
+    SurnameInput,
+    MiddleNameInput,
+    EmailInput,
+    AgeInput,
+    GenderBlock,
+    PhotoBlock,
+    PasswordInput,
 };
 

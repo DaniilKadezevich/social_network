@@ -43,6 +43,7 @@
     "react-bootstrap": "^0.32.1",
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.0",
+    "react-preloading-component": "0.0.5",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.9",
     "react-router-dom": "^4.3.1",

@@ -6,18 +6,9 @@ import { Redirect, Link } from 'react-router-dom';
 import './forms.sass';
 
 import { validateRegFormInputs } from "../../functions";
+import {preDelay} from "../../constants";
 
-import utilities from './index'
-
-import NameInput from './NameInput';
-import SurnameInput from './SurnameInput';
-import MiddleNameInput from './MiddleNameInput';
-import EmailInput from './EmailInput';
-import AgeInput from './AgeInput';
-import GenderBlock from './GenderBlock';
-import PhotoBlock from './PhotoBlock';
-import PasswordInput from './PasswordInput';
-
+import { NameInput, SurnameInput, MiddleNameInput, EmailInput, AgeInput, GenderBlock, PhotoBlock } from './index'
 
 class RegistrationForm extends Component {
     constructor() {
@@ -25,9 +16,6 @@ class RegistrationForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
         this.setInvalidInputs = this.setInvalidInputs.bind(this);
-    }
-    componentWillMount() {
-        this.props.clearForm();
     }
 
     handleSubmit(e) {
@@ -63,6 +51,7 @@ class RegistrationForm extends Component {
 
     }
     async singUp(obj) {
+        this.props.startLoading();
 
         let response = await fetch('sign-up',
             {
@@ -73,18 +62,24 @@ class RegistrationForm extends Component {
         let data = await response.json();
 
         if (data.isError){
-            this.props.showNotification('danger', data.message, true);
+            await setTimeout(() => {
+                this.props.finishLoading();
+                this.props.showNotification('danger', data.message, true);
+            }, preDelay);
         } else {
             this.props.authorize(data.user);
             localStorage.setItem("token", data.token);
-            this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`, false);
             this.props.clearForm();
+            await setTimeout(() => {
+                this.props.finishLoading();
+                this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`, false);
+            }, preDelay);
         }
     }
 
     render() {
         if (this.props.isAuthorized) {
-            return <Redirect to='/' />
+            return <Redirect to='/'/>
         }
 
         return (
@@ -120,13 +115,13 @@ class RegistrationForm extends Component {
                             </div>
                             <PhotoBlock/>
                             <div className="row d-flex justify-content-center">
-                                <button className="btn btn-success" type="submit">Sing In</button>
+                                <button className="btn btn-success" type="submit">Sign In</button>
                             </div>
                         </form>
                     </div>
                     <div className='rerender mt-3 col-4 text-center'>
                         Have an account?
-                        <Link to='/login'> Log In</Link>
+                        <Link to='/login' onClick={this.props.clearForm}> Log In</Link>
                     </div>
                 </div>
             </div>
@@ -152,6 +147,8 @@ function mapDispatchToProps(dispatch) {
         showNotification: (style, message, isTemporary) => dispatch({type: 'SHOW_NOTIFICATION', style, message, isTemporary}),
         authorize: user => dispatch({type: 'AUTHORIZE', user}),
         clearForm: () => dispatch({type: 'CLEAR_FORM'}),
+        startLoading: () => dispatch({type: 'START_LOADING'}),
+        finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

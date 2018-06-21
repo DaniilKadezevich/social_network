@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../../constants'
+import { REGEXPS } from '../../../constants'
 
 class MiddleNameInput extends Component {
     constructor() {

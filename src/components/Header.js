@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './Header.sass'
 
-import LogOut from '../containers/LogOut'
+import LogOut from '../containers/form/LogOut'
 
 export default class Header extends Component {
 

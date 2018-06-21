@@ -5,12 +5,12 @@ import './HomePage.sass'
 
 import { sidebarMenu } from '../constants'
 
-import UserAccount from './UserAccount';
-import FriendsList from './FriendsList';
-import SearchPeople from './SearchPeople';
-import News from './News';
-import Settings from './Settings';
-import PrivateRoute from './PrivateRoute'
+import UserAccount from './Sidebar/UserAccount';
+import FriendsList from './Sidebar/FriendsList';
+import SearchPeople from './Sidebar/SearchPeople';
+import News from './Sidebar/News';
+import Settings from './Sidebar/Settings';
+import PrivateRoute from './Authentication/PrivateRoute'
 
 export default class HomePage extends Component {
     render() {

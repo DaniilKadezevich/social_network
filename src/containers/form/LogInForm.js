@@ -5,18 +5,15 @@ import { Redirect, Link } from 'react-router-dom';
 import './forms.sass'
 
 import { validateLogInFormInputs } from "../../functions";
+import { preDelay } from "../../constants";
 
-import EmailInput from './EmailInput'
-import PasswordInput from './PasswordInput'
+import { EmailInput, PasswordInput } from './index'
 
 class LogInForm extends Component {
     constructor() {
         super();
 
         this.handleSubmit = this.handleSubmit.bind(this);
-    }
-    componentWillMount() {
-        this.props.clearForm();
     }
     handleSubmit(e) {
         e.preventDefault();
@@ -35,6 +32,7 @@ class LogInForm extends Component {
         }
     }
     async logIn(obj) {
+        this.props.startLoading();
 
         let response = await fetch("log-in",
             {
@@ -50,12 +48,18 @@ class LogInForm extends Component {
         let data = await response.json();
 
         if (data.isError){
-            this.props.showNotification('danger', data.message, true);
+            await setTimeout(() => {
+                this.props.finishLoading();
+                this.props.showNotification('danger', data.message, true);
+            }, preDelay)
         } else {
             this.props.authorize(data.user);
             localStorage.setItem("token", data.token);
-            this.props.showNotification('success', `Welcome back, ${data.user.name}`, true);
             this.props.clearForm();
+            await setTimeout(() => {
+                this.props.finishLoading();
+                this.props.showNotification('success', `Welcome back, ${data.user.name}`, true);
+            }, preDelay)
         }
     }
 
@@ -85,7 +89,7 @@ class LogInForm extends Component {
                     </div>
                     <div className='rerender mt-3 col-4 text-center'>
                         Haven't got an account?
-                        <Link to='/registration'> Sign up</Link>
+                        <Link to='/registration' onClick={this.props.clearForm}> Sign up</Link>
                     </div>
                 </div>
             </div>
@@ -106,6 +110,8 @@ function mapDispatchToProps(dispatch) {
         validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
         validatePassword: status => dispatch({type: 'VALIDATE_PASSWORD', status}),
         showNotification: (style, message, isTemporary) => dispatch({type: 'SHOW_NOTIFICATION', style, message, isTemporary}),
+        startLoading: () => dispatch({type: 'START_LOADING'}),
+        finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LogInForm);

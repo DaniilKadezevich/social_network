@@ -1,4 +1,4 @@
-let costants = require('./constants');
+let costants = require('../constants');
 
 function regFormValidation(userObj) {
     let {name, surname, middleName, email, age, gender} = userObj;

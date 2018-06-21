@@ -31,6 +31,7 @@ class GenderBlock extends Component {
         return(
             <div >
                 <div  className={`gender-wrapper d-flex justify-content-between  ${stateClass}`}>
+
                     <div onChange={this.handleChange} className="form-check form-check-inline m-0 ">
                         <input className="form-check-input" checked={this.props.gender.value === 'Male'} type="radio" name={this.props.name} id="regGenderM" value="Male"/>
                         <label className="form-check-label" htmlFor="regGenderM">Male</label>
@@ -38,6 +39,11 @@ class GenderBlock extends Component {
                     <div onChange={this.handleChange} className="form-check form-check-inline m-0">
                         <input className="form-check-input" checked={this.props.gender.value === 'Female'} type="radio" name={this.props.name} id="regGenderF" value="Female"/>
                         <label className="form-check-label" htmlFor="regGenderF">Female</label>
+                    </div>
+                </div>
+                <div className='col-12'>
+                    <div className="error-message">
+                        {this.props.gender.error}
                     </div>
                 </div>
             </div>

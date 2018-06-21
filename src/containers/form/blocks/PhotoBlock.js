@@ -21,7 +21,7 @@ class PhotoBlock extends Component {
         if (file){
             size = file.size;
             if(!allowedExtensions.exec(filePath)){
-                this.validate(false, 'Incorrect file extension');
+                this.props.validate(false, 'Incorrect file extension');
                 event.target.value = '';
             } else {
                 let img = new Image();
@@ -40,7 +40,7 @@ class PhotoBlock extends Component {
                             if (width >= 200 && height >= 200) {
                                 self.props.addPhotoFile(imgLink);
                             } else {
-                                self.validate(false, 'Width and Height must be 200px or more');
+                                self.props.validate(false, 'Width and Height must be 200px or more');
                                 event.target.value = '';
                             }
                         };

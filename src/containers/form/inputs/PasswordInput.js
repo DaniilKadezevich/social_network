@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../../constants'
+import { REGEXPS } from '../../../constants'
 
 class PasswordInput extends Component {
     constructor() {
@@ -33,15 +33,22 @@ class PasswordInput extends Component {
         }
 
         return(
-            <input
-                type='password'
-                className={`form-control ${stateClass} ${this.props.size}`}
-                placeholder='Password'
-                onChange={this.handleChange}
-                onBlur={this.validation}
-                onFocus={this.setWaitingStatus}
-                value={this.props.password.value}
-            />
+            <div>
+                <input
+                    type='password'
+                    className={`form-control ${stateClass} ${this.props.size}`}
+                    placeholder='Password'
+                    onChange={this.handleChange}
+                    onBlur={this.validation}
+                    onFocus={this.setWaitingStatus}
+                    value={this.props.password.value}
+                />
+                <div className='col-12'>
+                    <div className="error-message">
+                        {this.props.password.error}
+                    </div>
+                </div>
+            </div>
         )
     }
 }

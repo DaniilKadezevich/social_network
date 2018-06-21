@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../../constants'
+import { REGEXPS } from '../../../constants'
 
 class SurnameInput extends Component {
     constructor() {
@@ -33,15 +33,24 @@ class SurnameInput extends Component {
             stateClass = ''
         }
         return(
-            <input
-                type="name"
-                className={`form-control ${stateClass}`}
-                placeholder="Surname"
-                onChange={this.handleChange}
-                onBlur={this.validation}
-                onFocus={this.setWaitingStatus}
-                value={this.props.surname.value}
-            />
+            <div>
+                <input
+                    type="name"
+                    className={`form-control ${stateClass}`}
+                    placeholder="Surname"
+                    onChange={this.handleChange}
+                    onBlur={this.validation}
+                    onFocus={this.setWaitingStatus}
+                    value={this.props.surname.value}
+                />
+                <div className='col-12'>
+                    <div className="error-message">
+                        {this.props.surname.error}
+                    </div>
+                </div>
+            </div>
+
+
         )
     }
 }
