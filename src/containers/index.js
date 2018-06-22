@@ -1,13 +1,14 @@
-import AuthenticatedComponent from './Authentication/AuthenticatedComponent';
-import LoadingComponent from './Authentication/LoadingComponent';
+import AuthenticatedComponent from './authentication/AuthenticatedComponent';
+import LoadingComponent from './authentication/LoadingComponent';
 import RegistrationForm from './form/RegistrationForm';
 import LogInForm from './form/LogInForm';
 import HomePage from './HomePage';
-import UserAccount from './Sidebar/UserAccount';
-import FriendsList from './Sidebar/FriendsList';
-import SearchPeople from './Sidebar/SearchPeople';
-import News from './Sidebar/News';
-import Settings from './Sidebar/Settings';
+import Account from './content/account/Account';
+import FriendsList from './content/FriendsList';
+import SearchPeople from './content/SearchPeople';
+import News from './content/News';
+import Settings from './content/Settings';
+import SidebarMenu from './sidebar/SidebarMenu';
 
 export {
     AuthenticatedComponent,
@@ -15,9 +16,10 @@ export {
     RegistrationForm,
     LogInForm,
     HomePage,
-    UserAccount,
+    Account,
     FriendsList,
     SearchPeople,
     News,
     Settings,
+    SidebarMenu,
 }

@@ -1,33 +1,23 @@
 import React, { Component } from 'react';
-import { Link, Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import './HomePage.sass'
 
-import { sidebarMenu } from '../constants'
+import { Account, FriendsList, SearchPeople, News, Settings, SidebarMenu } from './index';
 
 
-import { UserAccount, FriendsList, SearchPeople, News, Settings } from './index'
-import { Avatar }  from '../components/index'
-
-export default class HomePage extends Component {
+ export default class HomePage extends Component {
     render() {
-        const sidebarItems =  sidebarMenu.map((el, index) => (
-            <Link key={index} to={el.link}>
-                <li className='d-flex align-items-center'> {el.component} {el.text}</li>
-            </Link>
-        ));
         return(
             <div className='home-page-wrapper'>
                 <div className="container-fluid">
                     <div className="row">
-                        <div className="col-2 sidebar">
-                            <ul className='sidebar-menu'>
-                                {sidebarItems}
-                            </ul>
-                        </div>
+                        <SidebarMenu/>
                         <div className="col-10 content">
                             <Switch>
-                                <Route path='/account' component={UserAccount}/>
+                                <Route path='/account' render={() => {
+                                    return <Account />
+                                }} />
                                 <Route path='/friends' component={FriendsList}/>
                                 <Route path='/search-people' component={SearchPeople}/>
                                 <Route path='/news' component={News}/>
@@ -39,4 +29,7 @@ export default class HomePage extends Component {
             </div>
         )
     }
+}
+function mapStateToProps(state) {
+    
 }
