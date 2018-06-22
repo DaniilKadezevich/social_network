@@ -1,12 +1,15 @@
-let initialState = {
-    greeting: 'hello world',
-};
-export default function basicReducer(state = initialState, action) {
-    switch (action.type) {
-        case "CHANGE_GREETING":
-             return {...state, greeting: action.payload};
-        default:
-            return state
-    }
+import formReducer from './regFormReducer'
+import notificationReducer from './notificationReducer'
+import userReducer from './userReducer'
+import loadingReducer from './loadingReducer'
 
-}
+import { combineReducers } from 'redux';
+
+let reducer = combineReducers({
+    form: formReducer,
+    notification: notificationReducer,
+    user: userReducer,
+    loading: loadingReducer,
+});
+
+export default reducer
