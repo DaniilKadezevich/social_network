@@ -15,7 +15,7 @@ class LoadingComponent extends Component {
         }
     }
     async getUserInfo(token) {
-        let response = await fetch('/check-token', {
+        let response = await fetch('/get-user-by-token', {
             method: 'GET',
             headers: new Headers({
                 'Authorization': `Bearer ${token}`,

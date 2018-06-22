@@ -6,7 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 import './forms.sass';
 
 import { validateRegFormInputs } from "../../functions";
-import {preDelay} from "../../constants";
+import {preDelay, REGEXPS} from "../../constants";
 
 import { NameInput, SurnameInput, MiddleNameInput, EmailInput, AgeInput, GenderBlock, PhotoBlock } from './index'
 
@@ -18,8 +18,7 @@ class RegistrationForm extends Component {
         this.setInvalidInputs = this.setInvalidInputs.bind(this);
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit() {
         let form = {...this.props.form};
 
         let {gender, name, surname, middleName, email, age, photo} = form;
@@ -35,25 +34,62 @@ class RegistrationForm extends Component {
             formData.append('age', age.value);
             formData.append('gender', gender.value);
 
-            this.singUp(formData);
+            this.props.force ? this.editUser(formData) : this.singUp(formData)
+
         } else {
             this.setInvalidInputs(gender, name, surname, middleName, email, age, photo)
         }
     }
     setInvalidInputs(gender, name, surname, middleName, email, age, photo) {
         this.props.validateGender(!(gender.isValid === 'waiting' || !gender.isValid));
-        this.props.validateName(!(name.isValid === 'waiting' || !name.isValid));
-        this.props.validateSurname(!(surname.isValid === 'waiting' || !surname.isValid));
-        this.props.validateMiddleName(middleName.isValid);
-        this.props.validateEmail(!(email.isValid === 'waiting' || !email.isValid));
-        this.props.validateAge(!(age.isValid === 'waiting' || !age.isValid));
+        this.props.validateName(REGEXPS.name.test(name.value));
+        this.props.validateSurname(REGEXPS.surname.test(surname.value));
+        this.props.validateMiddleName(REGEXPS.middleName.test(middleName.value) || !middleName.value);
+        this.props.validateEmail(REGEXPS.email.test(email.value));
+        this.props.validateAge(REGEXPS.age.test(age.value) );
         this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid), 'No photo selected');
-
     }
+    async editUser(obj) {
+        console.log('Editing');
+
+        let token = localStorage.getItem('token');
+
+        this.props.startLoading();
+
+        let response = await fetch('/edit-user',
+            {
+                headers: new Headers({
+                    'Authorization': `Bearer ${token}`,
+                }),
+                method: "POST",
+                body: obj
+            });
+
+        let data = await response.json();
+
+        localStorage.setItem("token", data.token);
+
+        if (data.isError){
+            await setTimeout(() => {
+                this.props.finishLoading();
+                this.props.showNotification('danger', data.message, true);
+            }, preDelay);
+        } else {
+            this.props.authorize(data.user);
+            localStorage.setItem("token", data.token);
+            // this.props.clearForm();
+            await setTimeout(() => {
+                this.props.finishLoading();
+                this.props.showNotification('success', `You are successfully edited your profile`, true);
+            }, preDelay);
+        }
+    }
+
     async singUp(obj) {
         this.props.startLoading();
 
-        let response = await fetch('sign-up',
+
+        let response = await fetch('/sign-up',
             {
                 method: "POST",
                 body: obj
@@ -78,15 +114,23 @@ class RegistrationForm extends Component {
     }
 
     render() {
-        if (this.props.isAuthorized) {
+        if (this.props.isAuthorized && !this.props.force) {
             return <Redirect to='/'/>
+        }
+        let btnText, size;
+        if (this.props.force) {
+            btnText = 'Edit';
+            size = 'col-5';
+        } else {
+            btnText = 'Sign In';
+            size = 'col-4';
         }
 
         return (
             <div className='container'>
                 <div className="row align-items-center flex-column justify-content-center">
-                    <div className="form-container col-4 text-center">
-                        <form onSubmit={this.handleSubmit} action="">
+                    <div className={`form-container ${size} text-center`}>
+                        <form action="">
                             <div className=" form-group form-row">
                                 <div className="col-6">
                                     <NameInput/>
@@ -115,14 +159,19 @@ class RegistrationForm extends Component {
                             </div>
                             <PhotoBlock/>
                             <div className="row d-flex justify-content-center">
-                                <button className="btn btn-success" type="submit">Sign In</button>
+                                <button className="btn btn-success" type="button" onClick={this.handleSubmit}>
+                                    {btnText}
+                                </button>
                             </div>
                         </form>
                     </div>
-                    <div className='rerender mt-3 col-4 text-center'>
-                        Have an account?
-                        <Link to='/login' onClick={this.props.clearForm}> Log In</Link>
-                    </div>
+                    {!this.props.force && (
+                        <div className='rerender mt-3 col-4 text-center'>
+                            Have an account?
+                            <Link to='/login' onClick={this.props.clearForm}> Log In </Link>
+                        </div>
+                    )}
+
                 </div>
             </div>
         )

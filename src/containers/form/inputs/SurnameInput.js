@@ -42,6 +42,7 @@ class SurnameInput extends Component {
                     onBlur={this.validation}
                     onFocus={this.setWaitingStatus}
                     value={this.props.surname.value}
+                    id={this.props.id}
                 />
                 <div className='col-12'>
                     <div className="error-message">

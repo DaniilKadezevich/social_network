@@ -30,8 +30,7 @@ class GenderBlock extends Component {
         }
         return(
             <div >
-                <div  className={`gender-wrapper d-flex justify-content-between  ${stateClass}`}>
-
+                <div className={`gender-wrapper d-flex justify-content-between  ${stateClass}`}>
                     <div onChange={this.handleChange} className="form-check form-check-inline m-0 ">
                         <input className="form-check-input" checked={this.props.gender.value === 'Male'} type="radio" name={this.props.name} id="regGenderM" value="Male"/>
                         <label className="form-check-label" htmlFor="regGenderM">Male</label>

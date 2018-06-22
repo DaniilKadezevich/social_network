@@ -5,7 +5,7 @@ module.exports = function (token, res) {
     checkToken(token, (error, data) => {
         if (error) {
             res.send({
-                isValid: false,
+                isError: false,
             });
             return;
         }

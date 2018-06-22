@@ -39,10 +39,10 @@ module.exports = function (userObj, res) {
                 dbo.collection("users").insertOne({...userObj, password: hash}, function(err, result) {
                     if (err) throw err;
 
-                    let token = generateToken({ email: result.ops[0].email});
+                    let token = generateToken({ email: result.ops[0].email });
 
                     let user = {...userObj, password};
-                    console.log(user);
+
                     let response = {
                         user,
                         isError: false,

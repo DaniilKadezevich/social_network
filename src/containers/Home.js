@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import './HomePage.sass'
 
-import { Account, FriendsList, SearchPeople, News, Settings, SidebarMenu } from './index';
+import { UserAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu } from './index';
 
 
  export default class HomePage extends Component {
@@ -15,9 +15,7 @@ import { Account, FriendsList, SearchPeople, News, Settings, SidebarMenu } from 
                         <SidebarMenu/>
                         <div className="col-10 content">
                             <Switch>
-                                <Route path='/account' render={() => {
-                                    return <Account />
-                                }} />
+                                <Route path='/account' component={UserAccount}/>
                                 <Route path='/friends' component={FriendsList}/>
                                 <Route path='/search-people' component={SearchPeople}/>
                                 <Route path='/news' component={News}/>
@@ -29,7 +27,4 @@ import { Account, FriendsList, SearchPeople, News, Settings, SidebarMenu } from 
             </div>
         )
     }
-}
-function mapStateToProps(state) {
-    
 }

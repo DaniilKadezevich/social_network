@@ -7,16 +7,16 @@ export default class AccountInfoBlock extends Component {
         return (
             <div className="col-6">
                 <div className="d-flex align-items-center justify-content-between">
-                    <div className='user-name'>Dan Kadzevich</div>
-                    <AccountEditBlock/>
+                    <div className='user-name'>{`${this.props.user.name} ${this.props.user.surname} ${this.props.user.middleName}`}</div>
+                    {this.props.edit && <AccountEditBlock />}
                 </div>
-                <div className='user-email'>quinzyizi@gmail.com</div>
+                <div className='user-email'>{this.props.user.email}</div>
                 <div className="row mt-3">
                     <div className="col-4">
-                        <div className='user-gender'>Male</div>
+                        <div className='user-gender'>{this.props.user.gender}</div>
                     </div>
                     <div className="col-4">
-                        <div className='user-age'>15 y. o.</div>
+                        <div className='user-age'>{this.props.user.age} y. o.</div>
                     </div>
                 </div>
             </div>
