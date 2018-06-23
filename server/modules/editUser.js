@@ -1,44 +1,104 @@
-const {checkToken, generateToken} = require('./jwt');
 const connectToTheDB = require('./connectToTheDB');
+const {checkToken} = require('./jwt');
+const ObjectId = require('mongodb').ObjectId;
 
-module.exports = function (token, user, res) {
+module.exports = function(token, user, res) {
     checkToken(token, (error, data) => {
         if (error) {
-            res.send({
-                isError: true,
-            });
+            let response = {
+                message: 'Invalid token',
+                isError: false,
+            };
+
+            res.send(response);
+
             return;
         }
 
-        let query = {email: data.email};
-
-        console.log(user);
+        let query = { _id: ObjectId(data._id) };
 
         connectToTheDB(function (dbo, db) {
-            dbo.collection('users').update(query, {$set: user});
+            let usersColl = dbo.collection('users');
+            usersColl.findOne(query, function (err, result) {
+               if (!result) {
+                   let response = {
+                       message: 'Error',
+                       isError: true,
+                   };
 
-            dbo.collection('users').findOne({email: user.email}, (err, result) => {
-                if (!result) {
-                    console.log(result);
-                    res.send({
-                        isError: true,
-                    });
+                   res.send(response);
+                   db.close();
 
-                    db.close();
+                   return;
+               }
 
-                    return;
-                }
+               if (user.email === result.email) {
+                   usersColl.updateOne(query, {$set: user}, function (err, r) {
 
-                let newToken = generateToken({email: result.email});
+                       usersColl.findOne(query, function (err, result) {
+                           if (!result) {
+                               let response = {
+                                   message: 'No user with this id',
+                                   isError: true,
+                               };
 
-                res.send({
-                    user: {...result, password: undefined},
-                    isError: false,
-                    token: newToken
-                });
-                db.close();
+                               res.send(response);
+                               db.close();
 
-            })
-        })
+                               return;
+                           }
+
+                           let updatedUser = {...result, password: undefined};
+
+                           res.send({
+                               user: updatedUser,
+                               isError: false,
+                           });
+                           db.close();
+                       })
+                   })
+               } else {
+                   usersColl.findOne({email: user.email}, function (err, result) {
+                       if (result) {
+                           let response = {
+                               message: 'User with this email is already registered',
+                               isError: true
+                           };
+
+                           res.send(response);
+                           db.close();
+
+                           return;
+                       }
+                       usersColl.updateOne(query, {$set: user}, function (err, r) {
+
+                           usersColl.findOne(query, function (err, result) {
+                               if (!result) {
+                                   let response = {
+                                       message: 'No user with this id',
+                                       isError: true,
+                                   };
+
+                                   res.send(response);
+                                   db.close();
+
+                                   return;
+                               }
+
+                               let updatedUser = {...result, password: undefined};
+
+                               res.send({
+                                   user: updatedUser,
+                                   isError: false,
+                               });
+                               db.close();
+                           })
+                       })
+                   });
+               }
+            });
+
+        });
+
     });
 };

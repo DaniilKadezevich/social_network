@@ -7,8 +7,8 @@ export function validateRegFormInputs(form) {
         (REGEXPS.middleName.test(middleName.value) || !middleName.value) &&
         REGEXPS.email.test(email.value) &&
         REGEXPS.age.test(age.value) &&
-        !(gender.isValid === 'waiting' || !gender.isValid) &&
-        !(photo.isValid === 'waiting' || !photo.isValid)
+        gender.value &&
+        photo.file
     )
 }
 export function validateLogInFormInputs(form) {

@@ -36,7 +36,7 @@ app.post('/edit-user', verifyToken, upload.single('photo'), (req, res) => {
 
     req.body.email = req.body.email.toLowerCase();
 
-    editUser (token, req.body,  res)
+    editUser(token, req.body, res);
 });
 
 // TOKEN

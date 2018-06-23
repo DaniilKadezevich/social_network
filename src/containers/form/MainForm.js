@@ -35,23 +35,20 @@ class RegistrationForm extends Component {
             formData.append('gender', gender.value);
 
             this.props.force ? this.editUser(formData) : this.singUp(formData)
-
         } else {
             this.setInvalidInputs(gender, name, surname, middleName, email, age, photo)
         }
     }
     setInvalidInputs(gender, name, surname, middleName, email, age, photo) {
-        this.props.validateGender(!(gender.isValid === 'waiting' || !gender.isValid));
+        this.props.validateGender(gender.value);
         this.props.validateName(REGEXPS.name.test(name.value));
         this.props.validateSurname(REGEXPS.surname.test(surname.value));
         this.props.validateMiddleName(REGEXPS.middleName.test(middleName.value) || !middleName.value);
         this.props.validateEmail(REGEXPS.email.test(email.value));
-        this.props.validateAge(REGEXPS.age.test(age.value) );
-        this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid), 'No photo selected');
+        this.props.validateAge(REGEXPS.age.test(age.value));
+        this.props.validatePhoto(photo.file, 'No photo selected');
     }
     async editUser(obj) {
-        console.log('Editing');
-
         let token = localStorage.getItem('token');
 
         this.props.startLoading();
@@ -67,8 +64,6 @@ class RegistrationForm extends Component {
 
         let data = await response.json();
 
-        localStorage.setItem("token", data.token);
-
         if (data.isError){
             await setTimeout(() => {
                 this.props.finishLoading();
@@ -76,11 +71,10 @@ class RegistrationForm extends Component {
             }, preDelay);
         } else {
             this.props.authorize(data.user);
-            localStorage.setItem("token", data.token);
-            // this.props.clearForm();
+            this.props.clearForm();
             await setTimeout(() => {
                 this.props.finishLoading();
-                this.props.showNotification('success', `You are successfully edited your profile`, true);
+                this.props.showNotification('success', `You have successfully edited your profile`, true);
             }, preDelay);
         }
     }

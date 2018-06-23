@@ -15,8 +15,7 @@ class LogInForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit() {
         let form = {...this.props.form};
 
         let {password, email} = form;
@@ -77,14 +76,14 @@ class LogInForm extends Component {
             <div className='container'>
                 <div className="row flex-column align-items-center">
                     <div className='form-container col-4 text-center'>
-                        <form onSubmit={this.handleSubmit}>
+                        <form >
                             <div className="form-group">
                                 <EmailInput />
                             </div>
                             <div className="form-group">
                                 <PasswordInput />
                             </div>
-                            <button className="btn btn-primary" type="submit">Log In</button>
+                            <button className="btn btn-primary" type="button" onClick={this.handleSubmit}>Log In</button>
                         </form>
                     </div>
                     <div className='rerender mt-3 col-4 text-center'>
