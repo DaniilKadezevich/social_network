@@ -8,7 +8,7 @@ const verifyToken = require('./modules/middlewares/jwtMiddleware');
 const addUser = require('./modules/addUser');
 const editUser = require('./modules/editUser');
 const getUserByToken = require('./modules/getUserByToken');
-const getUserByPassword = require('./modules/getUserByPassword');
+const logIn = require('./modules/logIn');
 
 app.use(bodyParser.json());
 
@@ -22,12 +22,12 @@ app.post('/sign-up', upload.single('photo'), (req, res) => {
 });
 
 // Log in
-app.post('/log-in', (req, res) => {
+app.post('/log-in', upload.single('photo'), (req, res) => {
     let userInfo = req.body;
 
     userInfo.email = userInfo.email.toLowerCase();
 
-    getUserByPassword(userInfo, res);
+    logIn(userInfo, res);
 });
 
 // Edit user

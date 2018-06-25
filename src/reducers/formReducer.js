@@ -12,7 +12,7 @@ let initialState = {
     middleName: {
         error: '',
         value: '',
-        isValid: true,
+        isValid: 'waiting',
     },
     email: {
         error: '',

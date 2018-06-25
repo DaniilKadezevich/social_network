@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { RegistrationForm } from './index'
+import { MainForm } from './index'
 
 class EditUser extends Component {
     componentWillMount() {
@@ -19,9 +19,8 @@ class EditUser extends Component {
     }
 
     render() {
-
         return (
-            <RegistrationForm force={true}/>
+            <MainForm edit={true}/>
         )
     }
 }

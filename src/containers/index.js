@@ -1,6 +1,6 @@
 import AuthenticatedComponent from './authentication/AuthenticatedComponent';
 import LoadingComponent from './authentication/LoadingComponent';
-import RegistrationForm from './form/MainForm';
+import MainForm from './form/MainForm';
 import LogInForm from './form/LogInForm';
 import HomePage from './Home';
 import Account from '../components/account/Account';
@@ -15,7 +15,7 @@ import EditUser from './EditUser';
 export {
     AuthenticatedComponent,
     LoadingComponent,
-    RegistrationForm,
+    MainForm,
     LogInForm,
     HomePage,
     Account,

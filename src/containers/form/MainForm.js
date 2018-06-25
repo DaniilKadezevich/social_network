@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { signUp, editUser } from '../../actions'
 
 import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass';
 
 import { validateRegFormInputs } from "../../functions";
-import {preDelay, REGEXPS} from "../../constants";
+import { REGEXPS } from "../../constants";
 
 import { NameInput, SurnameInput, MiddleNameInput, EmailInput, AgeInput, GenderBlock, PhotoBlock } from './index'
 
@@ -34,7 +35,7 @@ class RegistrationForm extends Component {
             formData.append('age', age.value);
             formData.append('gender', gender.value);
 
-            this.props.force ? this.editUser(formData) : this.singUp(formData)
+            this.props.edit ? this.props.editUser(formData) : this.props.signUp(formData);
         } else {
             this.setInvalidInputs(gender, name, surname, middleName, email, age, photo)
         }
@@ -48,71 +49,13 @@ class RegistrationForm extends Component {
         this.props.validateAge(REGEXPS.age.test(age.value));
         this.props.validatePhoto(photo.file, 'No photo selected');
     }
-    async editUser(obj) {
-        let token = localStorage.getItem('token');
-
-        this.props.startLoading();
-
-        let response = await fetch('/edit-user',
-            {
-                headers: new Headers({
-                    'Authorization': `Bearer ${token}`,
-                }),
-                method: "POST",
-                body: obj
-            });
-
-        let data = await response.json();
-
-        if (data.isError){
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('danger', data.message, true);
-            }, preDelay);
-        } else {
-            this.props.authorize(data.user);
-            this.props.clearForm();
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('success', `You have successfully edited your profile`, true);
-            }, preDelay);
-        }
-    }
-
-    async singUp(obj) {
-        this.props.startLoading();
-
-
-        let response = await fetch('/sign-up',
-            {
-                method: "POST",
-                body: obj
-            });
-
-        let data = await response.json();
-
-        if (data.isError){
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('danger', data.message, true);
-            }, preDelay);
-        } else {
-            this.props.authorize(data.user);
-            localStorage.setItem("token", data.token);
-            this.props.clearForm();
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`, false);
-            }, preDelay);
-        }
-    }
 
     render() {
-        if (this.props.isAuthorized && !this.props.force) {
+        if (this.props.isAuthorized && !this.props.edit) {
             return <Redirect to='/'/>
         }
         let btnText, size;
-        if (this.props.force) {
+        if (this.props.edit) {
             btnText = 'Edit';
             size = 'col-5';
         } else {
@@ -159,7 +102,7 @@ class RegistrationForm extends Component {
                             </div>
                         </form>
                     </div>
-                    {!this.props.force && (
+                    {!this.props.edit && (
                         <div className='rerender mt-3 col-4 text-center'>
                             Have an account?
                             <Link to='/login' onClick={this.props.clearForm}> Log In </Link>
@@ -187,11 +130,9 @@ function mapDispatchToProps(dispatch) {
         validateAge: status => dispatch({type: 'VALIDATE_AGE', status}),
         validateGender: status => dispatch({type: 'VALIDATE_GENDER', status}),
         validatePhoto: (status, error) => dispatch({type: 'VALIDATE_PHOTO', status, error}),
-        showNotification: (style, message, isTemporary) => dispatch({type: 'SHOW_NOTIFICATION', style, message, isTemporary}),
-        authorize: user => dispatch({type: 'AUTHORIZE', user}),
         clearForm: () => dispatch({type: 'CLEAR_FORM'}),
-        startLoading: () => dispatch({type: 'START_LOADING'}),
-        finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
+        signUp: obj => dispatch(signUp(obj)),
+        editUser: obj => dispatch(editUser(obj)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

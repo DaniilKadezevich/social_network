@@ -1,8 +1,20 @@
 const connectToTheDB = require('./connectToTheDB');
 const {checkToken} = require('./jwt');
 const ObjectId = require('mongodb').ObjectId;
+const regFormValidation = require('./regFormValidation');
 
 module.exports = function(token, user, res) {
+    if (!regFormValidation(user)) {
+
+        let response = {
+            message: 'Invalid data',
+            isError: true,
+        };
+
+        res.send(response);
+        return;
+    }
+
     checkToken(token, (error, data) => {
         if (error) {
             let response = {
