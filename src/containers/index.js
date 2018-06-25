@@ -4,13 +4,13 @@ import MainForm from './form/MainForm';
 import LogInForm from './form/LogInForm';
 import HomePage from './Home';
 import Account from '../components/account/Account';
-import UserAccount from './UserAccount';
+import UserAccount from './content/UserAccount';
 import FriendsList from './content/FriendsList';
 import SearchPeople from './content/SearchPeople';
 import News from './content/News';
 import Settings from './content/Settings';
 import SidebarMenu from './sidebar/SidebarMenu';
-import EditUser from './EditUser';
+import EditUser from './content/EditUser';
 
 export {
     AuthenticatedComponent,

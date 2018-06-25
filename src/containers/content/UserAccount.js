@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom'
 
-import { Account } from './index';
-import { EditUser } from './index';
+import { Account } from '../index';
+import { EditUser } from '../index';
 
 
 class UserAccount extends Component {

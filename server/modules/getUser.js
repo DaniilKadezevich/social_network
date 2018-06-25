@@ -2,7 +2,7 @@ const connectToTheDB = require('./connectToTheDB');
 
 module.exports = function (query, res) {
     connectToTheDB(function (dbo, db) {
-        console.log(query);
+
         dbo.collection('users').findOne(query, (err, result) => {
             if (!result) {
                 res.send({

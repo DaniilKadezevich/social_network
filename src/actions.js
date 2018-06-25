@@ -147,10 +147,30 @@ export function getUserByToken(token) {
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
-                    console.log(data);
+                    console.log('error');
                 } else {
                     dispatch({type: 'AUTHORIZE', user: data.user});
                 }
+                setTimeout(() => {
+                    dispatch({type: 'FINISH_LOADING'});
+                }, preDelay);
+            });
+    }
+}
+
+export function getUsers(token) {
+    return dispatch => {
+        dispatch({type: 'START_LOADING'});
+
+        return fetch('/get-users', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                dispatch({type: 'ADD_USERS', users: data.users});
                 setTimeout(() => {
                     dispatch({type: 'FINISH_LOADING'});
                 }, preDelay);

@@ -7,6 +7,7 @@ const upload = multer({dest: '../images/'});
 const verifyToken = require('./modules/middlewares/jwtMiddleware');
 const addUser = require('./modules/addUser');
 const editUser = require('./modules/editUser');
+const getUsers = require('./modules/getUsers');
 const getUserByToken = require('./modules/getUserByToken');
 const logIn = require('./modules/logIn');
 
@@ -42,6 +43,12 @@ app.post('/edit-user', verifyToken, upload.single('photo'), (req, res) => {
 // TOKEN
 app.get('/get-user-by-token', verifyToken, (req, res) => {
     getUserByToken(req.token, res);
+});
+
+app.get('/get-users', verifyToken, (req, res) => {
+    let token = req.token;
+
+    getUsers(token, res);
 });
 
 // Server

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
-import { MainForm } from './index'
+import { MainForm } from '../index'
 
 class EditUser extends Component {
     componentWillMount() {

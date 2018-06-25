@@ -10,7 +10,6 @@ class LoadingComponent extends Component {
     componentWillMount() {
         let token = localStorage.getItem('token');
         if (token) {
-
             this.props.getUserByToken(token);
         }
     }
