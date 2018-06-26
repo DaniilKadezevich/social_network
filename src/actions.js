@@ -158,22 +158,41 @@ export function getUserByToken(token) {
     }
 }
 
-export function getUsers(token) {
+export function getUsers(token, regexp = /.*/) {
     return dispatch => {
-        dispatch({type: 'START_LOADING'});
+        let serialized = regexp.source;
 
         return fetch('/get-users', {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({ regexp: serialized })
         })
             .then(response => response.json())
             .then(data => {
                 dispatch({type: 'ADD_USERS', users: data.users});
                 setTimeout(() => {
-                    dispatch({type: 'FINISH_LOADING'});
                 }, preDelay);
+            });
+    }
+}
+
+export function addToFriends(obj) {
+    let token = localStorage.getItem('token');
+    return dispatch => {
+        return fetch('/add-to-friends', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
             });
     }
 }

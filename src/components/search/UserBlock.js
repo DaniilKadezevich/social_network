@@ -18,11 +18,8 @@ export default class UserBlock extends Component {
                 <div className="col-2 search-user-info">
                     {this.props.user.age}
                 </div>
-                <div className="col-2 search-user-info">
+                <div className="col-4 search-user-info">
                     {this.props.user.gender}
-                </div>
-                <div className="col-2 d-flex justify-content-end">
-                    <button type='button' className='btn btn-outline-primary btn-sm'>Add to friends</button>
                 </div>
             </div>
         )

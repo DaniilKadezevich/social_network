@@ -37,7 +37,7 @@ module.exports = function (userObj, res) {
             }
 
             bcrypt.hash(password, 10, function(err, hash) {
-                dbo.collection("users").insertOne({...userObj, password: hash}, function(err, result) {
+                dbo.collection("users").insertOne({...userObj, password: hash, friends: []}, function(err, result) {
                     if (err) throw err;
 
                     console.log(result.ops[0]._id);
