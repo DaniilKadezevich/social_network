@@ -4,6 +4,7 @@ import MainForm from './form/MainForm';
 import LogInForm from './form/LogInForm';
 import HomePage from './Home';
 import Account from '../components/account/Account';
+import MyAccount from './content/MyAccount';
 import UserAccount from './content/UserAccount';
 import FriendsList from './content/FriendsList';
 import SearchPeople from './content/SearchPeople';
@@ -19,6 +20,7 @@ export {
     LogInForm,
     HomePage,
     Account,
+    MyAccount,
     UserAccount,
     FriendsList,
     SearchPeople,

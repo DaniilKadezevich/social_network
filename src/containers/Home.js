@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import './Home.sass'
 
-import { UserAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu } from './index';
+import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu } from './index';
 
 
  export default class HomePage extends Component {
@@ -15,11 +15,12 @@ import { UserAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu } f
                         <SidebarMenu/>
                         <div className="col-10 content">
                             <Switch>
-                                <Route path='/account' component={UserAccount}/>
+                                <Route path='/account' component={MyAccount}/>
                                 <Route path='/friends' component={FriendsList}/>
                                 <Route path='/search-people' component={SearchPeople}/>
                                 <Route path='/news' component={News}/>
                                 <Route path='/settings' component={Settings}/>
+                                <Route path='/users/:userId' component={UserAccount}/>
                             </Switch>
                         </div>
                     </div>

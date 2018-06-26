@@ -160,6 +160,7 @@ export function getUserByToken(token) {
 
 export function getUsers(token, regexp = /.*/) {
     return dispatch => {
+
         let serialized = regexp.source;
 
         return fetch('/get-users', {
@@ -172,17 +173,44 @@ export function getUsers(token, regexp = /.*/) {
         })
             .then(response => response.json())
             .then(data => {
-                dispatch({type: 'ADD_USERS', users: data.users});
-                setTimeout(() => {
-                }, preDelay);
+                if (data.isError) {
+                    dispatch({
+                        type: 'SHOW_NOTIFICATION',
+                        style: 'danger',
+                        message: data.message,
+                        isTemporary: true,
+                    });
+                } else {
+                    dispatch({type: 'ADD_USERS', users: data.users});
+                }
             });
     }
 }
 
-export function addToFriends(obj) {
+// export function addToFriends(obj) {
+//     let token = localStorage.getItem('token');
+//     return dispatch => {
+//         return fetch('/add-to-friends', {
+//             method: 'POST',
+//             headers: {
+//                 'Authorization': `Bearer ${token}`,
+//                 'Content-Type': 'application/json'
+//             },
+//             body: JSON.stringify(obj),
+//         })
+//             .then(response => response.json())
+//             .then(data => {
+//                 console.log(data);
+//             });
+//     }
+// }
+
+export function uploadUser(obj) {
     let token = localStorage.getItem('token');
     return dispatch => {
-        return fetch('/add-to-friends', {
+        dispatch({type: 'START_LOADING'});
+
+        return fetch('/upload-user', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -192,7 +220,22 @@ export function addToFriends(obj) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                if (data.isError) {
+                    setTimeout(() => {
+                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({
+                            type: 'SHOW_NOTIFICATION',
+                            style: 'danger',
+                            message: data.message,
+                            isTemporary: true,
+                        });
+                    }, preDelay);
+                } else {
+                    setTimeout(() => {
+                        dispatch({type: 'LOAD_USER_INFO', user: data.user});
+                        dispatch({type: 'FINISH_LOADING'});
+                    }, preDelay);
+                }
             });
     }
 }

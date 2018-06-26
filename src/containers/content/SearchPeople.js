@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { getUsers, addToFriends } from "../../actions";
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import './SearchPeople.sass';
@@ -33,7 +34,7 @@ class SearchPeople extends Component {
     render() {
         let content;
         this.props.users.length ? content = this.props.users.map((el, index) => {
-            return <UserBlock key={index} user={el}/>
+            return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
         }) : content = (
             <div className='col d-flex justify-content-center p-3'>
                 No results

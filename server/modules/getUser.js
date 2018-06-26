@@ -3,7 +3,7 @@ const connectToTheDB = require('./connectToTheDB');
 module.exports = function (query, res) {
     connectToTheDB(function (dbo, db) {
 
-        dbo.collection('users').findOne(query, (err, result) => {
+        dbo.collection('users').findOne(query, { fields: {password: 0} }, (err, result) => {
             if (!result) {
                 res.send({
                     message: 'No user with this id',
@@ -15,7 +15,7 @@ module.exports = function (query, res) {
             }
 
             res.send({
-                user: {...result, password: undefined},
+                user: {...result},
                 isError: false,
             });
         })
