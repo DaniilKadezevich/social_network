@@ -6,7 +6,8 @@ class RemoveFriendBtn extends Component {
     render() {
         return (
             <button type='button' className='btn btn-outline-danger'
-            onClick={this.props.removeFriend.bind(this, { _id: this.props.user._id })}>
+            onClick={this.props.removeFriend.bind(this, { _id: this.props._id })}
+            >
                 Remove from friends
             </button>
         )
@@ -14,7 +15,7 @@ class RemoveFriendBtn extends Component {
 }
 function mapStateToProps(state) {
     return {
-        user: state.data.displayedUser,
+        _id: state.data.displayedUser._id,
     };
 }
 function mapToDispatchProps(dispatch) {

@@ -77,7 +77,7 @@ export function logIn(obj) {
                             type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'success',
                             message: `Welcome back, ${data.user.name}`,
-                            isTemporary: false,
+                            isTemporary: true,
                         });
                     }, preDelay);
                 }
@@ -160,7 +160,6 @@ export function getUserByToken(token) {
 
 export function getUsers(token, regexp = /.*/) {
     return dispatch => {
-
         let serialized = regexp.source;
 
         return fetch('/get-users', {

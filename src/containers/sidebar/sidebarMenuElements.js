@@ -7,7 +7,6 @@ export const sidebarMenu = [
         link: '/account',
         component: Avatar,
         props: {
-            src: 'user',
             class: 'avatar-small mr-1'
         }
     },

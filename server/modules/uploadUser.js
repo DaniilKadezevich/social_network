@@ -17,7 +17,7 @@ module.exports = function (token, _id, res) {
             dbo.collection('users').findOne({ _id: ObjectId(data._id)}, (err, result) => {
                 let isFriend = result.friends.includes(_id);
 
-                dbo.collection('users').findOne({ _id: ObjectId(_id) }, { fields: {password: 0} }, (err, result) => {
+                dbo.collection('users').findOne({ _id: ObjectId(_id) }, { fields: {password: 0, friends: 0} }, (err, result) => {
                     if (!result) {
                         res.send({
                             message: 'No user with this id',

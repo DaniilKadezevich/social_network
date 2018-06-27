@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import { sidebarMenu } from "./sidebarMenuElements";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class SidebarMenu extends Component {
     render() {
@@ -12,7 +11,7 @@ class SidebarMenu extends Component {
             return (
                 <Link key={index} to={el.link}>
                     <li className='d-flex align-items-center'>
-                        <Component {...el.props}/>{el.text}
+                        <Component {...el.props} src={this.props.user.photo}/>{el.text}
                     </li>
                 </Link>
             )

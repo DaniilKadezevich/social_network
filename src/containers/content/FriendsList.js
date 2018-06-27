@@ -8,19 +8,19 @@ import UserBlock from '../../components/search/UserBlock';
 import './FriendsList.sass'
 
 class FriendsList extends Component {
+    componentWillMount() {
+        let token = localStorage.getItem('token');
+
+        if (token) {
+            this.props.getFriends(token)
+        }
+    }
     componentWillUnmount() {
         this.props.removeFriends();
     }
     render() {
-        if (!this.props.friends.length) {
-            let token = localStorage.getItem('token');
-
-            if (token) {
-                this.props.getFriends(token)
-            }
-        }
-
         let content;
+
         this.props.friends.length ? content = this.props.friends.map((el, index) => {
             return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
         }) : content = (

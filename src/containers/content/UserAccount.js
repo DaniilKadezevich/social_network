@@ -11,14 +11,16 @@ class UserAccount extends Component {
     componentWillMount() {
         let _id = this.props.match.params.userId;
 
-        if (!this.props.user.email) {
+        if (!this.props.user._id) {
             this.props.uploadUser({_id});
         }
 
     }
+
     componentWillUnmount() {
         this.props.removeUser();
     }
+
     render() {
         return (
             <Account user={this.props.user} edit={false}/>
