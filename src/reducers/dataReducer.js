@@ -9,7 +9,8 @@ let initialState = {
         age: '',
         gender: '',
         photo: '',
-    }
+    },
+    posts: [],
 };
 
 export default function (state = initialState, action) {
@@ -24,6 +25,12 @@ export default function (state = initialState, action) {
         case 'REMOVE_USER_INFO':
             let { displayedUser } = initialState;
             return {...state, displayedUser };
+
+        case 'LOAD_POSTS':
+            return {...state, posts: action.posts};
+        case 'REMOVE_POSTS':
+            let { posts } = initialState;
+            return {...state, posts };
         default:
             return state;
     }
