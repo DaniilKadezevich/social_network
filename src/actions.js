@@ -1,9 +1,9 @@
 import fetch from 'cross-fetch';
-import { preDelay } from "./constants";
+import { preDelay, ACTION_TYPES } from "./constants";
 
 export function signUp(obj) {
     return dispatch => {
-        dispatch({type: 'START_LOADING'});
+        dispatch({type: ACTION_TYPES.START_LOADING});
 
         return fetch('/sign-up', {
             method: "POST",
@@ -13,26 +13,26 @@ export function signUp(obj) {
             .then(data => {
                 if (data.isError){
                     setTimeout(() => {
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
 
                         dispatch({
-                            type: 'SHOW_NOTIFICATION',
+                            type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'danger',
                             message: data.message,
                             isTemporary: true,
                         });
                     }, preDelay);
                 } else {
-                    dispatch({type: 'AUTHORIZE', user: data.user});
+                    dispatch({type: ACTION_TYPES.AUTHORIZE, user: data.user});
 
                     localStorage.setItem('token', data.token);
 
-                    dispatch({type: 'CLEAR_FORM'});
+                    dispatch({type: ACTION_TYPES.CLEAR_FORM});
                     setTimeout(() => {
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
 
                         dispatch({
-                            type: 'SHOW_NOTIFICATION',
+                            type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'success',
                             message: `You are successfully registered. Your password: ${data.user.password}`,
                             isTemporary: false,
@@ -45,7 +45,7 @@ export function signUp(obj) {
 
 export function logIn(obj) {
     return dispatch => {
-        dispatch({type: 'START_LOADING'});
+        dispatch({type: ACTION_TYPES.START_LOADING});
 
         return fetch('/log-in', {
             method: "POST",
@@ -55,26 +55,26 @@ export function logIn(obj) {
             .then(data => {
                 if (data.isError) {
                     setTimeout(() => {
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
 
                         dispatch({
-                            type: 'SHOW_NOTIFICATION',
+                            type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'danger',
                             message: data.message,
                             isTemporary: true,
                         });
                     }, preDelay);
                 } else {
-                    dispatch({type: 'AUTHORIZE', user: data.user});
+                    dispatch({type: ACTION_TYPES.AUTHORIZE, user: data.user});
 
                     localStorage.setItem('token', data.token);
 
-                    dispatch({type: 'CLEAR_FORM'});
+                    dispatch({type: ACTION_TYPES.CLEAR_FORM});
                     setTimeout(() => {
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
 
                         dispatch({
-                            type: 'SHOW_NOTIFICATION',
+                            type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'success',
                             message: `Welcome back, ${data.user.name}`,
                             isTemporary: false,
@@ -89,7 +89,7 @@ export function editUser(obj) {
     return dispatch => {
         let token = localStorage.getItem('token');
 
-        dispatch({type: 'START_LOADING'});
+        dispatch({type: ACTION_TYPES.START_LOADING});
 
         console.log(token);
 
@@ -106,25 +106,25 @@ export function editUser(obj) {
                 if (data.isError) {
                     console.log(data);
                     setTimeout(() => {
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
 
                         dispatch({
-                            type: 'SHOW_NOTIFICATION',
+                            type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'danger',
                             message: data.message,
                             isTemporary: true,
                         });
                     }, preDelay);
                 } else {
-                    dispatch({type: 'AUTHORIZE', user: data.user});
+                    dispatch({type: ACTION_TYPES.AUTHORIZE, user: data.user});
 
-                    dispatch({type: 'CLEAR_FORM'});
+                    dispatch({type: ACTION_TYPES.CLEAR_FORM});
 
                     setTimeout(() => {
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
 
                         dispatch({
-                            type: 'SHOW_NOTIFICATION',
+                            type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'success',
                             message: 'You have successfully edited your profile',
                             isTemporary: false,
@@ -136,7 +136,7 @@ export function editUser(obj) {
 }
 export function getUserByToken(token) {
     return dispatch => {
-        dispatch({type: 'START_LOADING'});
+        dispatch({type: ACTION_TYPES.START_LOADING});
 
         return fetch('/get-user-by-token', {
             method: 'GET',
@@ -149,10 +149,10 @@ export function getUserByToken(token) {
                 if (data.isError) {
                     console.log('error');
                 } else {
-                    dispatch({type: 'AUTHORIZE', user: data.user});
+                    dispatch({type: ACTION_TYPES.AUTHORIZE, user: data.user});
                 }
                 setTimeout(() => {
-                    dispatch({type: 'FINISH_LOADING'});
+                    dispatch({type: ACTION_TYPES.FINISH_LOADING});
                 }, preDelay);
             });
     }
@@ -175,13 +175,13 @@ export function getUsers(token, regexp = /.*/) {
             .then(data => {
                 if (data.isError) {
                     dispatch({
-                        type: 'SHOW_NOTIFICATION',
+                        type: ACTION_TYPES.SHOW_NOTIFICATION,
                         style: 'danger',
                         message: data.message,
                         isTemporary: true,
                     });
                 } else {
-                    dispatch({type: 'ADD_USERS', users: data.users});
+                    dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users});
                 }
             });
     }
@@ -208,7 +208,7 @@ export function getUsers(token, regexp = /.*/) {
 export function uploadUser(obj) {
     let token = localStorage.getItem('token');
     return dispatch => {
-        dispatch({type: 'START_LOADING'});
+        dispatch({type: ACTION_TYPES.START_LOADING});
 
         return fetch('/upload-user', {
             method: 'POST',
@@ -222,9 +222,9 @@ export function uploadUser(obj) {
             .then(data => {
                 if (data.isError) {
                     setTimeout(() => {
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
                         dispatch({
-                            type: 'SHOW_NOTIFICATION',
+                            type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'danger',
                             message: data.message,
                             isTemporary: true,
@@ -232,8 +232,8 @@ export function uploadUser(obj) {
                     }, preDelay);
                 } else {
                     setTimeout(() => {
-                        dispatch({type: 'LOAD_USER_INFO', user: data.user});
-                        dispatch({type: 'FINISH_LOADING'});
+                        dispatch({type: ACTION_TYPES.LOAD_USER_INFO, user: data.user});
+                        dispatch({type: ACTION_TYPES.FINISH_LOADING});
                     }, preDelay);
                 }
             });

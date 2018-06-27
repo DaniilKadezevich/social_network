@@ -1,6 +1,6 @@
 const {checkToken} = require('./jwt');
 const getUser = require('./getUser');
-const ObjectId = require('mongodb').ObjectId;
+const { ObjectId } = require('mongodb');
 
 module.exports = function (token, res) {
     checkToken(token, (error, data) => {

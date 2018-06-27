@@ -1,6 +1,6 @@
 const connectToTheDB = require('./connectToTheDB');
 const {checkToken} = require('./jwt');
-const ObjectId = require('mongodb').ObjectId;
+const { ObjectId } = require('mongodb');
 const regFormValidation = require('./regFormValidation');
 
 module.exports = function(token, user, res) {
