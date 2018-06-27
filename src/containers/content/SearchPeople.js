@@ -8,18 +8,10 @@ import './SearchPeople.sass';
 import UserBlock from '../../components/search/UserBlock';
 
 class SearchPeople extends Component {
-    componentDidMount() {
-        if (!this.props.users.length) {
-            let token = localStorage.getItem('token');
-
-            if (token) {
-                this.props.getUsers(token)
-            }
-        }
-    }
     componentWillUnmount() {
         this.props.removeUsers();
     }
+
     handleChange(e) {
         let regexp;
         try {
@@ -31,7 +23,16 @@ class SearchPeople extends Component {
         let token = localStorage.getItem('token');
         this.props.getUsers(token, regexp)
     }
+
     render() {
+        if (!this.props.users.length) {
+            let token = localStorage.getItem('token');
+
+            if (token) {
+                this.props.getUsers(token)
+            }
+        }
+
         let content;
         this.props.users.length ? content = this.props.users.map((el, index) => {
             return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
@@ -54,7 +55,6 @@ class SearchPeople extends Component {
 }
 function mapStateToProps(state) {
     return {
-        user: state.user,
         users: state.data.users,
     }
 }

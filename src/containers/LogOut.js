@@ -16,7 +16,7 @@ class LogOut extends Component {
         }
         return(
             <Link onClick={this.logOut} to='/login'>
-                <button className="btn btn-primary">
+                <button className="btn btn-outline-light btn-sm">
                     Log out
                 </button>
             </Link>

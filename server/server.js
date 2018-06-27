@@ -9,6 +9,7 @@ const addUser = require('./modules/addUser');
 const editUser = require('./modules/editUser');
 const uploadUser = require('./modules/uploadUser');
 const getUsers = require('./modules/getUsers');
+const getFriends = require('./modules/getFriends');
 const getUserByToken = require('./modules/getUserByToken');
 const logIn = require('./modules/logIn');
 const addFriend = require('./modules/addFriend');
@@ -63,7 +64,11 @@ app.post('/upload-user', verifyToken, (req, res) => {
     uploadUser(token, _id, res);
 });
 
+app.get('/get-friends', verifyToken, (req, res) => {
+    let token = req.token;
 
+    getFriends(token, res);
+});
 // TOKEN
 app.get('/get-user-by-token', verifyToken, (req, res) => {
     getUserByToken(req.token, res);

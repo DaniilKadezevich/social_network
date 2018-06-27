@@ -187,6 +187,32 @@ export function getUsers(token, regexp = /.*/) {
     }
 }
 
+export function getFriends(token) {
+    return dispatch => {
+
+
+        return fetch('/get-friends', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    dispatch({
+                        type: ACTION_TYPES.SHOW_NOTIFICATION,
+                        style: 'danger',
+                        message: data.message,
+                        isTemporary: true,
+                    });
+                } else {
+                    dispatch({type: ACTION_TYPES.ADD_USERS, users: data.friends});
+                }
+            });
+    }
+}
+
 export function addFriend(obj) {
     let token = localStorage.getItem('token');
     return dispatch => {
