@@ -40,8 +40,6 @@ module.exports = function (userObj, res) {
                 dbo.collection("users").insertOne({...userObj, password: hash, friends: []}, function(err, result) {
                     if (err) throw err;
 
-                    console.log(result.ops[0]._id);
-
                     let token = generateToken({ _id: result.ops[0]._id });
 
                     let user = {...userObj, password};

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import EditBtn from './AccountEditBtn'
-import AddFriendBtn from '../../../containers/content/AccountAddFriendBtn'
-import RemoveFriendBtn from '../../../containers/content/AccountRemoveFriendBtn'
+import AddFriendBtn from '../../../containers/content/AddFriendBtn'
+import RemoveFriendBtn from '../../../containers/content/RemoveFriendBtn'
 
 export default class AccountEditBlock extends Component {
     render() {

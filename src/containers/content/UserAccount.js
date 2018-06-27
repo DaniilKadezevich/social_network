@@ -10,7 +10,7 @@ import { Account } from '../index';
 class UserAccount extends Component {
     componentWillMount() {
         let _id = this.props.match.params.userId;
-        console.log(_id);
+
         if (!this.props.user.email) {
             this.props.uploadUser({_id});
         }

@@ -127,7 +127,7 @@ export function editUser(obj) {
                             type: ACTION_TYPES.SHOW_NOTIFICATION,
                             style: 'success',
                             message: 'You have successfully edited your profile',
-                            isTemporary: false,
+                            isTemporary: true,
                         });
                     }, preDelay);
                 }
@@ -187,23 +187,32 @@ export function getUsers(token, regexp = /.*/) {
     }
 }
 
-// export function addToFriends(obj) {
-//     let token = localStorage.getItem('token');
-//     return dispatch => {
-//         return fetch('/add-to-friends', {
-//             method: 'POST',
-//             headers: {
-//                 'Authorization': `Bearer ${token}`,
-//                 'Content-Type': 'application/json'
-//             },
-//             body: JSON.stringify(obj),
-//         })
-//             .then(response => response.json())
-//             .then(data => {
-//                 console.log(data);
-//             });
-//     }
-// }
+export function addFriend(obj) {
+    let token = localStorage.getItem('token');
+    return dispatch => {
+        return fetch('/add-friend', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    dispatch({
+                        type: ACTION_TYPES.SHOW_NOTIFICATION,
+                        style: 'danger',
+                        message: data.message,
+                        isTemporary: true,
+                    });
+                } else {
+                    dispatch({type: ACTION_TYPES.LOAD_USER_INFO, user: data.user});
+                }
+            });
+    }
+}
 
 export function uploadUser(obj) {
     let token = localStorage.getItem('token');

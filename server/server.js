@@ -11,7 +11,7 @@ const uploadUser = require('./modules/uploadUser');
 const getUsers = require('./modules/getUsers');
 const getUserByToken = require('./modules/getUserByToken');
 const logIn = require('./modules/logIn');
-const addToFriends = require('./modules/addToFriends');
+const addFriend = require('./modules/addFriend');
 
 app.use(bodyParser.json());
 
@@ -43,11 +43,11 @@ app.post('/edit-user', verifyToken, upload.single('photo'), (req, res) => {
 });
 
 // Add to friends
-app.post('/add-to-friends', verifyToken, (req, res) => {
+app.post('/add-friend', verifyToken, (req, res) => {
     let token = req.token;
     let _id = req.body._id;
 
-    addToFriends(token, _id, res);
+    addFriend(token, _id, res);
 });
 // Load data
 app.post('/get-users', verifyToken, (req, res) => {
