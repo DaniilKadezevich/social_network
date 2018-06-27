@@ -13,6 +13,7 @@ const getFriends = require('./modules/getFriends');
 const getUserByToken = require('./modules/getUserByToken');
 const logIn = require('./modules/logIn');
 const addFriend = require('./modules/addFriend');
+const removeFriend = require('./modules/removeFriend');
 
 app.use(bodyParser.json());
 
@@ -43,12 +44,18 @@ app.post('/edit-user', verifyToken, upload.single('photo'), (req, res) => {
     editUser(token, req.body, res);
 });
 
-// Add to friends
+// Friends actions
 app.post('/add-friend', verifyToken, (req, res) => {
     let token = req.token;
     let _id = req.body._id;
 
     addFriend(token, _id, res);
+});
+app.post('/remove-friend', verifyToken, (req, res) => {
+    let token = req.token;
+    let _id = req.body._id;
+
+    removeFriend(token, _id, res)
 });
 // Load data
 app.post('/get-users', verifyToken, (req, res) => {

@@ -240,6 +240,33 @@ export function addFriend(obj) {
     }
 }
 
+export function removeFriend(obj) {
+    let token = localStorage.getItem('token');
+    return dispatch => {
+        return fetch('/remove-friend', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    dispatch({
+                        type: ACTION_TYPES.SHOW_NOTIFICATION,
+                        style: 'danger',
+                        message: data.message,
+                        isTemporary: true,
+                    });
+                } else {
+                    dispatch({type: ACTION_TYPES.LOAD_USER_INFO, user: data.user});
+                }
+            });
+    }
+}
+
 export function uploadUser(obj) {
     let token = localStorage.getItem('token');
     return dispatch => {
