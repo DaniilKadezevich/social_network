@@ -18,6 +18,7 @@ module.exports = function (query, res) {
                 user: {...result},
                 isError: false,
             });
+            db.close();
         })
     });
 };

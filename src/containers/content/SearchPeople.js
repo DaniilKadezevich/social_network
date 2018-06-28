@@ -9,11 +9,7 @@ import UserBlock from '../../components/search/UserBlock';
 
 class SearchPeople extends Component {
     componentWillMount() {
-        let token = localStorage.getItem('token');
-
-        if (token) {
-            this.props.getUsers(token)
-        }
+        this.props.getUsers()
     }
     componentWillUnmount() {
         this.props.removeUsers();
@@ -24,11 +20,9 @@ class SearchPeople extends Component {
         try {
             regexp = new RegExp(`^${e.target.value.trim()}`, 'i');
         } catch(e) {
-            regexp = /.\*/
+            regexp = new RegExp('.\\*');
         }
-
-        let token = localStorage.getItem('token');
-        this.props.getUsers(token, regexp)
+        this.props.getUsers(regexp)
     }
 
     render() {
@@ -60,7 +54,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        getUsers: (token, regexp) => dispatch(getUsers(token, regexp)),
+        getUsers: regexp => dispatch(getUsers(regexp)),
         removeUsers: () => dispatch({type: 'REMOVE_USERS'}),
     }
 }

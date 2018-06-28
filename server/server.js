@@ -4,11 +4,13 @@ const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({dest: '../images/'});
 
+const { URLS } = require('./constants');
+
 const verifyToken = require('./modules/middlewares/jwtMiddleware');
-const addUser = require('./modules/addUser');
+const signUp = require('./modules/signUp');
 const editUser = require('./modules/editUser');
 const uploadUser = require('./modules/uploadUser');
-const getUsers = require('./modules/getUsers');
+const getAllUsers = require('./modules/getAllUsers');
 const getFriends = require('./modules/getFriends');
 const getUserByToken = require('./modules/getUserByToken');
 const logIn = require('./modules/logIn');
@@ -18,16 +20,16 @@ const removeFriend = require('./modules/removeFriend');
 app.use(bodyParser.json());
 
 //Registration
-app.post('/sign-up', upload.single('photo'), (req, res) => {
+app.post(URLS.SIGN_UP, upload.single('photo'), (req, res) => {
     let userObj = req.body;
 
     userObj.email = userObj.email.toLowerCase();
 
-    addUser(userObj, res);
+    signUp(userObj, res);
 });
 
 // Log in
-app.post('/log-in', upload.single('photo'), (req, res) => {
+app.post(URLS.LOG_IN, upload.single('photo'), (req, res) => {
     let userInfo = req.body;
 
     userInfo.email = userInfo.email.toLowerCase();
@@ -36,7 +38,7 @@ app.post('/log-in', upload.single('photo'), (req, res) => {
 });
 
 // Edit user
-app.post('/edit-user', verifyToken, upload.single('photo'), (req, res) => {
+app.post(URLS.EDIT_USER, verifyToken, upload.single('photo'), (req, res) => {
     let token = req.token;
 
     req.body.email = req.body.email.toLowerCase();
@@ -45,39 +47,38 @@ app.post('/edit-user', verifyToken, upload.single('photo'), (req, res) => {
 });
 
 // Friends actions
-app.post('/add-friend', verifyToken, (req, res) => {
+app.post(URLS.ADD_FRIEND, verifyToken, (req, res) => {
     let token = req.token;
     let _id = req.body._id;
 
     addFriend(token, _id, res);
 });
-app.post('/remove-friend', verifyToken, (req, res) => {
+app.post(URLS.REMOVE_FRIEND, verifyToken, (req, res) => {
     let token = req.token;
     let _id = req.body._id;
 
     removeFriend(token, _id, res)
 });
+app.get(URLS.GET_FRIENDS, verifyToken, (req, res) => {
+    let token = req.token;
+
+    getFriends(token, res);
+});
 // Load data
-app.post('/get-users', verifyToken, (req, res) => {
+app.post(URLS.GET_USERS, verifyToken, (req, res) => {
     let token = req.token;
     let regexp = new RegExp(req.body.regexp, 'i');
 
-    getUsers(token, regexp, res);
+    getAllUsers(token, regexp, res);
 });
-app.post('/upload-user', verifyToken, (req, res) => {
+app.post(URLS.UPLOAD_USER, verifyToken, (req, res) => {
     let token = req.token;
     let _id = req.body._id;
 
     uploadUser(token, _id, res);
 });
-
-app.get('/get-friends', verifyToken, (req, res) => {
-    let token = req.token;
-
-    getFriends(token, res);
-});
 // TOKEN
-app.get('/get-user-by-token', verifyToken, (req, res) => {
+app.get(URLS.GET_USER_BY_TOKEN, verifyToken, (req, res) => {
     getUserByToken(req.token, res);
 });
 

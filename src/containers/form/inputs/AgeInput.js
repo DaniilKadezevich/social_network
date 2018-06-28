@@ -59,8 +59,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: (value) => dispatch({type: 'ADD_AGE', value}),
-        validate: (status, error) => dispatch({type: 'VALIDATE_AGE', status})
+        addValue: value => dispatch({type: 'ADD_AGE', value}),
+        validate: status => dispatch({type: 'VALIDATE_AGE', status})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AgeInput)

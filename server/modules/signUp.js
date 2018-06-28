@@ -1,13 +1,13 @@
 const generatePassword = require('./generatePassword');
 const connectToTheDB = require('./connectToTheDB');
-const regFormValidation = require('./regFormValidation');
+const formValidation = require('./formValidation');
 const bcrypt = require('bcrypt');
 const {generateToken} = require('./jwt');
 
 module.exports = function (userObj, res) {
     userObj.email = userObj.email.toLowerCase();
 
-    if (!regFormValidation(userObj)) {
+    if (!formValidation(userObj)) {
 
         let response = {
             message: 'Invalid data',

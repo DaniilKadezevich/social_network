@@ -3,7 +3,7 @@ const connectToTheDB = require('./connectToTheDB');
 const { ObjectId } = require('mongodb');
 const getUsers = require('./getUsers');
 
-module.exports = function(token, res) {
+module.exports = function(token, regexp, res) {
     checkToken(token, (error, data) => {
         if (error) {
             res.send({
@@ -15,14 +15,7 @@ module.exports = function(token, res) {
         }
 
         connectToTheDB(function (dbo, db) {
-            dbo.collection('users').findOne({_id: ObjectId(data._id)}, function (err, result) {
-
-                let ids = result.friends.map(_id => {
-                    return ObjectId(_id);
-                });
-
-                getUsers(dbo, db, { _id: {$in: ids}}, res);
-            });
+            getUsers(dbo, db, { _id: { $ne: ObjectId(data._id)}, name: {$regex: regexp}}, res);
         });
     });
 };

@@ -9,11 +9,7 @@ import './FriendsList.sass'
 
 class FriendsList extends Component {
     componentWillMount() {
-        let token = localStorage.getItem('token');
-
-        if (token) {
-            this.props.getFriends(token)
-        }
+        this.props.getFriends()
     }
     componentWillUnmount() {
         this.props.removeFriends();
@@ -47,7 +43,7 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        getFriends: token => dispatch(getFriends(token)),
+        getFriends: () => dispatch(getFriends()),
         removeFriends: () => dispatch({type: 'REMOVE_USERS'}),
     }
 }

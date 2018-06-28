@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signUp, editUser } from '../../actions'
+import { signUp, editUser, setInvalidFields } from '../../actions'
 
 import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass';
 
-import { validateRegFormInputs } from "../../functions";
-import { REGEXPS } from "../../constants";
+import { validateFormInputs } from "../../functions";
 
 import { NameInput, SurnameInput, MiddleNameInput, EmailInput, AgeInput, GenderBlock, PhotoBlock } from './index'
 
@@ -16,15 +15,14 @@ class RegistrationForm extends Component {
         super();
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.setInvalidInputs = this.setInvalidInputs.bind(this);
     }
 
     handleSubmit() {
         let form = {...this.props.form};
 
-        let {gender, name, surname, middleName, email, age, photo} = form;
+        let { gender, name, surname, middleName, email, age, photo } = form;
 
-        if (validateRegFormInputs(form)) {
+        if (validateFormInputs(form)) {
             let formData = new FormData();
 
             formData.append('photo', photo.file);
@@ -37,19 +35,9 @@ class RegistrationForm extends Component {
 
             this.props.edit ? this.props.editUser(formData) : this.props.signUp(formData);
         } else {
-            this.setInvalidInputs(gender, name, surname, middleName, email, age, photo)
+            this.props.setInvalidFields(form);
         }
     }
-    setInvalidInputs(gender, name, surname, middleName, email, age, photo) {
-        this.props.validateGender(gender.value);
-        this.props.validateName(REGEXPS.name.test(name.value));
-        this.props.validateSurname(REGEXPS.surname.test(surname.value));
-        this.props.validateMiddleName(REGEXPS.middleName.test(middleName.value) || !middleName.value);
-        this.props.validateEmail(REGEXPS.email.test(email.value));
-        this.props.validateAge(REGEXPS.age.test(age.value));
-        this.props.validatePhoto(photo.file, 'No photo selected');
-    }
-
     render() {
         if (this.props.isAuthorized && !this.props.edit) {
             return <Redirect to='/'/>
@@ -123,16 +111,10 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        validateName: status => dispatch({type: 'VALIDATE_NAME', status}),
-        validateSurname: status => dispatch({type: 'VALIDATE_SURNAME', status}),
-        validateMiddleName: status => dispatch({type: 'VALIDATE_MIDDLE_NAME', status}),
-        validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
-        validateAge: status => dispatch({type: 'VALIDATE_AGE', status}),
-        validateGender: status => dispatch({type: 'VALIDATE_GENDER', status}),
-        validatePhoto: (status, error) => dispatch({type: 'VALIDATE_PHOTO', status, error}),
         clearForm: () => dispatch({type: 'CLEAR_FORM'}),
         signUp: obj => dispatch(signUp(obj)),
         editUser: obj => dispatch(editUser(obj)),
+        setInvalidFields: form => dispatch(setInvalidFields(form)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

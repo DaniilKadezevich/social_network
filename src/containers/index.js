@@ -2,7 +2,7 @@ import AuthenticatedComponent from './authentication/AuthenticatedComponent';
 import LoadingComponent from './authentication/LoadingComponent';
 import MainForm from './form/MainForm';
 import LogInForm from './form/LogInForm';
-import HomePage from './Home';
+import Home from '../components/Home';
 import Account from '../components/account/Account';
 import MyAccount from './content/MyAccount';
 import UserAccount from './content/UserAccount';
@@ -18,7 +18,7 @@ export {
     LoadingComponent,
     MainForm,
     LogInForm,
-    HomePage,
+    Home,
     Account,
     MyAccount,
     UserAccount,

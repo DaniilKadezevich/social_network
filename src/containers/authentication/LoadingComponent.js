@@ -8,10 +8,7 @@ import { Preloader } from '../../components/index'
 
 class LoadingComponent extends Component {
     componentWillMount() {
-        let token = localStorage.getItem('token');
-        if (token) {
-            this.props.getUserByToken(token);
-        }
+        this.props.getUserByToken();
     }
 
     render() {
@@ -35,7 +32,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserByToken: token => dispatch(getUserByToken(token))
+        getUserByToken: () => dispatch(getUserByToken())
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoadingComponent));

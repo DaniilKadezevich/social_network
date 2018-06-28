@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom'
 
 import './Home.sass'
 
-import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu } from './index';
+import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu } from '../containers/index';
 
 
  export default class HomePage extends Component {
