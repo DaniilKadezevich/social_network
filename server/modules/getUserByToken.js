@@ -1,16 +1,19 @@
 const {checkToken} = require('./jwt');
 const getUser = require('./getUser');
+const ObjectId = require('mongodb').ObjectId;
 
 module.exports = function (token, res) {
     checkToken(token, (error, data) => {
         if (error) {
             res.send({
-                isValid: false,
+                message: 'Invalid token',
+                isError: false,
             });
+
             return;
         }
 
-        let query = {email: data.email};
+        let query = { _id: ObjectId(data._id) };
 
         getUser(query, res);
     });

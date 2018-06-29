@@ -14,6 +14,7 @@ module.exports = function (userInfo, res) {
                 };
                 res.send(response);
                 db.close();
+
                 return;
             }
 
@@ -26,10 +27,11 @@ module.exports = function (userInfo, res) {
 
                     res.send(response);
                     db.close();
+
                     return;
                 }
 
-                let token = generateToken({ email: result.email });
+                let token = generateToken({ _id: result._id });
 
                 let response = {
                     user: {...result, password: undefined},

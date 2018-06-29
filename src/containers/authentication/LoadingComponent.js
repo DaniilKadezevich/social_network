@@ -1,36 +1,18 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { getUserByToken } from '../../actions'
+
 import { withRouter } from 'react-router-dom';
 
 import { Preloader } from '../../components/index'
-import { preDelay } from "../../constants";
-
 
 class LoadingComponent extends Component {
     componentWillMount() {
         let token = localStorage.getItem('token');
         if (token) {
-            this.props.startLoading();
-            this.getUserInfo(token);
+
+            this.props.getUserByToken(token);
         }
-    }
-    async getUserInfo(token) {
-        let response = await fetch('/check-token', {
-            method: 'GET',
-            headers: new Headers({
-                'Authorization': `Bearer ${token}`,
-            })
-        });
-
-        let data = await response.json();
-
-        if (data.isError) {
-            console.log('error');
-        } else {
-            this.props.authorize(data.user);
-        }
-        setTimeout(this.props.finishLoading, preDelay)
-
     }
 
     render() {
@@ -54,9 +36,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authorize: (user) => dispatch({type: 'AUTHORIZE', user}),
-        startLoading: () => dispatch({type: 'START_LOADING'}),
-        finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
+        getUserByToken: token => dispatch(getUserByToken(token))
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoadingComponent));

@@ -43,6 +43,7 @@ import { REGEXPS } from '../../../constants'
                     onBlur={this.validation}
                     onFocus={this.setWaitingStatus}
                     value={this.props.name.value}
+                    id={this.props.id}
                 />
                 <div className='col-12'>
                     <div className="error-message">

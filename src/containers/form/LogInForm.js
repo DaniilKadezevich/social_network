@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { logIn } from '../../actions';
+
 import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass'
 
 import { validateLogInFormInputs } from "../../functions";
-import { preDelay } from "../../constants";
 
 import { EmailInput, PasswordInput } from './index'
 
@@ -15,51 +16,20 @@ class LogInForm extends Component {
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit() {
         let form = {...this.props.form};
 
         let {password, email} = form;
 
         if(validateLogInFormInputs(form)) {
-            let obj = {
-                email: email.value,
-                password: password.value,
-            };
-            this.logIn(obj)
+            let formData = new FormData();
+
+            formData.append('email', email.value);
+            formData.append('password', password.value);
+
+            this.props.logIn(formData)
         } else {
             this.setInvalidInputs(password, email)
-        }
-    }
-    async logIn(obj) {
-        this.props.startLoading();
-
-        let response = await fetch("log-in",
-            {
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                method: "POST",
-
-                body: JSON.stringify(obj),
-            });
-
-        let data = await response.json();
-
-        if (data.isError){
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('danger', data.message, true);
-            }, preDelay)
-        } else {
-            this.props.authorize(data.user);
-            localStorage.setItem("token", data.token);
-            this.props.clearForm();
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('success', `Welcome back, ${data.user.name}`, true);
-            }, preDelay)
         }
     }
 
@@ -77,14 +47,14 @@ class LogInForm extends Component {
             <div className='container'>
                 <div className="row flex-column align-items-center">
                     <div className='form-container col-4 text-center'>
-                        <form onSubmit={this.handleSubmit}>
+                        <form >
                             <div className="form-group">
                                 <EmailInput />
                             </div>
                             <div className="form-group">
                                 <PasswordInput />
                             </div>
-                            <button className="btn btn-primary" type="submit">Log In</button>
+                            <button className="btn btn-primary" type="button" onClick={this.handleSubmit}>Log In</button>
                         </form>
                     </div>
                     <div className='rerender mt-3 col-4 text-center'>
@@ -105,13 +75,10 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        authorize: user => dispatch({type: 'AUTHORIZE', user}),
         clearForm: () => dispatch({type: 'CLEAR_FORM'}),
         validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
         validatePassword: status => dispatch({type: 'VALIDATE_PASSWORD', status}),
-        showNotification: (style, message, isTemporary) => dispatch({type: 'SHOW_NOTIFICATION', style, message, isTemporary}),
-        startLoading: () => dispatch({type: 'START_LOADING'}),
-        finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
+        logIn: obj => dispatch(logIn(obj)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(LogInForm);

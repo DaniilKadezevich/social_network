@@ -12,7 +12,7 @@ let initialState = {
     middleName: {
         error: '',
         value: '',
-        isValid: true,
+        isValid: 'waiting',
     },
     email: {
         error: '',
@@ -88,7 +88,7 @@ export default function formReducer(state=initialState, action) {
             return {...state, password: {...state.password, value: action.value}};
         case 'VALIDATE_PASSWORD':
             return action.status ? {...state, password: {...state.password, isValid: action.status, error: ''}} :
-                {...state, password: {...state.password, isValid: false, error: 'At least 10 symbols, 1 number, 1 capital letter'}};
+                {...state, password: {...state.password, isValid: false, error: 'At least 10 symbols'}};
 
         case 'CLEAR_FORM':
             return initialState;

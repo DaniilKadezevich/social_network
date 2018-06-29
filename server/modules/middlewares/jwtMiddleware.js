@@ -9,7 +9,8 @@ module.exports = function verifyToken(req, res, next) {
         next();
     } else {
         res.send({
-            isValid: false,
+            message: 'No auth header',
+            isError: true,
         });
     }
-}
+};

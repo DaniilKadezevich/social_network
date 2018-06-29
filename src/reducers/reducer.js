@@ -1,4 +1,4 @@
-import formReducer from './regFormReducer'
+import formReducer from './formReducer'
 import notificationReducer from './notificationReducer'
 import userReducer from './userReducer'
 import loadingReducer from './loadingReducer'

@@ -32,6 +32,7 @@ module.exports = function (userObj, res) {
 
                 res.send(response);
                 db.close();
+
                 return;
             }
 
@@ -39,14 +40,16 @@ module.exports = function (userObj, res) {
                 dbo.collection("users").insertOne({...userObj, password: hash}, function(err, result) {
                     if (err) throw err;
 
-                    let token = generateToken({ email: result.ops[0].email});
+                    console.log(result.ops[0]._id);
+
+                    let token = generateToken({ _id: result.ops[0]._id });
 
                     let user = {...userObj, password};
-                    console.log(user);
+
                     let response = {
                         user,
                         isError: false,
-                        token
+                        token,
                     };
                     res.send(response);
                     db.close();

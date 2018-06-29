@@ -8,6 +8,6 @@ export default function loadingReducer(state = initialState, action) {
         case 'FINISH_LOADING':
             return {...state, isLoading: false};
         default:
-            return state
+            return state;
     }
 }

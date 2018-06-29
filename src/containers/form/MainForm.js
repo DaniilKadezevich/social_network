@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { signUp, editUser } from '../../actions'
 
 import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass';
 
 import { validateRegFormInputs } from "../../functions";
-import {preDelay} from "../../constants";
+import { REGEXPS } from "../../constants";
 
 import { NameInput, SurnameInput, MiddleNameInput, EmailInput, AgeInput, GenderBlock, PhotoBlock } from './index'
 
@@ -18,8 +19,7 @@ class RegistrationForm extends Component {
         this.setInvalidInputs = this.setInvalidInputs.bind(this);
     }
 
-    handleSubmit(e) {
-        e.preventDefault();
+    handleSubmit() {
         let form = {...this.props.form};
 
         let {gender, name, surname, middleName, email, age, photo} = form;
@@ -35,58 +35,39 @@ class RegistrationForm extends Component {
             formData.append('age', age.value);
             formData.append('gender', gender.value);
 
-            this.singUp(formData);
+            this.props.edit ? this.props.editUser(formData) : this.props.signUp(formData);
         } else {
             this.setInvalidInputs(gender, name, surname, middleName, email, age, photo)
         }
     }
     setInvalidInputs(gender, name, surname, middleName, email, age, photo) {
-        this.props.validateGender(!(gender.isValid === 'waiting' || !gender.isValid));
-        this.props.validateName(!(name.isValid === 'waiting' || !name.isValid));
-        this.props.validateSurname(!(surname.isValid === 'waiting' || !surname.isValid));
-        this.props.validateMiddleName(middleName.isValid);
-        this.props.validateEmail(!(email.isValid === 'waiting' || !email.isValid));
-        this.props.validateAge(!(age.isValid === 'waiting' || !age.isValid));
-        this.props.validatePhoto(!(photo.isValid === 'waiting' || !photo.isValid), 'No photo selected');
-
-    }
-    async singUp(obj) {
-        this.props.startLoading();
-
-        let response = await fetch('sign-up',
-            {
-                method: "POST",
-                body: obj
-            });
-
-        let data = await response.json();
-
-        if (data.isError){
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('danger', data.message, true);
-            }, preDelay);
-        } else {
-            this.props.authorize(data.user);
-            localStorage.setItem("token", data.token);
-            this.props.clearForm();
-            await setTimeout(() => {
-                this.props.finishLoading();
-                this.props.showNotification('success', `You are successfully registered. Your password: ${data.user.password}`, false);
-            }, preDelay);
-        }
+        this.props.validateGender(gender.value);
+        this.props.validateName(REGEXPS.name.test(name.value));
+        this.props.validateSurname(REGEXPS.surname.test(surname.value));
+        this.props.validateMiddleName(REGEXPS.middleName.test(middleName.value) || !middleName.value);
+        this.props.validateEmail(REGEXPS.email.test(email.value));
+        this.props.validateAge(REGEXPS.age.test(age.value));
+        this.props.validatePhoto(photo.file, 'No photo selected');
     }
 
     render() {
-        if (this.props.isAuthorized) {
+        if (this.props.isAuthorized && !this.props.edit) {
             return <Redirect to='/'/>
+        }
+        let btnText, size;
+        if (this.props.edit) {
+            btnText = 'Edit';
+            size = 'col-5';
+        } else {
+            btnText = 'Sign In';
+            size = 'col-4';
         }
 
         return (
             <div className='container'>
                 <div className="row align-items-center flex-column justify-content-center">
-                    <div className="form-container col-4 text-center">
-                        <form onSubmit={this.handleSubmit} action="">
+                    <div className={`form-container ${size} text-center`}>
+                        <form action="">
                             <div className=" form-group form-row">
                                 <div className="col-6">
                                     <NameInput/>
@@ -115,14 +96,19 @@ class RegistrationForm extends Component {
                             </div>
                             <PhotoBlock/>
                             <div className="row d-flex justify-content-center">
-                                <button className="btn btn-success" type="submit">Sign In</button>
+                                <button className="btn btn-success" type="button" onClick={this.handleSubmit}>
+                                    {btnText}
+                                </button>
                             </div>
                         </form>
                     </div>
-                    <div className='rerender mt-3 col-4 text-center'>
-                        Have an account?
-                        <Link to='/login' onClick={this.props.clearForm}> Log In</Link>
-                    </div>
+                    {!this.props.edit && (
+                        <div className='rerender mt-3 col-4 text-center'>
+                            Have an account?
+                            <Link to='/login' onClick={this.props.clearForm}> Log In </Link>
+                        </div>
+                    )}
+
                 </div>
             </div>
         )
@@ -144,11 +130,9 @@ function mapDispatchToProps(dispatch) {
         validateAge: status => dispatch({type: 'VALIDATE_AGE', status}),
         validateGender: status => dispatch({type: 'VALIDATE_GENDER', status}),
         validatePhoto: (status, error) => dispatch({type: 'VALIDATE_PHOTO', status, error}),
-        showNotification: (style, message, isTemporary) => dispatch({type: 'SHOW_NOTIFICATION', style, message, isTemporary}),
-        authorize: user => dispatch({type: 'AUTHORIZE', user}),
         clearForm: () => dispatch({type: 'CLEAR_FORM'}),
-        startLoading: () => dispatch({type: 'START_LOADING'}),
-        finishLoading: () => dispatch({type: 'FINISH_LOADING'}),
+        signUp: obj => dispatch(signUp(obj)),
+        editUser: obj => dispatch(editUser(obj)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);
