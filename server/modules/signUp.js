@@ -39,10 +39,10 @@ module.exports = function (userObj, res) {
             bcrypt.hash(password, 10, function(err, hash) {
                 dbo.collection("users").insertOne({...userObj, password: hash, friends: []}, function(err, result) {
                     if (err) throw err;
+                    let _id = result.ops[0]._id;
+                    let token = generateToken({ _id });
 
-                    let token = generateToken({ _id: result.ops[0]._id });
-
-                    let user = {...userObj, password};
+                    let user = {...userObj, password, _id};
 
                     let response = {
                         user,

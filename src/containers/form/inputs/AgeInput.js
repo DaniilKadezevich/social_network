@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../../../constants'
+import { REGEXPS, ACTION_TYPES } from '../../../constants'
 
 class AgeInput extends Component {
     constructor() {
@@ -59,8 +59,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: value => dispatch({type: 'ADD_AGE', value}),
-        validate: status => dispatch({type: 'VALIDATE_AGE', status})
+        addValue: value => dispatch({type: ACTION_TYPES.ADD_AGE, value}),
+        validate: status => dispatch({type: ACTION_TYPES.VALIDATE_AGE, status})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AgeInput)

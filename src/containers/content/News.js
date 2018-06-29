@@ -3,27 +3,30 @@ import { connect } from 'react-redux';
 
 import './News.sass'
 
-import Post from '../../components/posts/Post'
+import Post from '../../components/posts/Post';
+import PostGenerator from './PostGenerator'
 
 
-import postImage from '../../images/post-1.jpg';
+import { getAllPosts } from "../../actions";
+import { ACTION_TYPES } from "../../constants";
 
 
 
 class News extends Component {
+    componentWillMount() {
+        this.props.getAllPosts();
+    }
+    componentWillUnmount() {
+        this.props.removePosts();
+    }
     render() {
-        console.log(this.props.posts);
-        let post = {
-            text: 'Some text',
-            image: postImage,
-            photo: postImage,
-            name: 'Dan',
-            surname: 'Kadzevich',
-            date: 'Yesterday, 6.00 p.m.'
-        };
         return(
             <div className='container'>
-                <Post post={post}/>
+                <PostGenerator/>
+                {this.props.posts.map((post, index) => {
+                    let edit = (post.author === this.props.user_id);
+                    return <Post key={index} post={post} edit={edit}/>
+                })}
             </div>
         )
     }
@@ -31,12 +34,14 @@ class News extends Component {
 function mapStateToProps(state) {
     return {
         posts: state.data.posts,
+        user_id: state.user._id
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-
+        getAllPosts: () => dispatch(getAllPosts()),
+        removePosts: () => dispatch({type: ACTION_TYPES.REMOVE_POSTS}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(News)

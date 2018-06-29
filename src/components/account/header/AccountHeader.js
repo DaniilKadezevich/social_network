@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 
-import AccountPhotoBlock from './AccountPhotoBlock'
-import AccountInfoBlock from './AccountInfoBlock'
-
+import { AccountPhotoBlock, AccountInfoBlock } from '../index'
 
 export default class AccountHeader extends Component {
     render() {

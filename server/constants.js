@@ -18,6 +18,9 @@ const URLS = {
     GET_USERS: '/get-users',
     UPLOAD_USER: '/upload-user',
     GET_USER_BY_TOKEN: '/get-user-by-token',
+    ADD_POST: '/add-post',
+    GET_ALL_POSTS: '/get-all-posts',
+    DELETE_POST: '/delete-post',
 };
 
 module.exports.URLS = URLS;

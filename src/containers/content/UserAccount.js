@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom'
+import { withRouter, Redirect } from 'react-router-dom'
 
 import { uploadUser } from "../../actions";
 
@@ -11,7 +11,7 @@ class UserAccount extends Component {
     componentWillMount() {
         let _id = this.props.match.params.userId;
 
-        if (!this.props.user._id) {
+        if (!this.props.displayedUser._id) {
             this.props.uploadUser({_id});
         }
 
@@ -22,15 +22,19 @@ class UserAccount extends Component {
     }
 
     render() {
+        if (this.props.user._id === this.props.displayedUser._id) {
+            return <Redirect to='/account'/>
+        }
         return (
-            <Account user={this.props.user} edit={false}/>
+            <Account user={this.props.displayedUser} edit={false}/>
         )
     }
 }
 
 function mapStateToProps(state) {
     return {
-        user: state.data.displayedUser
+        displayedUser: state.data.displayedUser,
+        user: state.user,
     }
 }
 function mapDispatchToProps(dispatch) {

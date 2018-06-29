@@ -1,0 +1,47 @@
+.post-generator
+  border: 1px solid #e6e6e6
+  margin-top: 20px
+  textarea
+    resize: none
+    border: none
+    font-size: 14px
+    &:focus
+      box-shadow: none
+.post-generator-header
+  border-bottom: 1px solid #e6e6e6
+  padding: 10px 0
+.post-generator-header-photo
+  margin-right: 10px
+.post-generator-image-gallery
+  height: 130px
+  width: 100%
+  overflow-x: scroll
+  overflow-y: hidden
+  white-space: nowrap
+  padding: 5px 0
+  border-bottom: 1px solid #e6e6e6
+  .gallery-item
+    position: relative
+    display: inline-block
+    height: 110px
+    width: 110px
+    overflow: hidden
+    background-color: #e6e6e6
+    margin: 5px 10px 5px 0
+    img
+      width: 100%
+.post-generator-image-input
+  padding: 10px 0
+.post-generator-publish
+  padding: 10px 0
+  button
+    width: 100%
+.remove-gallery-item
+  position: absolute
+  right: 5px
+  top: 5px
+  color: rgba(255, 255, 255, 0.7)
+  cursor: pointer
+  transition: all 0.1s ease-in-out
+  &:hover
+    color: rgba(255, 255, 255, 1)

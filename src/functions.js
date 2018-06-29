@@ -19,16 +19,20 @@ export function validateLogInFormInputs(form) {
         !(email.isValid === 'waiting' || !email.isValid)
     )
 }
-export function errorHandler(dispatch, message) {
+export function errorHandler(dispatch, message, finish = true) {
     setTimeout(() => {
-        dispatch({type: ACTION_TYPES.FINISH_LOADING});
+        if (finish) {
+            dispatch({type: ACTION_TYPES.FINISH_LOADING});
+        }
 
-        dispatch({
-            type: ACTION_TYPES.SHOW_NOTIFICATION,
-            style: 'danger',
-            message,
-            isTemporary: true,
-        });
+        if (message) {
+            dispatch({
+                type: ACTION_TYPES.SHOW_NOTIFICATION,
+                style: 'danger',
+                message,
+                isTemporary: true,
+            });
+        }
     }, preDelay);
 }
 

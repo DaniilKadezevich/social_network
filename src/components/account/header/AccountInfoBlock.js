@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import AccountActionsBlock from './AccountActionsBlock'
+import { AccountActionsBlock } from '../index'
 
 export default class AccountInfoBlock extends Component {
     render() {

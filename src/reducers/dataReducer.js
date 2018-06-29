@@ -27,7 +27,13 @@ export default function (state = initialState, action) {
             return {...state, displayedUser };
 
         case 'LOAD_POSTS':
-            return {...state, posts: action.posts};
+            return {...state, posts: [...action.posts, ...state.posts] };
+        case 'DELETE_POST':
+            let postsCopy = [...state.posts].filter(post => {
+                return post._id !== action._id;
+            });
+
+            return {...state, posts: [...postsCopy] };
         case 'REMOVE_POSTS':
             let { posts } = initialState;
             return {...state, posts };

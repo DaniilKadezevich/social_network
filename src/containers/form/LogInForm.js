@@ -6,7 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass'
 
-import { REGEXPS } from "../../constants";
+import { ACTION_TYPES, REGEXPS } from "../../constants";
 import { validateLogInFormInputs } from "../../functions";
 
 import { EmailInput, PasswordInput } from './index'
@@ -76,9 +76,9 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        clearForm: () => dispatch({type: 'CLEAR_FORM'}),
-        validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
-        validatePassword: status => dispatch({type: 'VALIDATE_PASSWORD', status}),
+        clearForm: () => dispatch({type: ACTION_TYPES.CLEAR_FORM}),
+        validateEmail: status => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status}),
+        validatePassword: status => dispatch({type: ACTION_TYPES.VALIDATE_PASSWORD, status}),
         logIn: obj => dispatch(logIn(obj)),
     }
 }

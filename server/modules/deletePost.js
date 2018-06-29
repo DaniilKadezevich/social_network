@@ -1,24 +1,24 @@
-const {checkToken} = require('./jwt');
 const connectToTheDB = require('./connectToTheDB');
+const {checkToken} = require('./jwt');
 const { ObjectId } = require('mongodb');
-const getUsers = require('./getUsers');
 
-module.exports = function(token, res) {
+
+module.exports = function (token, post_id, res) {
     checkToken(token, (error, data) => {
         if (error) {
             res.send({
                 message: 'Invalid token',
-                isError: false,
+                isError: true,
             });
 
             return;
         }
 
         connectToTheDB(function (dbo, db) {
-            dbo.collection('users').findOne({_id: ObjectId(data._id)}, function (err, result) {
+            dbo.collection('posts').deleteOne({ _id: ObjectId(post_id) }, (err, result) => {
                 if (err) {
                     res.send({
-                        message: 'error',
+                        message: 'Error',
                         isError: true,
                     });
 
@@ -27,12 +27,13 @@ module.exports = function(token, res) {
                     return;
                 }
 
-                let ids = result.friends.map(_id => {
-                    return ObjectId(_id);
+                res.send({
+                    _id: post_id,
+                    isError: false,
                 });
-
-                getUsers(dbo, db, { _id: {$in: ids}}, res);
+                db.close();
             });
+
         });
     });
 };

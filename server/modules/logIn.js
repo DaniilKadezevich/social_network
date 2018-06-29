@@ -6,7 +6,7 @@ module.exports = function (userInfo, res) {
     connectToTheDB(function(dbo, db) {
         let query = {email: userInfo.email};
 
-        dbo.collection('users').findOne(query, (err, result) => {
+        dbo.collection('users').findOne(query, { fields: {friends: 0} }, (err, result) => {
             if (!result) {
                 let response = {
                     message: 'There is no user with this email',

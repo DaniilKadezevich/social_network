@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 
 import './Account.sass'
 
-
-import AccountHeader from './header/AccountHeader'
-import AccountContent from './content/AccountContent'
+import { AccountHeader, AccountContent } from './index';
 
 
 export default class Account extends Component {

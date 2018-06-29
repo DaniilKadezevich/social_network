@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const multer = require('multer');
-const upload = multer({dest: '../images/'});
+const upload = multer({limits: { fieldSize: 25 * 1024 * 1024 }});
 
 const { URLS } = require('./constants');
 
@@ -15,6 +15,9 @@ const getFriends = require('./modules/getFriends');
 const getUserByToken = require('./modules/getUserByToken');
 const logIn = require('./modules/logIn');
 const addFriend = require('./modules/addFriend');
+const addPost = require('./modules/addPost');
+const deletePost = require('./modules/deletePost');
+const getAllPosts = require('./modules/getAllPosts');
 const removeFriend = require('./modules/removeFriend');
 
 app.use(bodyParser.json());
@@ -45,7 +48,23 @@ app.post(URLS.EDIT_USER, verifyToken, upload.single('photo'), (req, res) => {
 
     editUser(token, req.body, res);
 });
+// Posts
+app.post(URLS.ADD_POST, verifyToken, upload.any(), (req, res) => {
+    let token = req.token;
+    let postInfo = req.body;
 
+    addPost(token, postInfo, res)
+});
+app.get(URLS.GET_ALL_POSTS, verifyToken, (req, res) => {
+    let token = req.token;
+
+    getAllPosts(token, res)
+});
+app.post(URLS.DELETE_POST, verifyToken, (req, res) => {
+    let token = req.token;
+
+   deletePost(token, req.body._id, res);
+});
 // Friends actions
 app.post(URLS.ADD_FRIEND, verifyToken, (req, res) => {
     let token = req.token;

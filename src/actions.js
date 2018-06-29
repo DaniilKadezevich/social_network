@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 import { REGEXPS, ACTION_TYPES, URLS } from "./constants";
 import { errorHandler, successHandler } from "./functions";
+import moment from "moment/moment";
 
 export function signUp(obj) {
     return dispatch => {
@@ -114,10 +115,10 @@ export function getUserByToken() {
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
-                    errorHandler(dispatch, data.message);
-
+                    errorHandler(dispatch);
                     return;
                 }
+
                 dispatch({type: ACTION_TYPES.AUTHORIZE, user: data.user});
 
                 successHandler(dispatch);
@@ -148,12 +149,7 @@ export function getUsers(regexp = /.*/) {
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
-                    dispatch({
-                        type: ACTION_TYPES.SHOW_NOTIFICATION,
-                        style: 'success',
-                        message: data.message,
-                        isTemporary: true,
-                    });
+                    errorHandler(dispatch, data.message, false);
 
                     return;
                 }
@@ -182,12 +178,7 @@ export function getFriends() {
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
-                    dispatch({
-                        type: ACTION_TYPES.SHOW_NOTIFICATION,
-                        style: 'success',
-                        message: data.message,
-                        isTemporary: true,
-                    });
+                    errorHandler(dispatch, data.message, false);
 
                     return;
                 }
@@ -218,12 +209,7 @@ export function addFriend(obj) {
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
-                    dispatch({
-                        type: ACTION_TYPES.SHOW_NOTIFICATION,
-                        style: 'success',
-                        message: data.message,
-                        isTemporary: true,
-                    });
+                    errorHandler(dispatch, data.message, false);
 
                     return;
                 }
@@ -254,12 +240,7 @@ export function removeFriend(obj) {
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
-                    dispatch({
-                        type: ACTION_TYPES.SHOW_NOTIFICATION,
-                        style: 'success',
-                        message: data.message,
-                        isTemporary: true,
-                    });
+                    errorHandler(dispatch, data.message, false);
 
                     return;
                 }
@@ -303,6 +284,108 @@ export function uploadUser(obj) {
             });
     }
 }
+export function addPost(text, images) {
+    let formData = new FormData();
+
+    formData.append('text', text);
+    formData.append('date', moment().format('MMMM Do YYYY, h:mm a'));
+
+    if ( images.length) {
+        images.forEach((img) => {
+            formData.append('images', img);
+        });
+    } else {
+        formData.append('images', '');
+    }
+
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    return dispatch => {
+        return fetch(URLS.ADD_POST, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+
+                    return;
+                }
+
+                dispatch({type: ACTION_TYPES.CLEAR_POST_FIELDS});
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: [data.post]});
+            });
+    }
+}
+export function getAllPosts() {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    return dispatch => {
+        return fetch(URLS.GET_ALL_POSTS, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+
+                    return;
+                }
+
+                dispatch({type: ACTION_TYPES.REMOVE_POSTS});
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts});
+            });
+    }
+}
+export function deletePost(obj) {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    return dispatch => {
+        return fetch(URLS.DELETE_POST, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(obj),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+
+                    return;
+                }
+                dispatch({type: ACTION_TYPES.DELETE_POST, _id: data._id});
+            });
+    }
+}
+
 
 
 export function fillFormFields(user) {
