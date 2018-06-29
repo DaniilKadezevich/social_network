@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { Avatar } from './index';
-import PostDeleteBtn from '../../containers/content/PostDeleteBtn';
+import PostDeleteBtn from '../../containers/content/btns/PostDeleteBtn';
 import { Link } from 'react-router-dom';
 
 export default class PostHeader extends Component {

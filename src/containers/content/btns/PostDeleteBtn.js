@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './PostDeleteBtn.sass'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { deletePost } from "../../actions";
+import { deletePost } from "../../../actions";
 
 
 class PostDeleteBtn extends Component {

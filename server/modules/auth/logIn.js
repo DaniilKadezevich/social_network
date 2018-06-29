@@ -1,6 +1,6 @@
-const connectToTheDB = require('./connectToTheDB');
+const connectToTheDB = require('../connectToTheDB');
 const bcrypt = require('bcrypt');
-const {generateToken} = require('./jwt');
+const {generateToken} = require('../jwt');
 
 module.exports = function (userInfo, res) {
     connectToTheDB(function(dbo, db) {

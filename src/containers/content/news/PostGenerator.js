@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { connect } from 'react-redux';
-import { ACTION_TYPES } from "../../constants";
-import { addPost, getAllPosts } from "../../actions";
+import { ACTION_TYPES } from "../../../constants";
+import { addPost, getAllPosts } from "../../../actions";
 import { Link } from 'react-router-dom';
 
-import Avatar from '../../components/Avatar';
+import Avatar from '../../../components/Avatar';
 import './PostGenerator.sass'
 
 class PostGenerator extends Component {

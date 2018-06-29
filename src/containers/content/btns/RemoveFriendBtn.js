@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { removeFriend } from "../../actions";
+import { removeFriend } from "../../../actions";
 
 class RemoveFriendBtn extends Component {
     render() {

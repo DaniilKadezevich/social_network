@@ -1,8 +1,8 @@
-const generatePassword = require('./generatePassword');
-const connectToTheDB = require('./connectToTheDB');
-const formValidation = require('./formValidation');
+const generatePassword = require('../generatePassword');
+const connectToTheDB = require('../connectToTheDB');
+const formValidation = require('../formValidation');
 const bcrypt = require('bcrypt');
-const {generateToken} = require('./jwt');
+const {generateToken} = require('../jwt');
 
 module.exports = function (userObj, res) {
     userObj.email = userObj.email.toLowerCase();

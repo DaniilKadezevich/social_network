@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom'
 
-import { uploadUser } from "../../actions";
+import { uploadUser } from "../../../actions";
 
-import { Account } from '../index';
+import { Account } from '../../index';
 
 
 class UserAccount extends Component {

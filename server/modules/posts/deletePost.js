@@ -1,5 +1,5 @@
-const connectToTheDB = require('./connectToTheDB');
-const {checkToken} = require('./jwt');
+const connectToTheDB = require('../connectToTheDB');
+const {checkToken} = require('../jwt');
 const { ObjectId } = require('mongodb');
 
 

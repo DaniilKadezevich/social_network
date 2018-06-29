@@ -1,4 +1,4 @@
-const connectToTheDB = require('./connectToTheDB');
+const connectToTheDB = require('../connectToTheDB');
 const { ObjectId } = require('mongodb');
 const moment = require('moment');
 

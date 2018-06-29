@@ -1,4 +1,4 @@
-const {checkToken} = require('./jwt');
+const {checkToken} = require('../jwt');
 const getPosts = require('./getPosts');
 
 module.exports = function (token, res) {

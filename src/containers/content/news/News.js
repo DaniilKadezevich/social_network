@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 
 import './News.sass'
 
-import Post from '../../components/posts/Post';
+import Post from '../../../components/posts/Post';
 import PostGenerator from './PostGenerator'
 
 
-import { getAllPosts } from "../../actions";
-import { ACTION_TYPES } from "../../constants";
+import { getAllPosts } from "../../../actions";
+import { ACTION_TYPES } from "../../../constants";
 
 
 

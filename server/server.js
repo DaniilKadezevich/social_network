@@ -7,18 +7,18 @@ const upload = multer({limits: { fieldSize: 25 * 1024 * 1024 }});
 const { URLS } = require('./constants');
 
 const verifyToken = require('./modules/middlewares/jwtMiddleware');
-const signUp = require('./modules/signUp');
+const signUp = require('./modules/auth/signUp');
 const editUser = require('./modules/editUser');
-const uploadUser = require('./modules/uploadUser');
+const uploadUser = require('./modules/friends/uploadUser');
 const getAllUsers = require('./modules/getAllUsers');
-const getFriends = require('./modules/getFriends');
-const getUserByToken = require('./modules/getUserByToken');
-const logIn = require('./modules/logIn');
-const addFriend = require('./modules/addFriend');
-const addPost = require('./modules/addPost');
-const deletePost = require('./modules/deletePost');
-const getAllPosts = require('./modules/getAllPosts');
-const removeFriend = require('./modules/removeFriend');
+const getFriends = require('./modules/friends/getFriends');
+const getUserByToken = require('./modules/auth/getUserByToken');
+const logIn = require('./modules/auth/logIn');
+const addFriend = require('./modules/friends/addFriend');
+const addPost = require('./modules/posts/addPost');
+const deletePost = require('./modules/posts/deletePost');
+const getAllPosts = require('./modules/posts/getAllPosts');
+const removeFriend = require('./modules/friends/removeFriend');
 
 app.use(bodyParser.json());
 

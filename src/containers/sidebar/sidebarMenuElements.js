@@ -16,7 +16,7 @@ export const sidebarMenu = [
         component: FontAwesomeIcon,
         props: {
             icon: 'user-friends',
-            className: 'mr-1'
+            className: 'mr-1 sidebar-icon'
         }
     },
     {
@@ -25,7 +25,7 @@ export const sidebarMenu = [
         component: FontAwesomeIcon,
         props: {
             icon: 'search',
-            className: 'mr-1'
+            className: 'mr-1 sidebar-icon'
         }
 
     },
@@ -35,7 +35,7 @@ export const sidebarMenu = [
         component: FontAwesomeIcon,
         props: {
             icon: 'newspaper',
-            className: 'mr-1'
+            className: 'mr-1 sidebar-icon'
         }
     },
     {
@@ -44,7 +44,7 @@ export const sidebarMenu = [
         component: FontAwesomeIcon,
         props: {
             icon: 'cogs',
-            className: 'mr-1'
+            className: 'mr-1 sidebar-icon'
         }
     },
 ];

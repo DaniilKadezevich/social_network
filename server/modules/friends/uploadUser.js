@@ -1,6 +1,6 @@
-const {checkToken} = require('./jwt');
+const {checkToken} = require('../jwt');
 const { ObjectId } = require('mongodb');
-const connectToTheDB = require('./connectToTheDB');
+const connectToTheDB = require('../connectToTheDB');
 
 module.exports = function (token, _id, res) {
     checkToken(token, (err, data) => {
