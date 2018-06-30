@@ -21,6 +21,7 @@ const URLS = {
     ADD_POST: '/add-post',
     GET_ALL_POSTS: '/get-all-posts',
     DELETE_POST: '/delete-post',
+    CHANGE_PASSWORD: '/change-password',
 };
 
 module.exports.URLS = URLS;

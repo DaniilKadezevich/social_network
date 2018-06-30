@@ -58,8 +58,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: (value) => dispatch({type: ACTION_TYPES.ADD_EMAIL, value}),
-        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status})
+        addValue: value => dispatch({type: ACTION_TYPES.ADD_EMAIL, value}),
+        validate: status => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EmailInput)

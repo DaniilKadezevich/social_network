@@ -1,14 +1,11 @@
 const {checkToken} = require('../jwt');
 const getPosts = require('./getPosts');
+const { sendErrorMessage } = require('../functions');
 
 module.exports = function (token, res) {
     checkToken(token, (error, data) => {
         if (error) {
-            res.send({
-                message: 'Invalid token',
-                isError: true,
-            });
-
+            sendErrorMessage('Invalid token', res);
             return;
         }
         let query = {};

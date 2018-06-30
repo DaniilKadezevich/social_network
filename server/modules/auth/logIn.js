@@ -1,6 +1,7 @@
 const connectToTheDB = require('../connectToTheDB');
 const bcrypt = require('bcrypt');
-const {generateToken} = require('../jwt');
+const { generateToken } = require('../jwt');
+const { sendErrorMessage } = require('../functions');
 
 module.exports = function (userInfo, res) {
     connectToTheDB(function(dbo, db) {
@@ -8,26 +9,15 @@ module.exports = function (userInfo, res) {
 
         dbo.collection('users').findOne(query, { fields: {friends: 0} }, (err, result) => {
             if (!result) {
-                let response = {
-                    message: 'There is no user with this email',
-                    isError: true,
-                };
-                res.send(response);
+                sendErrorMessage('There is no user with this email.', res);
                 db.close();
-
                 return;
             }
 
             bcrypt.compare(userInfo.password, result.password, function(err, valid) {
                 if (!valid) {
-                    let response = {
-                        message: 'Invalid password',
-                        isError: true,
-                    };
-
-                    res.send(response);
+                    sendErrorMessage('Invalid password', res);
                     db.close();
-
                     return;
                 }
 

@@ -2,19 +2,14 @@ const generatePassword = require('../generatePassword');
 const connectToTheDB = require('../connectToTheDB');
 const formValidation = require('../formValidation');
 const bcrypt = require('bcrypt');
-const {generateToken} = require('../jwt');
+const { generateToken } = require('../jwt');
+const { sendErrorMessage } = require('../functions');
 
 module.exports = function (userObj, res) {
     userObj.email = userObj.email.toLowerCase();
 
     if (!formValidation(userObj)) {
-
-        let response = {
-            message: 'Invalid data',
-            isError: true,
-        };
-
-        res.send(response);
+        sendErrorMessage('Invalid data', res);
         return;
     }
 
@@ -25,20 +20,18 @@ module.exports = function (userObj, res) {
 
         dbo.collection("users").findOne(query, function (err, result) {
             if (result) {
-                let response = {
-                    message: 'User with this email is already registered',
-                    isError: true
-                };
-
-                res.send(response);
+                sendErrorMessage('User with this email is already registered', res);
                 db.close();
-
                 return;
             }
 
             bcrypt.hash(password, 10, function(err, hash) {
                 dbo.collection("users").insertOne({...userObj, password: hash, friends: []}, function(err, result) {
-                    if (err) throw err;
+                    if (err) {
+                        sendErrorMessage('Can\'t add user', res);
+                        return;
+                    }
+
                     let _id = result.ops[0]._id;
                     let token = generateToken({ _id });
 

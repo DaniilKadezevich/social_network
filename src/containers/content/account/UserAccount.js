@@ -11,6 +11,12 @@ class UserAccount extends Component {
     componentWillMount() {
         let _id = this.props.match.params.userId;
 
+        if (this.props.user._id === _id) {
+            this.props.history.push("/account");
+
+            return;
+        }
+
         if (!this.props.displayedUser._id) {
             this.props.uploadUser({_id});
         }
@@ -22,9 +28,6 @@ class UserAccount extends Component {
     }
 
     render() {
-        if (this.props.user._id === this.props.displayedUser._id) {
-            return <Redirect to='/account'/>
-        }
         return (
             <Account user={this.props.displayedUser} edit={false}/>
         )

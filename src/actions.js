@@ -386,7 +386,50 @@ export function deletePost(obj) {
     }
 }
 
+export function changePassword(oldP, newP, confirmP) {
+    let token = localStorage.getItem('token');
 
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    let formData = new FormData();
+    formData.append('old', oldP);
+    formData.append('new', newP);
+    formData.append('confirm', confirmP);
+
+    return dispatch => {
+        return fetch(URLS.CHANGE_PASSWORD, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    dispatch({
+                        type: ACTION_TYPES.SHOW_NOTIFICATION,
+                        style: 'danger',
+                        message: data.message,
+                        isTemporary: true,
+                    });
+
+                    return;
+                }
+                dispatch({
+                    type: ACTION_TYPES.SHOW_NOTIFICATION,
+                    style: 'success',
+                    message: data.message,
+                    isTemporary: true,
+                });
+                dispatch({type: ACTION_TYPES.CLEAR_PASSWORD_INPUTS});
+            });
+    }
+}
 
 export function fillFormFields(user) {
     let { name, surname, middleName, email, gender, photo, age } = user;

@@ -38,6 +38,10 @@ export const ACTION_TYPES = {
     LOAD_POSTS: 'LOAD_POSTS',
     REMOVE_POSTS: 'REMOVE_POSTS',
     DELETE_POST: 'DELETE_POST',
+    ADD_OLD_PASSWORD: 'ADD_OLD_PASSWORD',
+    ADD_NEW_PASSWORD: 'ADD_NEW_PASSWORD',
+    ADD_CONFIRM_PASSWORD: 'ADD_CONFIRM_PASSWORD',
+    CLEAR_PASSWORD_INPUTS: 'CLEAR_PASSWORD_INPUTS',
 };
 
 export const URLS = {
@@ -53,6 +57,7 @@ export const URLS = {
     ADD_POST: '/add-post',
     GET_ALL_POSTS: '/get-all-posts',
     DELETE_POST: '/delete-post',
+    CHANGE_PASSWORD: '/change-password',
 };
 
 export const preDelay = 1000;

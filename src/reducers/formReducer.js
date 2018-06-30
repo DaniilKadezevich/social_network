@@ -93,6 +93,6 @@ export default function formReducer(state=initialState, action) {
         case 'CLEAR_FORM':
             return initialState;
         default:
-            return state
+            return state;
     }
 }

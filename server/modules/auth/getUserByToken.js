@@ -1,15 +1,12 @@
-const {checkToken} = require('../jwt');
+const { checkToken } = require('../jwt');
 const getUser = require('../getUser');
 const { ObjectId } = require('mongodb');
+const { sendErrorMessage } = require('../functions');
 
 module.exports = function (token, res) {
     checkToken(token, (error, data) => {
         if (error) {
-            res.send({
-                message: 'Invalid token',
-                isError: false,
-            });
-
+            sendErrorMessage('Invalid token', res);
             return;
         }
 

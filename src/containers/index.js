@@ -9,7 +9,7 @@ import UserAccount from './content/account/UserAccount';
 import FriendsList from './content/FriendsList';
 import SearchPeople from './content/SearchPeople';
 import News from './content/news/News';
-import Settings from './content/Settings';
+import Settings from './content/settings/Settings';
 import SidebarMenu from './sidebar/SidebarMenu';
 import EditUser from './content/EditUser';
 

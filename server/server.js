@@ -19,6 +19,7 @@ const addPost = require('./modules/posts/addPost');
 const deletePost = require('./modules/posts/deletePost');
 const getAllPosts = require('./modules/posts/getAllPosts');
 const removeFriend = require('./modules/friends/removeFriend');
+const changePassword = require('./modules/changePassword');
 
 app.use(bodyParser.json());
 
@@ -100,7 +101,12 @@ app.post(URLS.UPLOAD_USER, verifyToken, (req, res) => {
 app.get(URLS.GET_USER_BY_TOKEN, verifyToken, (req, res) => {
     getUserByToken(req.token, res);
 });
+// Password
+app.post(URLS.CHANGE_PASSWORD, verifyToken, upload.any(), (req, res) => {
+    let token = req.token;
 
+    changePassword(token, req.body, res);
+});
 // Server
 app.listen(5000, function () {
 
