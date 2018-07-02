@@ -1,5 +1,5 @@
 
 export const settingsSidebarMenu = [
-    'Password',
-    'Language'
+    'password',
+    'language'
 ];

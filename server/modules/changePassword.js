@@ -3,6 +3,7 @@ const {checkToken} = require('./jwt');
 const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const { sendErrorMessage } = require('./functions');
+const i18n = require("i18n");
 
 module.exports = function (token, passwords, res) {
     checkToken(token, (error, data) => {
@@ -21,25 +22,25 @@ module.exports = function (token, passwords, res) {
 
                 bcrypt.compare(passwords.old, result.password, function(err, valid) {
                     if (!valid) {
-                        sendErrorMessage('Your old password was entered incorrectly.', res);
+                        sendErrorMessage(i18n.__('Your old password was entered incorrectly.'), res);
                         db.close();
                         return;
                     }
 
                     if (passwords.new === passwords.old) {
-                        sendErrorMessage('Create a new password you haven\'t used before.', res);
+                        sendErrorMessage(i18n.__('Create a new password you haven\'t used before.'), res);
                         db.close();
                         return;
                     }
 
                     if (passwords.new !== passwords.confirm) {
-                        sendErrorMessage('The two password fields didn\'t match.', res);
+                        sendErrorMessage(i18n.__('The two password fields didn\'t match.'), res);
                         db.close();
                         return;
                     }
 
                     if (passwords.new.length < 10) {
-                        sendErrorMessage('Create a password at least 10 characters long.', res);
+                        sendErrorMessage(i18n.__('Create a password at least 10 characters long.'), res);
                         db.close();
                         return;
                     }

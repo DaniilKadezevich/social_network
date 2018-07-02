@@ -4,12 +4,13 @@ const formValidation = require('../formValidation');
 const bcrypt = require('bcrypt');
 const { generateToken } = require('../jwt');
 const { sendErrorMessage } = require('../functions');
+const i18n = require("i18n");
 
 module.exports = function (userObj, res) {
     userObj.email = userObj.email.toLowerCase();
 
     if (!formValidation(userObj)) {
-        sendErrorMessage('Invalid data', res);
+        sendErrorMessage(i18n.__('Invalid data'), res);
         return;
     }
 
@@ -20,7 +21,7 @@ module.exports = function (userObj, res) {
 
         dbo.collection("users").findOne(query, function (err, result) {
             if (result) {
-                sendErrorMessage('User with this email is already registered', res);
+                sendErrorMessage(i18n.__('User with this email is already registered'), res);
                 db.close();
                 return;
             }
@@ -28,7 +29,7 @@ module.exports = function (userObj, res) {
             bcrypt.hash(password, 10, function(err, hash) {
                 dbo.collection("users").insertOne({...userObj, password: hash, friends: []}, function(err, result) {
                     if (err) {
-                        sendErrorMessage('Can\'t add user', res);
+                        sendErrorMessage(i18n.__('Can\'t add user'), res);
                         return;
                     }
 
@@ -38,6 +39,7 @@ module.exports = function (userObj, res) {
                     let user = {...userObj, password, _id};
 
                     let response = {
+                        message: `${i18n.__('You have successfully sign in. Your password')} ${password}`,
                         user,
                         isError: false,
                         token,

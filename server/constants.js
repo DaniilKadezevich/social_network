@@ -22,6 +22,7 @@ const URLS = {
     GET_ALL_POSTS: '/get-all-posts',
     DELETE_POST: '/delete-post',
     CHANGE_PASSWORD: '/change-password',
+    CHANGE_LOCALE: '/change-locale',
 };
 
 module.exports.URLS = URLS;

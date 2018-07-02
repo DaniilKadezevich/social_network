@@ -4,6 +4,7 @@ import { ACTION_TYPES } from "../../../constants";
 import './Password.sass';
 import {changePassword} from "../../../actions";
 import { Link } from 'react-router-dom';
+import { I18n, Translate } from 'react-redux-i18n';
 
 import { Avatar } from '../../../components/index';
 
@@ -14,6 +15,9 @@ class Password extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
+    }
+    componentWillUnmount() {
+        this.props.clearInputs();
     }
     handleClick() {
         this.props.changePassword(this.props.oldPassword, this.props.newPassword, this.props.confirmPassword)
@@ -48,7 +52,7 @@ class Password extends Component {
                             <input
                                 type="password"
                                 className='form-control password-input'
-                                placeholder='Old password'
+                                placeholder={I18n.t('application.password.oldP')}
                                 name='old'
                                 onChange={this.handleChange}
                                 value={this.props.oldPassword}
@@ -58,7 +62,7 @@ class Password extends Component {
                             <input
                                 type="password"
                                 className='form-control password-input'
-                                placeholder='New password'
+                                placeholder={I18n.t('application.password.newP')}
                                 name='new'
                                 onChange={this.handleChange}
                                 value={this.props.newPassword}
@@ -68,7 +72,7 @@ class Password extends Component {
                             <input
                                 type="password"
                                 className='form-control password-input'
-                                placeholder='Confirm new password'
+                                placeholder={I18n.t('application.password.confirmP')}
                                 name='confirm'
                                 onChange={this.handleChange}
                                 value={this.props.confirmPassword}
@@ -85,7 +89,7 @@ class Password extends Component {
                                     this.props.oldPassword)
                                 }
                             >
-                                Change Password
+                                <Translate value='application.password.changeP'/>
                             </button>
                         </div>
                     </div>

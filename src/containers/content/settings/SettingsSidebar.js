@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { settingsSidebarMenu } from "./SttingsSidebarElements";
 import { Link } from 'react-router-dom';
+import { Translate } from 'react-redux-i18n';
 
 
 export default class SettingsSidebar extends Component {
@@ -10,9 +11,9 @@ export default class SettingsSidebar extends Component {
                 <ul className="settings-menu">
                     {settingsSidebarMenu.map((title, index) => {
                        return (
-                           <Link key={index} to={`/settings/${title.toLowerCase()}`}>
+                           <Link key={index} to={`/settings/${title}`}>
                                <li className="settings-menu-el">
-                                   {title}
+                                   <Translate value={`application.settingsSidebar.${[title]}`}/>
                                </li>
                            </Link>
                            )

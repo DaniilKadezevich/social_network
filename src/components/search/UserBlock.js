@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Translate } from 'react-redux-i18n';
 
 import './UserBlock.sass'
 
@@ -19,7 +20,7 @@ export default class UserBlock extends Component {
                     {this.props.user.age}
                 </div>
                 <div className="col-4 search-user-info">
-                    {this.props.user.gender}
+                    <Translate value={`application.${[this.props.user.gender]}`}/>
                 </div>
             </div>
         )

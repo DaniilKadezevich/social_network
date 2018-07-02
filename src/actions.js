@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+import { I18n } from 'react-redux-i18n';
 import { REGEXPS, ACTION_TYPES, URLS } from "./constants";
 import { errorHandler, successHandler } from "./functions";
 import moment from "moment/moment";
@@ -25,7 +26,7 @@ export function signUp(obj) {
 
                 dispatch({type: ACTION_TYPES.CLEAR_FORM});
 
-                successHandler(dispatch, `You are successfully registered. Your password: ${data.user.password}`, false);
+                successHandler(dispatch, data.message, false);
             })
     }
 }
@@ -52,7 +53,7 @@ export function logIn(obj) {
 
                 dispatch({type: ACTION_TYPES.CLEAR_FORM});
 
-                successHandler(dispatch, `Welcome back, ${data.user.name}`);
+                successHandler(dispatch, `${data.message}, ${data.user.name}`);
             });
     }
 }
@@ -89,7 +90,7 @@ export function editUser(obj) {
 
                 dispatch({type: ACTION_TYPES.CLEAR_FORM});
 
-                successHandler(dispatch, 'You have successfully edited your profile');
+                successHandler(dispatch, data.message);
 
             });
     }
@@ -288,7 +289,7 @@ export function addPost(text, images) {
     let formData = new FormData();
 
     formData.append('text', text);
-    formData.append('date', moment().format('MMMM Do YYYY, h:mm a'));
+    formData.append('date', moment());
 
     if ( images.length) {
         images.forEach((img) => {
@@ -431,6 +432,19 @@ export function changePassword(oldP, newP, confirmP) {
     }
 }
 
+export function changeLocale(locale) {
+    return dispatch => {
+        return fetch(URLS.CHANGE_LOCALE, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({locale}),
+        })
+    }
+}
+
+
 export function fillFormFields(user) {
     let { name, surname, middleName, email, gender, photo, age } = user;
 
@@ -451,12 +465,12 @@ export function setInvalidFields(form) {
     let { gender, name, surname, middleName, email, age, photo } = form;
 
     return dispatch => {
-        dispatch({type: ACTION_TYPES.VALIDATE_NAME, status: REGEXPS.name.test(name.value)});
-        dispatch({type: ACTION_TYPES.VALIDATE_SURNAME, status: REGEXPS.surname.test(surname.value)});
-        dispatch({type: ACTION_TYPES.VALIDATE_MIDDLE_NAME, status: REGEXPS.middleName.test(middleName.value) || !middleName.value});
-        dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status: REGEXPS.email.test(email.value)});
-        dispatch({type: ACTION_TYPES.VALIDATE_AGE, status: REGEXPS.age.test(age.value)});
-        dispatch({type: ACTION_TYPES.VALIDATE_GENDER, status: gender.value});
-        dispatch({type: ACTION_TYPES.VALIDATE_PHOTO, status: photo.file, error: 'No photo selected'});
+        dispatch({type: ACTION_TYPES.VALIDATE_NAME, status: REGEXPS.name.test(name.value), error: I18n.t('application.form.errors.required')});
+        dispatch({type: ACTION_TYPES.VALIDATE_SURNAME, status: REGEXPS.surname.test(surname.value), error: I18n.t('application.form.errors.required')});
+        dispatch({type: ACTION_TYPES.VALIDATE_MIDDLE_NAME, status: REGEXPS.middleName.test(middleName.value) || !middleName.value, error: I18n.t('application.form.errors.middleNameErr')});
+        dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status: REGEXPS.email.test(email.value), error: I18n.t('application.form.errors.emailError')});
+        dispatch({type: ACTION_TYPES.VALIDATE_AGE, status: REGEXPS.age.test(age.value), error: I18n.t('application.form.errors.ageError')});
+        dispatch({type: ACTION_TYPES.VALIDATE_GENDER, status: gender.value, error: I18n.t('application.form.errors.required')});
+        dispatch({type: ACTION_TYPES.VALIDATE_PHOTO, status: photo.file, error: I18n.t('application.form.errors.required')});
     }
 }

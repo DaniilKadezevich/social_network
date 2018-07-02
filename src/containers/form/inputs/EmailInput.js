@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { I18n } from 'react-redux-i18n';
 import { REGEXPS, ACTION_TYPES } from '../../../constants'
 
 class EmailInput extends Component {
@@ -18,7 +18,7 @@ class EmailInput extends Component {
         this.props.addValue(value);
     }
     validation() {
-        this.props.validate(this.regExp.test(this.props.email.value))
+        this.props.validate(this.regExp.test(this.props.email.value), I18n.t('application.form.errors.emailError'))
     }
     setWaitingStatus() {
         this.props.validate('waiting');
@@ -36,7 +36,7 @@ class EmailInput extends Component {
                 <input
                     type="email"
                     className={`form-control ${stateClass} ${this.props.size}`}
-                    placeholder="Email"
+                    placeholder={ I18n.t('application.form.email')}
                     onChange={this.handleChange}
                     onBlur={this.validation}
                     onFocus={this.setWaitingStatus}
@@ -59,7 +59,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addValue: value => dispatch({type: ACTION_TYPES.ADD_EMAIL, value}),
-        validate: status => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status})
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status, error})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(EmailInput)

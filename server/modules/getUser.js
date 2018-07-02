@@ -1,7 +1,7 @@
 const connectToTheDB = require('./connectToTheDB');
 const { sendErrorMessage } = require('./functions');
 
-module.exports = function (query, res) {
+module.exports = function (query, res, message) {
     connectToTheDB(function (dbo, db) {
 
         dbo.collection('users').findOne(query, { fields: {password: 0} }, (err, result) => {
@@ -12,6 +12,7 @@ module.exports = function (query, res) {
             }
 
             res.send({
+                message,
                 user: {...result},
                 isError: false,
             });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { logIn } from '../../actions';
+import { I18n, Translate } from 'react-redux-i18n';
 
 import { Redirect, Link } from 'react-router-dom';
 
@@ -35,8 +36,8 @@ class LogInForm extends Component {
     }
 
     setInvalidInputs(email, password) {
-        this.props.validatePassword(REGEXPS.password.test(password.value));
-        this.props.validateEmail(REGEXPS.email.test(email.value));
+        this.props.validatePassword(REGEXPS.password.test(password.value), I18n.t('application.form.errors.passwordErr'));
+        this.props.validateEmail(REGEXPS.email.test(email.value), I18n.t('application.form.errors.emailError'));
     }
 
     render() {
@@ -55,12 +56,14 @@ class LogInForm extends Component {
                             <div className="form-group">
                                 <PasswordInput />
                             </div>
-                            <button className="btn btn-primary" type="button" onClick={this.handleSubmit}>Log In</button>
+                            <button className="btn btn-primary" type="button" onClick={this.handleSubmit}>
+                                <Translate value='application.form.logIn'/>
+                            </button>
                         </form>
                     </div>
                     <div className='rerender mt-3 col-4 text-center'>
-                        Haven't got an account?
-                        <Link to='/registration' onClick={this.props.clearForm}> Sign up</Link>
+                        <Translate value='application.form.haveAnAcc'/>
+                        <Link to='/registration' onClick={this.props.clearForm}> <Translate value='application.form.signIn'/></Link>
                     </div>
                 </div>
             </div>
@@ -77,8 +80,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         clearForm: () => dispatch({type: ACTION_TYPES.CLEAR_FORM}),
-        validateEmail: status => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status}),
-        validatePassword: status => dispatch({type: ACTION_TYPES.VALIDATE_PASSWORD, status}),
+        validateEmail: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status, error}),
+        validatePassword: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_PASSWORD, status, error}),
         logIn: obj => dispatch(logIn(obj)),
     }
 }

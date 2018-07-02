@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { removeFriend } from "../../../actions";
+import { Translate } from 'react-redux-i18n';
 
 class RemoveFriendBtn extends Component {
     render() {
@@ -8,7 +9,7 @@ class RemoveFriendBtn extends Component {
             <button type='button' className='btn btn-outline-danger'
             onClick={this.props.removeFriend.bind(this, { _id: this.props._id })}
             >
-                Remove from friends
+                <Translate value='application.removeFriend'/>
             </button>
         )
     }

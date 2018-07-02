@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { signUp, editUser, setInvalidFields } from '../../actions'
+import { signUp, editUser, setInvalidFields } from '../../actions';
+import { Translate } from 'react-redux-i18n';
 
 import { Redirect, Link } from 'react-router-dom';
 
@@ -44,10 +45,10 @@ class RegistrationForm extends Component {
         }
         let btnText, size;
         if (this.props.edit) {
-            btnText = 'Edit';
+            btnText = <Translate value="application.form.edit"/>;
             size = 'col-5';
         } else {
-            btnText = 'Sign In';
+            btnText = <Translate value="application.form.signIn"/>;
             size = 'col-4';
         }
 
@@ -72,13 +73,9 @@ class RegistrationForm extends Component {
                             </div>
                             <div className="form-row">
                                 <div className="form-group col-6">
-                                    <label htmlFor="regAge">
-                                        Age:
-                                    </label>
                                     <AgeInput id="regAge"/>
                                 </div>
                                 <div className="form-group col-6">
-                                    <label htmlFor="regGender">Gender:</label>
                                     <GenderBlock name="regGender"/>
                                 </div>
                             </div>
@@ -92,8 +89,8 @@ class RegistrationForm extends Component {
                     </div>
                     {!this.props.edit && (
                         <div className='rerender mt-3 col-4 text-center'>
-                            Have an account?
-                            <Link to='/login' onClick={this.props.clearForm}> Log In </Link>
+                            <Translate value='application.form.haventAnAcc'/>
+                            <Link to='/login' onClick={this.props.clearForm}> <Translate value='application.form.logIn'/></Link>
                         </div>
                     )}
 

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { getUserByToken } from '../../actions'
+import {changeLocale, getUserByToken} from '../../actions'
 
 import { withRouter } from 'react-router-dom';
 
 import { Preloader } from '../../components/index'
+import store from "../../store";
 
 class LoadingComponent extends Component {
     componentWillMount() {
@@ -32,7 +33,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        getUserByToken: () => dispatch(getUserByToken())
+        getUserByToken: () => dispatch(getUserByToken()),
+        changeLocale: locale => dispatch(changeLocale(locale))
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoadingComponent));

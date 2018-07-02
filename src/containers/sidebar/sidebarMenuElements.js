@@ -3,7 +3,7 @@ import  Avatar  from '../../components/Avatar';
 
 export const sidebarMenu = [
     {
-        text:'My account',
+        text: 'myAccount',
         link: '/account',
         component: Avatar,
         props: {
@@ -11,7 +11,7 @@ export const sidebarMenu = [
         }
     },
     {
-        text:'Friends',
+        text: 'friends',
         link: '/friends',
         component: FontAwesomeIcon,
         props: {
@@ -20,7 +20,7 @@ export const sidebarMenu = [
         }
     },
     {
-        text:'Search people',
+        text: 'searchPeople',
         link: '/search-people',
         component: FontAwesomeIcon,
         props: {
@@ -30,7 +30,7 @@ export const sidebarMenu = [
 
     },
     {
-        text:'News feed',
+        text: 'newsFeed',
         link: '/news',
         component: FontAwesomeIcon,
         props: {
@@ -39,7 +39,7 @@ export const sidebarMenu = [
         }
     },
     {
-        text:'Settings',
+        text: 'settings',
         link: '/settings',
         component: FontAwesomeIcon,
         props: {

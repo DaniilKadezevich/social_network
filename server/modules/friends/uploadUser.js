@@ -13,7 +13,7 @@ module.exports = function (token, _id, res) {
         connectToTheDB(function (dbo, db) {
             dbo.collection('users').findOne({ _id: ObjectId(data._id)}, (err, result) => {
                 if (!result) {
-                    sendErrorMessage('No user with this id', res);
+                    sendErrorMessage('Can\'t find your profile', res);
                     db.close();
                     return;
                 }

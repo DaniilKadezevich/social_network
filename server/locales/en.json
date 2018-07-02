@@ -1,0 +1,12 @@
+{
+	"Invalid password": "Invalid password",
+	"There is no user with this email.": "There is no user with this email.",
+	"Welcome back": "Welcome back",
+	"User with this email is already registered": "User with this email is already registered",
+	"You have successfully sign in. Your password": "You have successfully sign in. Your password",
+	"You have successfully edited your profile": "You have successfully edited your profile",
+	"Your old password was entered incorrectly.": "Your old password was entered incorrectly.",
+	"Create a password at least 10 characters long.": "Create a password at least 10 characters long.",
+	"The two password fields didn't match.": "The two password fields didn't match.",
+	"Create a new password you haven't used before.": "Create a new password you haven't used before."
+}

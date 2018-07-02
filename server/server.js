@@ -3,7 +3,12 @@ const app = express();
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const upload = multer({limits: { fieldSize: 25 * 1024 * 1024 }});
-
+const i18n = require("i18n");
+i18n.configure({
+    locales:['ru', 'en', 'ukr'],
+    defaultLocale: 'ru',
+    directory: __dirname + '/locales',
+});
 const { URLS } = require('./constants');
 
 const verifyToken = require('./modules/middlewares/jwtMiddleware');
@@ -22,7 +27,11 @@ const removeFriend = require('./modules/friends/removeFriend');
 const changePassword = require('./modules/changePassword');
 
 app.use(bodyParser.json());
-
+app.use(i18n.init);
+// Locale
+app.post(URLS.CHANGE_LOCALE, (req, res) => {
+    i18n.setLocale(req.body.locale);
+});
 //Registration
 app.post(URLS.SIGN_UP, upload.single('photo'), (req, res) => {
     let userObj = req.body;

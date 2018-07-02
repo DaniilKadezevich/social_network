@@ -1,0 +1,12 @@
+{
+	"User with this email is already registered": "Пользоватьель с данным email уже зарегестрирован",
+	"There is no user with this email.": "Эл. адрес, который вы указали, не соответствует ни одному аккаунту.",
+	"Invalid password": "Вы ввели неверный пароль.",
+	"Welcome back": "С возвращением",
+	"You have successfully sign in. Your password": "Вы успешно зарегестрировались. Ваш пароль:",
+	"You have successfully edited your profile": "Вы успешно редактировали ваш профиль.",
+	"Your old password was entered incorrectly.": "Ваш старый пароль был введен неправильно.",
+	"Create a password at least 10 characters long.": "Создайте пароль из 10 символов минимум.",
+	"The two password fields didn't match.": "Пароли не совпадают.",
+	"Create a new password you haven't used before.": "Создайте пароль, которвый вы не использовали ранее."
+}

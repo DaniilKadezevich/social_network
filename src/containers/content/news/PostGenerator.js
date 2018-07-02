@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Translate, I18n } from 'react-redux-i18n';
 
 import { connect } from 'react-redux';
 import { ACTION_TYPES } from "../../../constants";
@@ -63,7 +64,7 @@ class PostGenerator extends Component {
                                 <textarea
                                     className="form-control"
                                     rows="3"
-                                    placeholder='Whats new?'
+                                    placeholder={I18n.t('application.whatsNew')}
                                     onChange={this.addText}
                                     value={this.props.post.text}
                                 />
@@ -102,14 +103,16 @@ class PostGenerator extends Component {
                                     type='button'
                                     onClick={() => this.imagesInput.click()}
                                 >
-                                    Add images
+                                    <Translate value='application.addImages'/>
                                 </button>
                             </div>
                         </div>
                         { !(!this.props.post.text && !this.props.post.images.length) &&
                         <div className="row post-generator-publish">
                             <div className="col-12 d-flex justify-content-center">
-                                <button type='button' className='btn btn-success btn-sm' onClick={this.addPost}>Publish</button>
+                                <button type='button' className='btn btn-success btn-sm' onClick={this.addPost}>
+                                    <Translate value='application.publish'/>
+                                </button>
                             </div>
                         </div>
                         }

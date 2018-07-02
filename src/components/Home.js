@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom'
+import { Switch, Route, Redirect } from 'react-router-dom'
 
 import './Home.sass'
 
@@ -21,6 +21,7 @@ import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, Side
                                 <Route path='/news' component={News}/>
                                 <Route path='/settings' component={Settings}/>
                                 <Route path='/users/:userId' component={UserAccount}/>
+                                <Route component={News}/>
                             </Switch>
                         </div>
                     </div>

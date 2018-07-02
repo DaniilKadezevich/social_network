@@ -58,6 +58,146 @@ export const URLS = {
     GET_ALL_POSTS: '/get-all-posts',
     DELETE_POST: '/delete-post',
     CHANGE_PASSWORD: '/change-password',
+    CHANGE_LOCALE: '/change-locale',
 };
 
 export const preDelay = 1000;
+
+export const LANGUAGES = {
+    en: 'English',
+    ru: 'Русский',
+    ukr: 'Украйнский',
+};
+export const TRANSLATIONS_OBJECT = {
+    en: {
+        application: {
+            editProfile: 'Edit profile',
+            addFriend: 'Add friend',
+            removeFriend: 'Remove friend',
+            noPosts: 'No posts',
+            publish: 'Publish',
+            addImages: 'Add images',
+            whatsNew: 'Whtat\'s new?',
+            noFriends: 'You have no friends',
+            friends: 'Friends',
+            noResult: 'No result',
+            Male: 'Male',
+            Female: 'Female',
+            search: 'Search',
+            password: {
+                oldP: 'Old password',
+                newP: 'New password',
+                confirmP: 'Confirm password',
+                changeP: 'Change password',
+            },
+            logOut: 'Log Out',
+            sidebar: {
+                myAccount: 'My account',
+                friends: 'Friends',
+                searchPeople: 'Search people',
+                newsFeed: 'News feed',
+                settings: 'Settings',
+            },
+            settingsSidebar: {
+                password: 'Password',
+                language: 'Language',
+            },
+            form: {
+                name: 'Name',
+                surname: 'Surname',
+                middleName: 'Middle Name',
+                email: 'Email',
+                age: 'Age',
+                gender: {
+                    male: 'Male',
+                    female: 'Female',
+                },
+                password: 'Password',
+                photoBtn: 'Upload Photo',
+                signIn: 'Sign in',
+                edit: 'Edit',
+                logIn: 'Log In',
+                haveAnAcc: 'Have an account?',
+                haventAnAcc: 'Haven\'t got an account?',
+                errors: {
+                    required: 'Required',
+                    ageError: 'Number from 1 to 99',
+                    emailError: 'Enter a valid email address',
+                    fileExt: 'Incorrect file extension',
+                    wAndHError: 'Width and Height must be 200px or more',
+                    fileSize: 'File size should be from 0.04 to 5 mb',
+                    passwordErr: 'At least 10 symbols',
+                    middleNameErr: 'Latin characters',
+                }
+            }
+        },
+    },
+    ru: {
+        application: {
+            editProfile: 'Редактировать профиль',
+            addFriend: 'Добавить в друзья',
+            removeFriend: 'Удалить из друзей',
+            noPosts: 'Нет постов',
+            publish: 'Опубликовать',
+            addImages: 'Добавить фотографии',
+            whatsNew: 'Что нового?',
+            noFriends: 'У вас нет друзей',
+            friends: 'Друзья',
+            noResult: 'Нет пользователей с таким именем',
+            Male: 'Мужчина',
+            Female: 'Женщина',
+            search: 'Поиск',
+            password: {
+                oldP: 'Старый пароль',
+                newP: 'Новый пароль',
+                confirmP: 'Подтвердить пароль',
+                changeP: 'Поменять пароль',
+            },
+            logOut: 'Выйти',
+            sidebar: {
+                myAccount: 'Моя страничка',
+                friends: 'Друзья',
+                searchPeople: 'Поиск',
+                newsFeed: 'Новостная лента',
+                settings: 'Настройки',
+            },
+            settingsSidebar: {
+                password: 'Пароль',
+                language: 'Язык',
+            },
+            form: {
+                name: 'Имя',
+                surname: 'Фамилия',
+                middleName: 'Отчество',
+                email: 'Email',
+                age: 'Возраст',
+                gender: {
+                    male: 'Мужчина',
+                    female: 'Женщина',
+                },
+                password: 'Пароль',
+                photoBtn: 'Выбрать фотографию',
+                signIn: 'Регистрация',
+                edit: 'Редактировать',
+                logIn: 'Войти',
+                haveAnAcc: 'Есть аккаунт?',
+                haventAnAcc: 'Нет аккаунта?',
+                errors: {
+                    required: 'Обязательное',
+                    ageError: 'Число от 1 до 99',
+                    emailError: 'Введите корректный email адресс',
+                    fileExt: 'Недопустимое расширение файла',
+                    wAndHError: 'Ширина и высота долэны быть не меньше 200px',
+                    fileSize: 'Размер файла должен быть от 0.04 to 5 mb',
+                    passwordErr: 'Минимум 10 символов',
+                    middleNameErr: 'Латинские символы',
+                }
+            }
+        },
+    },
+    ukr: {
+        application: {
+            header: 'Хидир'
+        }
+    }
+};

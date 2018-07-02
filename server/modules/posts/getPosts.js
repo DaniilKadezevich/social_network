@@ -26,7 +26,7 @@ module.exports = function (query, res) {
                     posts.push({...post, name: result.name, surname: result.surname, photo: result.photo});
                     if (r.length - i === 1) {
                         posts.sort(function (a, b) {
-                            return moment(b.date, 'MMMM Do YYYY, h:mm a') - moment(a.date, 'MMMM Do YYYY, h:mm a');
+                            return moment(b.date) - moment(a.date);
                         });
                         res.send({
                             posts,

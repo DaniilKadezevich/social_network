@@ -49,9 +49,11 @@
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.0",
     "react-icons": "^2.2.7",
+    "react-localization": "^1.0.10",
     "react-preloading-component": "0.0.5",
     "react-redux": "^5.0.7",
     "react-redux-form": "^1.16.9",
+    "react-redux-i18n": "^1.9.3",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
@@ -111,5 +113,8 @@
   },
   "eslintConfig": {
     "extends": "react-app"
+  },
+  "devDependencies": {
+    "react-localize-redux": "^3.2.0"
   }
 }
