@@ -42,6 +42,7 @@ export const ACTION_TYPES = {
     ADD_NEW_PASSWORD: 'ADD_NEW_PASSWORD',
     ADD_CONFIRM_PASSWORD: 'ADD_CONFIRM_PASSWORD',
     CLEAR_PASSWORD_INPUTS: 'CLEAR_PASSWORD_INPUTS',
+    REMOVE_USER_INFO: 'REMOVE_USER_INFO',
 };
 
 export const URLS = {
@@ -66,7 +67,7 @@ export const preDelay = 1000;
 export const LANGUAGES = {
     en: 'English',
     ru: 'Русский',
-    ukr: 'Украйнский',
+    ukr: 'Украинский',
 };
 export const TRANSLATIONS_OBJECT = {
     en: {
@@ -143,7 +144,7 @@ export const TRANSLATIONS_OBJECT = {
             whatsNew: 'Что нового?',
             noFriends: 'У вас нет друзей',
             friends: 'Друзья',
-            noResult: 'Нет пользователей с таким именем',
+            noResult: 'Нет результата.',
             Male: 'Мужчина',
             Female: 'Женщина',
             search: 'Поиск',

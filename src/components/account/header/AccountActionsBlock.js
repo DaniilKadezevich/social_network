@@ -4,8 +4,7 @@ import { EditBtn, AddFriendBtn, RemoveFriendBtn } from '../index'
 
 export default class AccountEditBlock extends Component {
     render() {
-        let Btn;
-        this.props.isFriend ?  Btn = RemoveFriendBtn : Btn = AddFriendBtn ;
+        let Btn = this.props.isFriend ? RemoveFriendBtn : AddFriendBtn ;
         if (this.props.edit) {
             Btn = EditBtn
         }

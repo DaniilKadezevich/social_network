@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { uploadUser } from "../../../actions";
 
 import { Account } from '../../index';
+import {ACTION_TYPES} from "../../../constants";
 
 
 class UserAccount extends Component {
@@ -20,7 +21,6 @@ class UserAccount extends Component {
         if (!this.props.displayedUser._id) {
             this.props.uploadUser({_id});
         }
-
     }
 
     componentWillUnmount() {
@@ -43,7 +43,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         uploadUser: _id => dispatch(uploadUser(_id)),
-        removeUser: () => dispatch({type: 'REMOVE_USER_INFO'}),
+        removeUser: () => dispatch({type: ACTION_TYPES.REMOVE_USER_INFO}),
     }
 }
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(UserAccount));

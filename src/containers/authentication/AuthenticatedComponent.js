@@ -4,11 +4,12 @@ import { withRouter } from 'react-router-dom';
 
 class AuthenticatedComponent extends Component {
     componentWillMount() {
-        if (!this.props.user.isAuthorized && !this.props.loading.isLoading) {
-            this.props.history.push('/registration')
-        }
+        this.redirectToReg();
     }
     componentDidUpdate() {
+        this.redirectToReg();
+    }
+    redirectToReg() {
         if (!this.props.user.isAuthorized && !this.props.loading.isLoading) {
             this.props.history.push('/registration')
         }

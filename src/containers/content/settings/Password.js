@@ -39,7 +39,6 @@ class Password extends Component {
         }
     }
     render() {
-
         return(
             <div className='container'>
                 <div className="row">

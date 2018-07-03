@@ -16,14 +16,13 @@ class FriendsList extends Component {
         this.props.removeFriends();
     }
     render() {
-        let content;
-
-        this.props.friends.length ? content = this.props.friends.map((el, index) => {
-            return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
-        }) : content = (
+        const content = this.props.friends.length ? this.props.friends.map((el, index) => {
+                return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
+            }) : (
             <div className='row justify-content-center p-3'>
                 <Translate value='application.noFriends'/>
-            </div>);
+            </div>
+        );
 
         return(
             <div className='container'>

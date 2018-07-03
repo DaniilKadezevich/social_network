@@ -27,14 +27,13 @@ class SearchPeople extends Component {
     }
 
     render() {
-        let content;
-
-        this.props.users.length ? content = this.props.users.map((el, index) => {
-            return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
-        }) : content = (
+        const content = this.props.users.length ? this.props.users.map((el, index) => {
+                return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
+            }) : (
             <div className='col d-flex justify-content-center p-3'>
                 <Translate value='application.noResult'/>
-            </div>);
+            </div>
+        );
 
         return (
             <div className="container">

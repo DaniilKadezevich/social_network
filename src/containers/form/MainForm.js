@@ -43,14 +43,8 @@ class RegistrationForm extends Component {
         if (this.props.isAuthorized && !this.props.edit) {
             return <Redirect to='/'/>
         }
-        let btnText, size;
-        if (this.props.edit) {
-            btnText = <Translate value="application.form.edit"/>;
-            size = 'col-5';
-        } else {
-            btnText = <Translate value="application.form.signIn"/>;
-            size = 'col-4';
-        }
+        const [ btnText, size ] = this.props.edit ? [<Translate value="application.form.edit"/>, 'col-5'] :
+            [<Translate value="application.form.signIn"/>, 'col-4'];
 
         return (
             <div className='container'>

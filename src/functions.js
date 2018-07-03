@@ -2,7 +2,7 @@ import { ACTION_TYPES, preDelay, REGEXPS } from './constants';
 
 export function validateFormInputs(form) {
     let {gender, name, surname, middleName, email, age, photo} = form;
-    return(
+    let isFormValid = (
         REGEXPS.name.test(name.value) &&
         REGEXPS.surname.test(surname.value) &&
         (REGEXPS.middleName.test(middleName.value) || !middleName.value) &&
@@ -10,14 +10,16 @@ export function validateFormInputs(form) {
         REGEXPS.age.test(age.value) &&
         gender.value &&
         photo.file
-    )
+    );
+    return isFormValid;
 }
 export function validateLogInFormInputs(form) {
     let {password, email} = form;
-    return(
-        !(password.isValid === 'waiting' || !password.isValid) &&
-        !(email.isValid === 'waiting' || !email.isValid)
-    )
+    let isFormValid = (
+        REGEXPS.email.test(email.value) &&
+        REGEXPS.password.test(password.value)
+    );
+    return isFormValid;
 }
 export function errorHandler(dispatch, message, finish = true) {
     setTimeout(() => {
