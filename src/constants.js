@@ -74,6 +74,7 @@ export const LANGUAGES = {
 export const TRANSLATIONS_OBJECT = {
     en: {
         application: {
+            noPosts: 'No posts',
             confirm: {
                 deletePost: 'Delete post',
                 removeFriend: 'Remove friend',
@@ -144,6 +145,7 @@ export const TRANSLATIONS_OBJECT = {
     },
     ru: {
         application: {
+            noPosts: 'Нет постов',
             confirm: {
                 deletePost: 'Удалить пост',
                 removeFriend: 'Удалить друга',

@@ -12,6 +12,15 @@ module.exports = function (query, res) {
                 return;
             }
 
+            if (!r.length) {
+                res.send({
+                    posts: r,
+                    isError: false,
+                });
+                db.close();
+                return;
+            }
+
             let posts = [];
 
             for (let i = 0; i < r.length; i++) {

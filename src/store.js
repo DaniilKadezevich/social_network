@@ -21,8 +21,4 @@ if (!locale) {
 store.dispatch(changeLocale(locale));
 store.dispatch(setLocale(locale));
 
-store.subscribe(() => {
-    console.log(store.getState());
-});
-
 export default store;

@@ -1,5 +1,7 @@
 const {checkToken} = require('../jwt');
+const connectToTheDB = require('../connectToTheDB');
 const getPosts = require('./getPosts');
+const { ObjectId } = require('mongodb');
 const { sendErrorMessage } = require('../functions');
 
 module.exports = function (token, res) {
@@ -8,7 +10,12 @@ module.exports = function (token, res) {
             sendErrorMessage('Invalid token', res);
             return;
         }
-        let query = {};
-        getPosts(query, res)
+        connectToTheDB(function (dbo, db) {
+            dbo.collection('users').findOne({ _id: ObjectId(data._id)}, { fields: {friends: 1}}, (err, r) => {
+                db.close();
+                let query = { author: {$in: [...r.friends, data._id]}};
+                getPosts(query, res)
+            });
+        });
     });
 };

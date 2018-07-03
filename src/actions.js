@@ -348,10 +348,8 @@ export function getAllPosts() {
             .then(data => {
                 if (data.isError) {
                     errorHandler(dispatch, data.message, false);
-
                     return;
                 }
-
                 dispatch({type: ACTION_TYPES.REMOVE_POSTS});
                 dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts});
             });
