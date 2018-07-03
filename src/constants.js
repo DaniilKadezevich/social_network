@@ -43,6 +43,8 @@ export const ACTION_TYPES = {
     ADD_CONFIRM_PASSWORD: 'ADD_CONFIRM_PASSWORD',
     CLEAR_PASSWORD_INPUTS: 'CLEAR_PASSWORD_INPUTS',
     REMOVE_USER_INFO: 'REMOVE_USER_INFO',
+    SHOW_CONFIRM_MODAL: 'SHOW_CONFIRM_MODAL',
+    CLEAR_CONFIRM_MODAL: 'CLEAR_CONFIRM_MODAL',
 };
 
 export const URLS = {
@@ -72,6 +74,13 @@ export const LANGUAGES = {
 export const TRANSLATIONS_OBJECT = {
     en: {
         application: {
+            confirm: {
+                deletePost: 'Delete post',
+                removeFriend: 'Remove friend',
+                areYouSure: 'Are you sure?'
+            },
+            deleteM: 'Delete',
+            removeM: 'Remove',
             editProfile: 'Edit profile',
             addFriend: 'Add friend',
             removeFriend: 'Remove friend',
@@ -135,6 +144,13 @@ export const TRANSLATIONS_OBJECT = {
     },
     ru: {
         application: {
+            confirm: {
+                deletePost: 'Удалить пост',
+                removeFriend: 'Удалить друга',
+                areYouSure: 'Вы уверены?'
+            },
+            deleteM: 'Удалить',
+            removeM: 'Удалить',
             editProfile: 'Редактировать профиль',
             addFriend: 'Добавить в друзья',
             removeFriend: 'Удалить из друзей',

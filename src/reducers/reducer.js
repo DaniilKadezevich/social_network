@@ -5,6 +5,7 @@ import dataReducer from './dataReducer';
 import loadingReducer from './loadingReducer';
 import postReducer from './postReducer';
 import changePasswordReducer from './changePasswordReducer';
+import confirmModalReducer from './confirmModalReducer';
 import { i18nReducer } from 'react-redux-i18n';
 
 
@@ -18,6 +19,7 @@ let reducer = combineReducers({
     loading: loadingReducer,
     post: postReducer,
     password: changePasswordReducer,
+    confirmM: confirmModalReducer,
     i18n: i18nReducer,
 });
 

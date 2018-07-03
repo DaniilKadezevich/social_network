@@ -4,7 +4,7 @@ import Header from './Header'
 import Main from './Main'
 import Notification from '../containers/Notification'
 import Preloader from './Preloader'
-import ConfirmModal from './ConfirmModal'
+import ConfirmModal from '../containers/ConfirmModal'
 
 export {
     Avatar,
