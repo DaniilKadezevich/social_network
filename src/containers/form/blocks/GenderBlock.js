@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import './GenderForm.sass'
+import { ACTION_TYPES } from "../../../constants";
 
 class GenderBlock extends Component {
     constructor() {
@@ -56,8 +57,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addGender: (gender) => dispatch({type: 'ADD_GENDER', gender}),
-        validate: (status) => dispatch({type: 'VALIDATE_GENDER', status})
+        addGender: (gender) => dispatch({type: ACTION_TYPES.ADD_GENDER, gender}),
+        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_GENDER, status})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(GenderBlock)

@@ -1,13 +1,13 @@
-const generatePassword = require('./generatePassword');
-const connectToTheDB = require('./connectToTheDB');
-const regFormValidation = require('./regFormValidation');
+const generatePassword = require('../generatePassword');
+const connectToTheDB = require('../connectToTheDB');
+const formValidation = require('../formValidation');
 const bcrypt = require('bcrypt');
-const {generateToken} = require('./jwt');
+const {generateToken} = require('../jwt');
 
 module.exports = function (userObj, res) {
     userObj.email = userObj.email.toLowerCase();
 
-    if (!regFormValidation(userObj)) {
+    if (!formValidation(userObj)) {
 
         let response = {
             message: 'Invalid data',
@@ -37,14 +37,12 @@ module.exports = function (userObj, res) {
             }
 
             bcrypt.hash(password, 10, function(err, hash) {
-                dbo.collection("users").insertOne({...userObj, password: hash}, function(err, result) {
+                dbo.collection("users").insertOne({...userObj, password: hash, friends: []}, function(err, result) {
                     if (err) throw err;
+                    let _id = result.ops[0]._id;
+                    let token = generateToken({ _id });
 
-                    console.log(result.ops[0]._id);
-
-                    let token = generateToken({ _id: result.ops[0]._id });
-
-                    let user = {...userObj, password};
+                    let user = {...userObj, password, _id};
 
                     let response = {
                         user,

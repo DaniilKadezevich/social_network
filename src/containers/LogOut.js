@@ -10,13 +10,11 @@ class LogOut extends Component {
     }
     render() {
         if (!this.props.user.isAuthorized) {
-            return(
-                <div></div>
-            )
+            return null;
         }
         return(
             <Link onClick={this.logOut} to='/login'>
-                <button className="btn btn-primary">
+                <button className="btn btn-outline-light btn-sm">
                     Log out
                 </button>
             </Link>

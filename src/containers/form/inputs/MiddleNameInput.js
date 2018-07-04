@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../../../constants'
+import { ACTION_TYPES, REGEXPS } from '../../../constants'
 
 class MiddleNameInput extends Component {
     constructor() {
@@ -52,8 +52,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: (value) => dispatch({type: 'ADD_MIDDLE_NAME', value}),
-        validate: (status) => dispatch({type: 'VALIDATE_MIDDLE_NAME', status})
+        addValue: (value) => dispatch({type: ACTION_TYPES.ADD_MIDDLE_NAME, value}),
+        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_MIDDLE_NAME, status})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MiddleNameInput)

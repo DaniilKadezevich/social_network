@@ -3,16 +3,17 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router-dom';
 
 class AuthenticatedComponent extends Component {
+    componentWillMount() {
+        if (!this.props.user.isAuthorized && !this.props.loading.isLoading) {
+            this.props.history.push('/registration')
+        }
+    }
     componentDidUpdate() {
         if (!this.props.user.isAuthorized && !this.props.loading.isLoading) {
             this.props.history.push('/registration')
         }
     }
     render() {
-        if (!this.props.user.isAuthorized && !this.props.loading.isLoading) {
-            this.props.history.push('/registration')
-        }
-
         const { user, children } = this.props;
         return user.isAuthorized ? children : null;
     }
@@ -24,9 +25,4 @@ function mapStateToProps(state) {
         loading: state.loading,
     }
 }
-function mapDispatchToProps(dispatch) {
-    return {
-        authorize: (user) => dispatch({type: 'AUTHORIZE', user}),
-    }
-}
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent))
+export default withRouter(connect(mapStateToProps)(AuthenticatedComponent))

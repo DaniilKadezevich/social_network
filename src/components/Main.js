@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route} from 'react-router-dom'
 
 
-import { AuthenticatedComponent, LoadingComponent, MainForm, LogInForm, HomePage  } from '../containers/index'
+import { AuthenticatedComponent, LoadingComponent, MainForm, LogInForm, Home  } from '../containers/index'
 
 
 import './Main.sass'
@@ -16,7 +16,7 @@ export default class Main extends Component {
                             <Route exact path='/registration' component={MainForm}/>
                             <Route exact path='/login' component={LogInForm}/>
                             <AuthenticatedComponent>
-                                <Route path='/' component={HomePage}/>
+                                <Route path='/' component={Home}/>
                             </AuthenticatedComponent>
                         </Switch>
                 </main>

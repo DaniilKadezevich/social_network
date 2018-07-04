@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import './PhotoForm.sass'
 
 import { Avatar }  from '../../../components/index'
+import { ACTION_TYPES } from "../../../constants";
 
 class PhotoBlock extends Component {
     constructor() {
@@ -73,7 +74,9 @@ class PhotoBlock extends Component {
                             className='btn btn-primary'
                             type='button'
                             onClick={() => this.photoInput.click()}
-                        >Upload photo</button>
+                        >
+                            Upload photo
+                        </button>
                     </div>
                     <div className="col-6 d-flex justify-content-center">
                         <input
@@ -108,8 +111,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addPhotoFile: (file) => dispatch({type: 'ADD_PHOTO', file}),
-        validate: (status, error) => dispatch({type: 'VALIDATE_PHOTO', status, error})
+        addPhotoFile: (file) => dispatch({type: ACTION_TYPES.ADD_PHOTO, file}),
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_PHOTO, status, error})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PhotoBlock)

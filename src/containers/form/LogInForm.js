@@ -6,6 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 
 import './forms.sass'
 
+import { ACTION_TYPES, REGEXPS } from "../../constants";
 import { validateLogInFormInputs } from "../../functions";
 
 import { EmailInput, PasswordInput } from './index'
@@ -29,13 +30,13 @@ class LogInForm extends Component {
 
             this.props.logIn(formData)
         } else {
-            this.setInvalidInputs(password, email)
+            this.setInvalidInputs(email, password)
         }
     }
 
     setInvalidInputs(email, password) {
-        this.props.validatePassword(!(email.isValid === 'waiting' || !email.isValid));
-        this.props.validateEmail(!(password.isValid === 'waiting' || !password.isValid));
+        this.props.validatePassword(REGEXPS.password.test(password.value));
+        this.props.validateEmail(REGEXPS.email.test(email.value));
     }
 
     render() {
@@ -75,9 +76,9 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        clearForm: () => dispatch({type: 'CLEAR_FORM'}),
-        validateEmail: status => dispatch({type: 'VALIDATE_EMAIL', status}),
-        validatePassword: status => dispatch({type: 'VALIDATE_PASSWORD', status}),
+        clearForm: () => dispatch({type: ACTION_TYPES.CLEAR_FORM}),
+        validateEmail: status => dispatch({type: ACTION_TYPES.VALIDATE_EMAIL, status}),
+        validatePassword: status => dispatch({type: ACTION_TYPES.VALIDATE_PASSWORD, status}),
         logIn: obj => dispatch(logIn(obj)),
     }
 }

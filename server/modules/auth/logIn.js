@@ -1,12 +1,12 @@
-const connectToTheDB = require('./connectToTheDB');
+const connectToTheDB = require('../connectToTheDB');
 const bcrypt = require('bcrypt');
-const {generateToken} = require('./jwt');
+const {generateToken} = require('../jwt');
 
 module.exports = function (userInfo, res) {
     connectToTheDB(function(dbo, db) {
         let query = {email: userInfo.email};
 
-        dbo.collection('users').findOne(query, (err, result) => {
+        dbo.collection('users').findOne(query, { fields: {friends: 0} }, (err, result) => {
             if (!result) {
                 let response = {
                     message: 'There is no user with this email',

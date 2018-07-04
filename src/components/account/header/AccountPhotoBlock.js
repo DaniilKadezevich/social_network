@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 import { Avatar } from '../../index';
 
 export default class AccountPhotoBlock extends Component {

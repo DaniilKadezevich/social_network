@@ -1,7 +1,8 @@
 const connectToTheDB = require('./connectToTheDB');
 const {checkToken} = require('./jwt');
-const ObjectId = require('mongodb').ObjectId;
-const regFormValidation = require('./regFormValidation');
+const { ObjectId } = require('mongodb');
+const regFormValidation = require('./formValidation');
+const getUser = require('./getUser');
 
 module.exports = function(token, user, res) {
     if (!regFormValidation(user)) {
@@ -45,30 +46,9 @@ module.exports = function(token, user, res) {
                }
 
                if (user.email === result.email) {
-                   usersColl.updateOne(query, {$set: user}, function (err, r) {
-
-                       usersColl.findOne(query, function (err, result) {
-                           if (!result) {
-                               let response = {
-                                   message: 'No user with this id',
-                                   isError: true,
-                               };
-
-                               res.send(response);
-                               db.close();
-
-                               return;
-                           }
-
-                           let updatedUser = {...result, password: undefined};
-
-                           res.send({
-                               user: updatedUser,
-                               isError: false,
-                           });
-                           db.close();
-                       })
-                   })
+                   usersColl.updateOne(query, {$set: user}, (err, r) => {
+                       getUser(query, res)
+                   });
                } else {
                    usersColl.findOne({email: user.email}, function (err, result) {
                        if (result) {
@@ -82,35 +62,12 @@ module.exports = function(token, user, res) {
 
                            return;
                        }
-                       usersColl.updateOne(query, {$set: user}, function (err, r) {
-
-                           usersColl.findOne(query, function (err, result) {
-                               if (!result) {
-                                   let response = {
-                                       message: 'No user with this id',
-                                       isError: true,
-                                   };
-
-                                   res.send(response);
-                                   db.close();
-
-                                   return;
-                               }
-
-                               let updatedUser = {...result, password: undefined};
-
-                               res.send({
-                                   user: updatedUser,
-                                   isError: false,
-                               });
-                               db.close();
-                           })
-                       })
+                       usersColl.updateOne(query, {$set: user}, (err, r) => {
+                           getUser(query, res)
+                       });
                    });
                }
             });
-
         });
-
     });
 };

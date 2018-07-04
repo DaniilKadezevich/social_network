@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Switch, Route, withRouter } from 'react-router-dom'
 
-import { Account } from './index';
-import { EditUser } from './index';
+import { Account } from '../../index';
+import { EditUser } from '../../index';
 
 
-class UserAccount extends Component {
+class MyAccount extends Component {
     render() {
 
         return (
@@ -23,4 +23,4 @@ function mapStateToProps(state) {
         user: state.user
     }
 }
-export default withRouter(connect(mapStateToProps)(UserAccount));
+export default withRouter(connect(mapStateToProps)(MyAccount));

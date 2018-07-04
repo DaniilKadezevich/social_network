@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { REGEXPS } from '../../../constants'
+import { ACTION_TYPES, REGEXPS } from '../../../constants'
 
 class SurnameInput extends Component {
     constructor() {
@@ -62,8 +62,8 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addValue: (value) => dispatch({type: 'ADD_SURNAME', value}),
-        validate: (status) => dispatch({type: 'VALIDATE_SURNAME', status})
+        addValue: (value) => dispatch({type: ACTION_TYPES.ADD_SURNAME, value}),
+        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_SURNAME, status})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SurnameInput)
