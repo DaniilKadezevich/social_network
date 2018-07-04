@@ -11,6 +11,8 @@ let initialState = {
         photo: '',
     },
     posts: [],
+    index: 0,
+    stopLoad: false,
 };
 
 export default function (state = initialState, action) {
@@ -26,17 +28,18 @@ export default function (state = initialState, action) {
             let { displayedUser } = initialState;
             return {...state, displayedUser };
 
+        case 'ADD_POST':
+            return {...state, posts: [ ...action.post, ...state.posts]};
         case 'LOAD_POSTS':
-            return {...state, posts: [...action.posts, ...state.posts] };
+            return {...state, posts: [...state.posts, ...action.posts, ], index: state.index + action.posts.length, stopLoad: action.stopLoad };
         case 'DELETE_POST':
             let postsCopy = [...state.posts].filter(post => {
                 return post._id !== action._id;
             });
-
             return {...state, posts: [...postsCopy] };
         case 'REMOVE_POSTS':
-            let { posts } = initialState;
-            return {...state, posts };
+            let { posts, index } = initialState;
+            return {...state, posts, index };
         default:
             return state;
     }

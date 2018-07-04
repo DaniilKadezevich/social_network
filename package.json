@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:5000/",
+  "proxy": "http://localhost:5555/",
   "name": "social-network",
   "version": "0.1.0",
   "private": true,
@@ -49,6 +49,7 @@
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.4.0",
     "react-icons": "^2.2.7",
+    "react-infinite-scroll-component": "^4.1.0",
     "react-localization": "^1.0.10",
     "react-preloading-component": "0.0.5",
     "react-redux": "^5.0.7",

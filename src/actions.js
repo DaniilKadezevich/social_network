@@ -324,11 +324,11 @@ export function addPost(text, images) {
                 }
 
                 dispatch({type: ACTION_TYPES.CLEAR_POST_FIELDS});
-                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: [data.post]});
+                dispatch({type: ACTION_TYPES.ADD_POST, post: [data.post]});
             });
     }
 }
-export function getAllPosts() {
+export function getAllPosts(index) {
     let token = localStorage.getItem('token');
 
     if (!token) {
@@ -336,22 +336,23 @@ export function getAllPosts() {
 
         }
     }
-
     return dispatch => {
         return fetch(URLS.GET_ALL_POSTS, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({index})
         })
             .then(response => response.json())
             .then(data => {
+                console.log(data);
                 if (data.isError) {
                     errorHandler(dispatch, data.message, false);
                     return;
                 }
-                dispatch({type: ACTION_TYPES.REMOVE_POSTS});
-                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts});
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts, stopLoad: data.isAll});
             });
     }
 }

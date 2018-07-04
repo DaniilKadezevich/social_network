@@ -74,11 +74,13 @@ class PostGenerator extends Component {
                          <div className="row no-gutters">
                              <div className="post-generator-image-gallery">
                                  { this.props.post.images.map((image, index) => {
+                                     const style = {
+                                         backgroundImage: `url(${image})`,
+                                     };
                                      return (
-                                         <div key={index} className="gallery-item">
+                                         <div key={index} className="gallery-item" style={style}>
                                              <FontAwesomeIcon className='remove-gallery-item' icon='times'
                                              onClick={this.props.removeImage.bind(this, index)}/>
-                                             <img src={image} alt=""/>
                                          </div>
                                      )
                                  })}

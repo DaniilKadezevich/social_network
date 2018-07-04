@@ -3,6 +3,7 @@ import { getUsers } from "../../actions";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { I18n, Translate } from 'react-redux-i18n';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import './SearchPeople.sass';
 

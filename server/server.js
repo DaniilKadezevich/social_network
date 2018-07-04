@@ -65,10 +65,10 @@ app.post(URLS.ADD_POST, verifyToken, upload.any(), (req, res) => {
 
     addPost(token, postInfo, res)
 });
-app.get(URLS.GET_ALL_POSTS, verifyToken, (req, res) => {
+app.post(URLS.GET_ALL_POSTS, verifyToken, (req, res) => {
     let token = req.token;
-
-    getAllPosts(token, res)
+    // console.log(req.body.index);
+    getAllPosts(token, req.body.index,res)
 });
 app.post(URLS.DELETE_POST, verifyToken, (req, res) => {
     let token = req.token;
@@ -117,6 +117,6 @@ app.post(URLS.CHANGE_PASSWORD, verifyToken, upload.any(), (req, res) => {
     changePassword(token, req.body, res);
 });
 // Server
-app.listen(5000, function () {
+app.listen(5555, function () {
 
 });

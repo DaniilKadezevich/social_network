@@ -2,9 +2,6 @@ ul
   list-style-type: none
   padding: 0
   margin: 0
-.active
-  border: 1px solid #e6e6e6
-  margin: 20px
 a:link
   text-decoration: none
   &:hover
@@ -14,20 +11,29 @@ a:link
     text-decoration: none
 
 .sidebar.col-2
-  min-height: calc(100vh - 100px)
+  min-height: calc(100vh - 50px)
   border-right: 1px solid #e6e6e6
 .sidebar-icon
   color: #4469b0
 .sidebar-menu
   padding: 40px 0 0 0
   li
-    padding: 5px 3px
+    padding: 10px 5px
     color: #000000
     transition: all 0.3s
     border: 1px solid rgba(0, 0, 0, 0)
+    border-right: none
+    border-left: none
     &:hover
       border: 1px solid #e6e6e6
+      border-right: none
+      border-left: none
       background-color: #fff
+  li.active
+    border: 1px solid #e6e6e6
+    background-color: #fff
+    border-right: none
+    border-left: none
 .content
   background-color: #ffffff
 .avatar-small
