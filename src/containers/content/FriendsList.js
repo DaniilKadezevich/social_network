@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import {getFriends, getUsers} from "../../actions";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {I18n, Translate} from 'react-redux-i18n';
-import Waypoint from 'react-waypoint';
-import DataPreloader from '../../components/DataPreloader';
+import {Translate} from 'react-redux-i18n';
 
+import Waypoint from '../../components/WaypointComponent'
 import UserBlock from '../../components/search/UserBlock';
 import SearchInput from './SearchInput';
 
@@ -31,21 +30,12 @@ class FriendsList extends Component {
                     })
                 }
 
-                {!this.props.data.stopLoad ?
-                    <div>
-                        <Waypoint
-                            onEnter={this.props.getFriends.bind(this, this.props.data.index, this.props.data.regexp)}
-                        />
-                        <div className='p-4'>
-                            <DataPreloader/>
-                        </div>
-                    </div>
-                    :
-                    !this.props.data.users.length &&
-                    <div className='col d-flex justify-content-center p-3'>
-                        <Translate value='application.noResult'/>
-                    </div>
-                }
+                <Waypoint
+                    length={this.props.data.users.length}
+                    stopLoad={this.props.data.stopLoad}
+                    message='application.noResult'
+                    onEnter={this.props.getFriends.bind(this, this.props.data.index, this.props.data.regexp)}
+                />
             </div>
         )
     }

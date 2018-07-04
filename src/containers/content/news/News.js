@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Translate } from 'react-redux-i18n';
-import Waypoint from 'react-waypoint';
 
 import './News.sass'
 
+import Waypoint from '../../../components/WaypointComponent'
 import Post from '../../../components/posts/Post';
-import DataPreloader from '../../../components/DataPreloader';
 import PostGenerator from './PostGenerator'
 
 
@@ -24,29 +22,17 @@ class News extends Component {
             <div className='container'>
                 <PostGenerator/>
                     {this.props.posts.map((post, index) => {
-                        let edit = (post.author === this.props.user_id);
-                        return <Post key={index} post={post} edit={edit}/>
-                    })}
+                            let edit = (post.author === this.props.user_id);
+                            return <Post key={index} post={post} edit={edit}/>
+                        })
+                    }
 
-                {!this.props.stopLoad ?
-                    <div>
-                        <Waypoint
-                            onEnter={this.props.getAllPosts.bind(this, this.props.index)}
-                        />
-                        <div className='p-4'>
-                            <DataPreloader/>
-                        </div>
-                    </div>
-                    :
-                    !this.props.posts.length &&
-                        <div className='container'>
-                            <div className="row">
-                                <div className="col-12 d-flex justify-content-center">
-                                     <Translate value='application.noPosts'/>
-                                </div>
-                            </div>
-                        </div>
-                }
+                <Waypoint
+                    length={this.props.posts.length}
+                    stopLoad={this.props.stopLoad}
+                    message='application.noPosts'
+                    onEnter={this.props.getAllPosts.bind(this, this.props.index)}
+                />
             </div>
         )
     }
