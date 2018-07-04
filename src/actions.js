@@ -329,6 +329,39 @@ export function getAllPosts(index) {
             });
     }
 }
+export function getUsersPosts(index, _id) {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    return dispatch => {
+        return fetch(URLS.GET_USERS_POSTS, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                _id,
+                index,
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+                    return;
+                }
+
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts, stopLoad: data.isAll});
+            });
+    }
+}
 export function deletePost(obj) {
     let token = localStorage.getItem('token');
 

@@ -10,7 +10,7 @@ export default class Account extends Component {
         return (
             <div className='container user-account'>
                 <AccountHeader user={this.props.user} edit={this.props.edit}/>
-                <AccountContent post={'posts'}/>
+                <AccountContent edit={this.props.edit} _id={this.props.user._id}/>
             </div>
         )
     }

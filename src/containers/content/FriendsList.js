@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {getFriends, getUsers} from "../../actions";
+import {getUsers} from "../../actions";
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {Translate} from 'react-redux-i18n';
 
 import Waypoint from '../../components/WaypointComponent'
 import UserBlock from '../../components/search/UserBlock';

@@ -12,7 +12,7 @@ export default class Settings extends Component {
         return(
             <div className='container'>
                 <div className="row">
-                    <Sidebar/>
+                    <Sidebar history={this.props.history}/>
                     <div className="col-8 settings-content">
                         <Route path='/settings/password' component={Password}/>
                         <Route path='/settings/language' component={Language}/>
