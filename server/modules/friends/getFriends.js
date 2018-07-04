@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 const getUsers = require('../getUsers');
 const { sendErrorMessage } = require('../functions');
 
-module.exports = function(token, res) {
+module.exports = function(token, res, index, regexp) {
     checkToken(token, (error, data) => {
         if (error) {
             sendErrorMessage('Invalid token', res);
@@ -23,7 +23,7 @@ module.exports = function(token, res) {
                     return ObjectId(_id);
                 });
 
-                getUsers(dbo, db, { _id: {$in: ids}}, res);
+                getUsers(dbo, db, { _id: {$in: ids}, name: {$regex: regexp}}, res, index);
             });
         });
     });

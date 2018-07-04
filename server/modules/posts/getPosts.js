@@ -41,7 +41,7 @@ module.exports = function (query, index, res) {
                         }
                     });
                     if (deadline - i === 1) {
-                        const isAll = (deadline < 10);
+                        const isAll = !(!(deadline % 10));
                         res.send({
                             posts,
                             isError: false,

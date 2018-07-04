@@ -127,7 +127,7 @@ export function getUserByToken() {
     }
 }
 
-export function getUsers(regexp = /.*/) {
+export function getUsers(index, regexp = /.*/, url) {
     let token = localStorage.getItem('token');
 
     if (!token) {
@@ -139,13 +139,16 @@ export function getUsers(regexp = /.*/) {
     return dispatch => {
         let serialized = regexp.source;
 
-        return fetch(URLS.GET_USERS, {
+        return fetch(url, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ regexp: serialized })
+            body: JSON.stringify({
+                index,
+                regexp: serialized
+            })
         })
             .then(response => response.json())
             .then(data => {
@@ -155,36 +158,7 @@ export function getUsers(regexp = /.*/) {
                     return;
                 }
 
-                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users});
-            });
-    }
-}
-
-export function getFriends() {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
-    return dispatch => {
-        return fetch(URLS.GET_FRIENDS, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.isError) {
-                    errorHandler(dispatch, data.message, false);
-
-                    return;
-                }
-
-                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users});
+                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users, stopLoad: data.isAll});
             });
     }
 }
@@ -347,7 +321,6 @@ export function getAllPosts(index) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.isError) {
                     errorHandler(dispatch, data.message, false);
                     return;
