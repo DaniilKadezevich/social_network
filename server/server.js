@@ -31,6 +31,10 @@ app.use(i18n.init);
 // Locale
 app.post(URLS.CHANGE_LOCALE, (req, res) => {
     i18n.setLocale(req.body.locale);
+    res.send({
+        isError: false,
+        message: 'Locale set',
+    })
 });
 //Registration
 app.post(URLS.SIGN_UP, upload.single('photo'), (req, res) => {
@@ -65,10 +69,10 @@ app.post(URLS.ADD_POST, verifyToken, upload.any(), (req, res) => {
 
     addPost(token, postInfo, res)
 });
-app.get(URLS.GET_ALL_POSTS, verifyToken, (req, res) => {
+app.post(URLS.GET_ALL_POSTS, verifyToken, (req, res) => {
     let token = req.token;
 
-    getAllPosts(token, res)
+    getAllPosts(token, req.body.index,res)
 });
 app.post(URLS.DELETE_POST, verifyToken, (req, res) => {
     let token = req.token;
@@ -88,17 +92,18 @@ app.post(URLS.REMOVE_FRIEND, verifyToken, (req, res) => {
 
     removeFriend(token, _id, res)
 });
-app.get(URLS.GET_FRIENDS, verifyToken, (req, res) => {
+app.post(URLS.GET_FRIENDS, verifyToken, (req, res) => {
     let token = req.token;
+    let regexp = new RegExp(req.body.regexp, 'i');
 
-    getFriends(token, res);
+    getFriends(token, res, req.body.index, regexp);
 });
 // Load data
 app.post(URLS.GET_USERS, verifyToken, (req, res) => {
     let token = req.token;
     let regexp = new RegExp(req.body.regexp, 'i');
 
-    getAllUsers(token, regexp, res);
+    getAllUsers(token, regexp, res, req.body.index);
 });
 app.post(URLS.UPLOAD_USER, verifyToken, (req, res) => {
     let token = req.token;
@@ -117,6 +122,6 @@ app.post(URLS.CHANGE_PASSWORD, verifyToken, upload.any(), (req, res) => {
     changePassword(token, req.body, res);
 });
 // Server
-app.listen(5000, function () {
+app.listen(5555, function () {
 
 });

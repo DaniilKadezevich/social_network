@@ -33,6 +33,7 @@ export const ACTION_TYPES = {
     VALIDATE_PASSWORD: 'VALIDATE_PASSWORD',
     ADD_POST_TEXT: 'ADD_POST_TEXT',
     ADD_POST_IMAGE: 'ADD_POST_IMAGE',
+    ADD_POST: 'ADD_POST',
     REMOVE_POST_IMAGE: 'REMOVE_POST_IMAGE',
     CLEAR_POST_FIELDS: 'CLEAR_POST_FIELDS',
     LOAD_POSTS: 'LOAD_POSTS',
@@ -45,6 +46,9 @@ export const ACTION_TYPES = {
     REMOVE_USER_INFO: 'REMOVE_USER_INFO',
     SHOW_CONFIRM_MODAL: 'SHOW_CONFIRM_MODAL',
     CLEAR_CONFIRM_MODAL: 'CLEAR_CONFIRM_MODAL',
+    SET_REGEXP: 'SET_REGEXP',
+    CLEAR_DATA: 'CLEAR_DATA',
+    REMOVE_USERS: 'REMOVE_USERS',
 };
 
 export const URLS = {
@@ -74,7 +78,6 @@ export const LANGUAGES = {
 export const TRANSLATIONS_OBJECT = {
     en: {
         application: {
-            noPosts: 'No posts',
             confirm: {
                 deletePost: 'Delete post',
                 removeFriend: 'Remove friend',
@@ -88,7 +91,7 @@ export const TRANSLATIONS_OBJECT = {
             noPosts: 'No posts',
             publish: 'Publish',
             addImages: 'Add images',
-            whatsNew: 'Whtat\'s new?',
+            whatsNew: 'What\'s new?',
             noFriends: 'You have no friends',
             friends: 'Friends',
             noResult: 'No result',
@@ -145,7 +148,6 @@ export const TRANSLATIONS_OBJECT = {
     },
     ru: {
         application: {
-            noPosts: 'Нет постов',
             confirm: {
                 deletePost: 'Удалить пост',
                 removeFriend: 'Удалить друга',

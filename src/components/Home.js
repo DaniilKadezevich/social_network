@@ -21,7 +21,7 @@ import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, Side
                                 <Route path='/news' component={News}/>
                                 <Route path='/settings' component={Settings}/>
                                 <Route path='/users/:userId' component={UserAccount}/>
-                                <Route component={News}/>
+                                <Route exact path='/' component={News}/>
                             </Switch>
                         </div>
                     </div>

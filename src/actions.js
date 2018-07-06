@@ -127,7 +127,7 @@ export function getUserByToken() {
     }
 }
 
-export function getUsers(regexp = /.*/) {
+export function getUsers(index, regexp = /.*/, url) {
     let token = localStorage.getItem('token');
 
     if (!token) {
@@ -139,13 +139,16 @@ export function getUsers(regexp = /.*/) {
     return dispatch => {
         let serialized = regexp.source;
 
-        return fetch(URLS.GET_USERS, {
+        return fetch(url, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ regexp: serialized })
+            body: JSON.stringify({
+                index,
+                regexp: serialized
+            })
         })
             .then(response => response.json())
             .then(data => {
@@ -155,36 +158,7 @@ export function getUsers(regexp = /.*/) {
                     return;
                 }
 
-                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users});
-            });
-    }
-}
-
-export function getFriends() {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
-    return dispatch => {
-        return fetch(URLS.GET_FRIENDS, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.isError) {
-                    errorHandler(dispatch, data.message, false);
-
-                    return;
-                }
-
-                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users});
+                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users, stopLoad: data.isAll});
             });
     }
 }
@@ -324,11 +298,11 @@ export function addPost(text, images) {
                 }
 
                 dispatch({type: ACTION_TYPES.CLEAR_POST_FIELDS});
-                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: [data.post]});
+                dispatch({type: ACTION_TYPES.ADD_POST, post: [data.post]});
             });
     }
 }
-export function getAllPosts() {
+export function getAllPosts(index) {
     let token = localStorage.getItem('token');
 
     if (!token) {
@@ -336,13 +310,14 @@ export function getAllPosts() {
 
         }
     }
-
     return dispatch => {
         return fetch(URLS.GET_ALL_POSTS, {
-            method: 'GET',
+            method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
             },
+            body: JSON.stringify({index})
         })
             .then(response => response.json())
             .then(data => {
@@ -350,8 +325,7 @@ export function getAllPosts() {
                     errorHandler(dispatch, data.message, false);
                     return;
                 }
-                dispatch({type: ACTION_TYPES.REMOVE_POSTS});
-                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts});
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts, stopLoad: data.isAll});
             });
     }
 }

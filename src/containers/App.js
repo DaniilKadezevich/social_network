@@ -14,7 +14,7 @@ export default class App extends Component {
           <Notification/>
           <Header/>
           <Main/>
-          <Footer/>
+          {/*<Footer/>*/}
       </div>
     );
     }

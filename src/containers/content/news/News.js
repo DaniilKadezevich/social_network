@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Translate } from 'react-redux-i18n';
+
 import './News.sass'
 
+import Waypoint from '../../../components/WaypointComponent'
 import Post from '../../../components/posts/Post';
 import PostGenerator from './PostGenerator'
 
@@ -13,33 +14,25 @@ import { ACTION_TYPES } from "../../../constants";
 
 
 class News extends Component {
-    componentWillMount() {
-        console.log('Get posts');
-        this.props.getAllPosts();
-    }
     componentWillUnmount() {
-        this.props.removePosts();
+        this.props.clearData();
     }
     render() {
         return(
             <div className='container'>
                 <PostGenerator/>
-                {
-                    !this.props.posts.length &&
-                    (
-                    <div className='container'>
-                        <div className="row">
-                            <div className="col-12 d-flex justify-content-center">
-                                <Translate value='application.noPosts'/>
-                            </div>
-                        </div>
-                    </div>
-                    )
-                }
-                {this.props.posts.map((post, index) => {
-                    let edit = (post.author === this.props.user_id);
-                    return <Post key={index} post={post} edit={edit}/>
-                })}
+                    {this.props.posts.map((post, index) => {
+                            let edit = (post.author === this.props.user_id);
+                            return <Post key={index} post={post} edit={edit}/>
+                        })
+                    }
+
+                <Waypoint
+                    length={this.props.posts.length}
+                    stopLoad={this.props.stopLoad}
+                    message='application.noPosts'
+                    onEnter={this.props.getAllPosts.bind(this, this.props.index)}
+                />
             </div>
         )
     }
@@ -47,14 +40,16 @@ class News extends Component {
 function mapStateToProps(state) {
     return {
         posts: state.data.posts,
+        index: state.data.index,
+        stopLoad: state.data.stopLoad,
         user_id: state.user._id
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        getAllPosts: () => dispatch(getAllPosts()),
-        removePosts: () => dispatch({type: ACTION_TYPES.REMOVE_POSTS}),
+        getAllPosts: index => dispatch(getAllPosts(index)),
+        clearData: () => dispatch({type: ACTION_TYPES.CLEAR_DATA}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(News)

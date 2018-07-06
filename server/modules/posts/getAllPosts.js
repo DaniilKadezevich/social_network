@@ -4,7 +4,7 @@ const getPosts = require('./getPosts');
 const { ObjectId } = require('mongodb');
 const { sendErrorMessage } = require('../functions');
 
-module.exports = function (token, res) {
+module.exports = function (token, index, res) {
     checkToken(token, (error, data) => {
         if (error) {
             sendErrorMessage('Invalid token', res);
@@ -13,8 +13,8 @@ module.exports = function (token, res) {
         connectToTheDB(function (dbo, db) {
             dbo.collection('users').findOne({ _id: ObjectId(data._id)}, { fields: {friends: 1}}, (err, r) => {
                 db.close();
-                let query = { author: {$in: [...r.friends, data._id]}};
-                getPosts(query, res)
+                let query = { author: {$in: r.friends}};
+                getPosts(query, index, res)
             });
         });
     });

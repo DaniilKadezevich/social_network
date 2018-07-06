@@ -1,50 +1,56 @@
 const connectToTheDB = require('../connectToTheDB');
 const { ObjectId } = require('mongodb');
-const moment = require('moment');
 const { sendErrorMessage } = require('../functions');
 
-module.exports = function (query, res) {
+module.exports = function (query, index, res) {
     connectToTheDB(function (dbo, db) {
-        dbo.collection('posts').find(query).toArray(function (err, r) {
+        dbo.collection('posts').find(query).toArray(function (err, result) {
             if (err) {
                 sendErrorMessage('Can\'t get posts', res);
                 db.close();
                 return;
             }
-
-            if (!r.length) {
+            if (!result.length) {
                 res.send({
-                    posts: r,
+                    posts: result,
                     isError: false,
+                    isAll: true,
                 });
                 db.close();
                 return;
             }
+            const posts = [];
+            const deadline = (result.length < (index + 10)) ? result.length : (index + 10);
 
-            let posts = [];
-
-            for (let i = 0; i < r.length; i++) {
-                let post = r[i];
-                dbo.collection('users').findOne({ _id: ObjectId(post.author) }, { fields: { name: 1, surname: 1, photo: 1}}, (er ,result) => {
-                    if (er) {
-                        sendErrorMessage('Can\'t find post author', res);
-                        db.close();
-                        return;
-                    }
-
-                    posts.push({...post, name: result.name, surname: result.surname, photo: result.photo});
-                    if (r.length - i === 1) {
-                        posts.sort(function (a, b) {
-                            return moment(b.date) - moment(a.date);
-                        });
+            if (index === deadline) {
+                res.send({
+                    posts,
+                    isError: false,
+                    isAll: true,
+                });
+            }
+            let autors = [];
+            result.forEach((post) => {
+                autors.push(ObjectId(post.author));
+            });
+            dbo.collection('users').find({ _id: { $in: autors } }, { fields: { name: 1, surname: 1, photo: 1}}).toArray((err, r) => {
+                for (let i = index; i < deadline; i++) {
+                    r.forEach((author) => {
+                        if (author._id.toString() === result[i].author) {
+                            posts.push({...result[i], name: author.name, surname: author.surname, photo: author.photo});
+                        }
+                    });
+                    if (deadline - i === 1) {
+                        const isAll = !(!(deadline % 10));
                         res.send({
                             posts,
                             isError: false,
-                          });
+                            isAll,
+                        });
                         db.close();
                     }
-                });
-            }
+                }
+            });
         });
     });
 };
