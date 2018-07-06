@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { I18n } from 'react-redux-i18n';
 import { REGEXPS, ACTION_TYPES } from '../../../constants'
 
 class AgeInput extends Component {
@@ -13,7 +13,7 @@ class AgeInput extends Component {
         this.setWaitingStatus = this.setWaitingStatus.bind(this);
     }
     validation() {
-        this.props.validate(this.regExp.test(this.props.age.value));
+        this.props.validate(this.regExp.test(this.props.age.value), I18n.t('application.form.errors.ageError'));
     }
     handleChange(e) {
         let value = e.target.value;
@@ -37,7 +37,7 @@ class AgeInput extends Component {
                     type="number"
                     className={`form-control ${stateClass}`}
                     id={this.props.id}
-                    placeholder='Age'
+                    placeholder={ I18n.t('application.form.age')}
                     onChange={this.handleChange}
                     onBlur={this.validation}
                     onFocus={this.setWaitingStatus}
@@ -60,7 +60,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addValue: value => dispatch({type: ACTION_TYPES.ADD_AGE, value}),
-        validate: status => dispatch({type: ACTION_TYPES.VALIDATE_AGE, status})
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_AGE, status, error})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(AgeInput)

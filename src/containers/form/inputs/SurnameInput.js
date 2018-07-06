@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { I18n } from 'react-redux-i18n';
 import { ACTION_TYPES, REGEXPS } from '../../../constants'
 
 class SurnameInput extends Component {
@@ -19,7 +19,7 @@ class SurnameInput extends Component {
     }
     validation() {
         this.props.surname.value = this.props.surname.value.trim();
-        this.props.validate(this.regExp.test(this.props.surname.value))
+        this.props.validate(this.regExp.test(this.props.surname.value), I18n.t('application.form.errors.required'))
     }
     setWaitingStatus() {
         this.props.validate('waiting');
@@ -37,7 +37,7 @@ class SurnameInput extends Component {
                 <input
                     type="name"
                     className={`form-control ${stateClass}`}
-                    placeholder="Surname"
+                    placeholder={ I18n.t('application.form.surname')}
                     onChange={this.handleChange}
                     onBlur={this.validation}
                     onFocus={this.setWaitingStatus}
@@ -63,7 +63,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addValue: (value) => dispatch({type: ACTION_TYPES.ADD_SURNAME, value}),
-        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_SURNAME, status})
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_SURNAME, status, error})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(SurnameInput)

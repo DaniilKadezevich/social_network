@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { I18n } from 'react-redux-i18n';
 import {ACTION_TYPES, REGEXPS} from '../../../constants'
 
 class PasswordInput extends Component {
@@ -18,7 +18,7 @@ class PasswordInput extends Component {
         this.props.addValue(value);
     }
     validation() {
-        this.props.validate(this.regExp.test(this.props.password.value))
+        this.props.validate(this.regExp.test(this.props.password.value), I18n.t('application.form.errors.passwordErr'))
     }
     setWaitingStatus() {
         this.props.validate('waiting');
@@ -37,7 +37,7 @@ class PasswordInput extends Component {
                 <input
                     type='password'
                     className={`form-control ${stateClass} ${this.props.size}`}
-                    placeholder='Password'
+                    placeholder={ I18n.t('application.form.password')}
                     onChange={this.handleChange}
                     onBlur={this.validation}
                     onFocus={this.setWaitingStatus}
@@ -60,7 +60,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return{
         addValue: (value) => dispatch({type: ACTION_TYPES.ADD_PASSWORD, value}),
-        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_PASSWORD, status}),
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_PASSWORD, status, error}),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordInput);

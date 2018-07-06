@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Translate } from 'react-redux-i18n';
 
 import { AccountActionsBlock } from '../index'
 
@@ -14,10 +15,12 @@ export default class AccountInfoBlock extends Component {
                 <div className='user-email'>{this.props.user.email}</div>
                 <div className="row mt-3">
                     <div className="col-4">
-                        <div className='user-gender'>{this.props.user.gender}</div>
+                        <div className='user-gender'>
+                            <Translate value={`application.${[this.props.user.gender]}`}/>
+                        </div>
                     </div>
                     <div className="col-4">
-                        <div className='user-age'>{this.props.user.age} y. o.</div>
+                        <div className='user-age'>{this.props.user.age}</div>
                     </div>
                 </div>
             </div>

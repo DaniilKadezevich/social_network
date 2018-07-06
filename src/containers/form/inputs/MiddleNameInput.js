@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { I18n } from 'react-redux-i18n';
 import { ACTION_TYPES, REGEXPS } from '../../../constants'
 
 class MiddleNameInput extends Component {
@@ -19,7 +19,7 @@ class MiddleNameInput extends Component {
     }
     validation() {
         this.props.middleName.value = this.props.middleName.value.trim();
-        this.props.validate(this.regExp.test(this.props.middleName.value) || this.props.middleName.value === '')
+        this.props.validate(this.regExp.test(this.props.middleName.value) || this.props.middleName.value === '', I18n.t('application.form.errors.middleNameErr'))
     }
     setWaitingStatus() {
         this.props.validate('waiting');
@@ -33,15 +33,23 @@ class MiddleNameInput extends Component {
             stateClass = ''
         }
         return(
-            <input
-                type="name"
-                className={`form-control ${stateClass}`}
-                placeholder="Middle Name"
-                onChange={this.handleChange}
-                onBlur={this.validation}
-                onFocus={this.setWaitingStatus}
-                value={this.props.middleName.value}
-            />
+            <div>
+                <input
+                    type="name"
+                    className={`form-control ${stateClass}`}
+                    placeholder={ I18n.t('application.form.middleName')}
+                    onChange={this.handleChange}
+                    onBlur={this.validation}
+                    onFocus={this.setWaitingStatus}
+                    value={this.props.middleName.value}
+                />
+                <div className='col-12'>
+                    <div className="error-message">
+                        {this.props.middleName.error}
+                    </div>
+                </div>
+            </div>
+
         )
     }
 }
@@ -53,7 +61,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addValue: (value) => dispatch({type: ACTION_TYPES.ADD_MIDDLE_NAME, value}),
-        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_MIDDLE_NAME, status})
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_MIDDLE_NAME, status, error})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(MiddleNameInput)

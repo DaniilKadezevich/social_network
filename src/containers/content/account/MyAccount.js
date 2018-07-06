@@ -8,7 +8,6 @@ import { EditUser } from '../../index';
 
 class MyAccount extends Component {
     render() {
-
         return (
             <Switch>
                 <Route path={`${this.props.match.url}/edit`} component={EditUser}/>

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { getUsers } from "../../actions";
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { I18n, Translate } from 'react-redux-i18n';
 
 import './SearchPeople.sass';
 
@@ -26,20 +27,19 @@ class SearchPeople extends Component {
     }
 
     render() {
-        let content;
-
-        this.props.users.length ? content = this.props.users.map((el, index) => {
-            return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
-        }) : content = (
+        const content = this.props.users.length ? this.props.users.map((el, index) => {
+                return <Link key={index} to={`/users/${el._id}`}> <UserBlock user={el}/> </Link>
+            }) : (
             <div className='col d-flex justify-content-center p-3'>
-                No results
-            </div>);
+                <Translate value='application.noResult'/>
+            </div>
+        );
 
         return (
             <div className="container">
                 <div className="row search-header">
                     <div className="col-6 offset-3">
-                        <input className='form-control search-input' type="text" placeholder='Search' onChange={this.handleChange.bind(this)}/>
+                        <input className='form-control search-input' type="text" placeholder={I18n.t('application.search')} onChange={this.handleChange.bind(this)}/>
                     </div>
                 </div>
                 {content}

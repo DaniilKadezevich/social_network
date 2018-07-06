@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Translate, I18n } from 'react-redux-i18n';
 
 import './PhotoForm.sass'
 
@@ -24,7 +25,7 @@ class PhotoBlock extends Component {
         if (file){
             size = file.size;
             if(!allowedExtensions.exec(filePath)){
-                this.props.validate(false, 'Incorrect file extension');
+                this.props.validate(false, I18n.t('application.form.errors.fileExt'));
                 event.target.value = '';
             } else {
                 let img = new Image();
@@ -43,19 +44,19 @@ class PhotoBlock extends Component {
                             if (width >= 200 && height >= 200) {
                                 self.props.addPhotoFile(imgLink);
                             } else {
-                                self.props.validate(false, 'Width and Height must be 200px or more');
+                                self.props.validate(false, I18n.t('application.form.errors.wAndHError'));
                                 event.target.value = '';
                             }
                         };
                     };
                     reader.readAsDataURL(file);
                 } else {
-                    this.props.validate(false, `File size should be from 0.04 to 5 mb. Current is: ${size/1000000} mbs`);
+                    this.props.validate(false, I18n.t('application.form.errors.fileSize'));
                     event.target.value = '';
                 }
             }
         } else {
-            this.props.validate(false, 'No photo selected')
+            this.props.validate(false, I18n.t('application.form.errors.required'))
         }
     }
     render() {
@@ -67,15 +68,15 @@ class PhotoBlock extends Component {
             statusClass = ''
         }
         return(
-            <div className={`form-group ${statusClass}`}>
+            <div className={`form-group ${statusClass} photo-block`}>
                 <div className='row align-items-center'>
                     <div className=" col-6 d-flex justify-content-center">
                         <button
-                            className='btn btn-primary'
+                            className='btn btn-primary btn-sm'
                             type='button'
                             onClick={() => this.photoInput.click()}
                         >
-                            Upload photo
+                            <Translate value='application.form.photoBtn'/>
                         </button>
                     </div>
                     <div className="col-6 d-flex justify-content-center">

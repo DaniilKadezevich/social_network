@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { Translate } from 'react-redux-i18n';
 import { Link } from 'react-router-dom'
 
 class LogOut extends Component {
     logOut() {
-        localStorage.clear();
+        localStorage.removeItem('token');
         this.props.logOut();
     }
     render() {
@@ -15,7 +15,7 @@ class LogOut extends Component {
         return(
             <Link onClick={this.logOut} to='/login'>
                 <button className="btn btn-outline-light btn-sm">
-                    Log out
+                    <Translate value='application.logOut'/>
                 </button>
             </Link>
         )

@@ -6,8 +6,6 @@ const REGEXPS = {
     age: /^[1-9][0-9]?$/,
 };
 
-module.exports.REGEXPS = REGEXPS;
-
 const URLS = {
     SIGN_UP: '/sign_up',
     LOG_IN: '/log-in',
@@ -21,6 +19,9 @@ const URLS = {
     ADD_POST: '/add-post',
     GET_ALL_POSTS: '/get-all-posts',
     DELETE_POST: '/delete-post',
+    CHANGE_PASSWORD: '/change-password',
+    CHANGE_LOCALE: '/change-locale',
 };
 
+module.exports.REGEXPS = REGEXPS;
 module.exports.URLS = URLS;

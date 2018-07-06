@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route} from 'react-router-dom'
 
 
-import { AuthenticatedComponent, LoadingComponent, MainForm, LogInForm, Home  } from '../containers/index'
+import { AuthenticatedComponent, LoadingComponent, MainForm, LogInForm, Home } from '../containers/index'
 
 
 import './Main.sass'

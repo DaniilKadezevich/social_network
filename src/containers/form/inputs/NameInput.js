@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
-import { REGEXPS, ACTION_TYPES } from '../../../constants'
+import { REGEXPS, ACTION_TYPES } from '../../../constants';
+import { I18n } from 'react-redux-i18n';
 
  class NameInput extends Component {
      constructor() {
@@ -14,7 +14,7 @@ import { REGEXPS, ACTION_TYPES } from '../../../constants'
      }
      validation() {
          this.props.name.value = this.props.name.value.trim();
-         this.props.validate(this.regExp.test(this.props.name.value))
+         this.props.validate(this.regExp.test(this.props.name.value), I18n.t('application.form.errors.required'))
      }
      handleChange(e) {
          let value = e.target.value;
@@ -38,7 +38,7 @@ import { REGEXPS, ACTION_TYPES } from '../../../constants'
                 <input
                     type='name'
                     className={`form-control ${stateClass}`}
-                    placeholder='Name'
+                    placeholder= { I18n.t('application.form.name') }
                     onChange={this.handleChange}
                     onBlur={this.validation}
                     onFocus={this.setWaitingStatus}
@@ -62,7 +62,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addValue: (value) => dispatch({type: ACTION_TYPES.ADD_NAME, value}),
-        validate: (status) => dispatch({type: ACTION_TYPES.VALIDATE_NAME, status})
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_NAME, status, error})
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(NameInput)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { Translate } from 'react-redux-i18n';
 import './News.sass'
 
 import Post from '../../../components/posts/Post';
@@ -14,6 +14,7 @@ import { ACTION_TYPES } from "../../../constants";
 
 class News extends Component {
     componentWillMount() {
+        console.log('Get posts');
         this.props.getAllPosts();
     }
     componentWillUnmount() {
@@ -23,6 +24,18 @@ class News extends Component {
         return(
             <div className='container'>
                 <PostGenerator/>
+                {
+                    !this.props.posts.length &&
+                    (
+                    <div className='container'>
+                        <div className="row">
+                            <div className="col-12 d-flex justify-content-center">
+                                <Translate value='application.noPosts'/>
+                            </div>
+                        </div>
+                    </div>
+                    )
+                }
                 {this.props.posts.map((post, index) => {
                     let edit = (post.author === this.props.user_id);
                     return <Post key={index} post={post} edit={edit}/>
