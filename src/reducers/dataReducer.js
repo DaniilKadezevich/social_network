@@ -11,6 +11,7 @@ let initialState = {
         photo: '',
     },
     posts: [],
+    gallery: [],
     index: 0,
     stopLoad: false,
     regexp: /.*/,
@@ -32,17 +33,26 @@ export default function (state = initialState, action) {
             return {...state, displayedUser };
 
         case 'ADD_POST':
-            return {...state, posts: [ ...action.post, ...state.posts ]};
+            return {...state, posts: [ ...action.post, ...state.posts ], index: state.index + 1};
         case 'LOAD_POSTS':
             return {...state, posts: [ ...state.posts, ...action.posts ], index: state.index + action.posts.length, stopLoad: action.stopLoad };
         case 'DELETE_POST':
             let postsCopy = [...state.posts].filter(post => {
                 return post._id !== action._id;
             });
-            return {...state, posts: [...postsCopy] };
+            return {...state, posts: [...postsCopy], index: state.index - 1 };
         case 'REMOVE_POSTS':
             let { posts, index, stopLoad } = initialState;
             return {...state, posts, index, stopLoad };
+
+        case 'LOAD_GALLERY_IMAGES':
+            return {...state, gallery: [...state.gallery, ...action.images ], index: state.index + action.images.length, stopLoad: action.stopLoad};
+        case 'ADD_GALLERY_IMAGES':
+            return {...state, gallery: [...action.images, ...state.gallery ], index: state.index + action.images.length};
+        case 'REMOVE_GALLERY_IMAGE':
+            let gallery =  [...state.gallery];
+            gallery.splice(action.index, 1);
+            return {...state, gallery, index: state.index - 1};
 
         case 'CLEAR_DATA':
             return initialState;

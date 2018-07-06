@@ -8,6 +8,8 @@ import { addPost, getAllPosts } from "../../../actions";
 import { Link } from 'react-router-dom';
 
 import Avatar from '../../../components/Avatar';
+import ImageAdderItem from '../../../components/imageAdder/ImageAdderItem'
+
 import './PostGenerator.sass'
 
 class PostGenerator extends Component {
@@ -74,18 +76,17 @@ class PostGenerator extends Component {
                          <div className="row no-gutters">
                              <div className="post-generator-image-gallery">
                                  { this.props.post.images.map((image, index) => {
-                                     const style = {
-                                         backgroundImage: `url(${image})`,
-                                     };
                                      return (
-                                         <div key={index} className="gallery-item" style={style}>
-                                             <FontAwesomeIcon className='remove-gallery-item' icon='times'
-                                             onClick={this.props.removeImage.bind(this, index)}/>
-                                         </div>
+                                         <ImageAdderItem
+                                             key={index}
+                                             removeHandler={this.props.removeImage.bind(this, index)}
+                                             src={image}
+                                         />
                                      )
+
                                  })}
                              </div>
-                        </div>
+                         </div>
                         }
                         <div className="row post-generator-image-input no-gutters">
                             <div className="col-12">

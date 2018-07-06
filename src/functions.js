@@ -1,4 +1,5 @@
 import { ACTION_TYPES, preDelay, REGEXPS } from './constants';
+import $ from "jquery";
 
 export function validateFormInputs(form) {
     let {gender, name, surname, middleName, email, age, photo} = form;
@@ -51,4 +52,16 @@ export function successHandler(dispatch, message, isTemporary = true) {
             });
         }
     }, preDelay);
+}
+
+export function setSizeClass() {
+    let img = new Image();
+    let sizeClass;
+
+    img.onload = (e) => {
+        sizeClass = e.target.width < e.target.height ? 'vertical' : 'horizontal';
+        $(this.img).removeClass();
+        $(this.img).addClass(sizeClass);
+    };
+    img.src = this.props.src;
 }

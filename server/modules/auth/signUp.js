@@ -27,7 +27,7 @@ module.exports = function (userObj, res) {
             }
 
             bcrypt.hash(password, 10, function(err, hash) {
-                dbo.collection("users").insertOne({...userObj, password: hash, friends: []}, function(err, result) {
+                dbo.collection("users").insertOne({...userObj, password: hash, friends: [], gallery: []}, function(err, result) {
                     if (err) {
                         sendErrorMessage(i18n.__('Can\'t add user'), res);
                         return;

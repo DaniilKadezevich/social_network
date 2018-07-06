@@ -26,6 +26,9 @@ const getAllPosts = require('./modules/posts/getAllPosts');
 const getUsersPosts = require('./modules/posts/getUsersPosts');
 const removeFriend = require('./modules/friends/removeFriend');
 const changePassword = require('./modules/changePassword');
+const addGalleryImages = require('./modules/gallery/addGalleryImages');
+const getGalleryImages = require('./modules/gallery/getGalleryImages');
+const removeGalleryItem = require('./modules/gallery/removeGalleryItem');
 
 app.use(bodyParser.json());
 app.use(i18n.init);
@@ -126,6 +129,25 @@ app.post(URLS.CHANGE_PASSWORD, verifyToken, upload.any(), (req, res) => {
     let token = req.token;
 
     changePassword(token, req.body, res);
+});
+// Gallery
+app.post(URLS.ADD_GALLERY_IMAGES, verifyToken, upload.any(), (req, res) => {
+    let token = req.token;
+    let images = req.body.images;
+
+    addGalleryImages(token, images, res);
+});
+app.post(URLS.GET_GALLERY_IMAGES, verifyToken, (req, res) => {
+    let token = req.token;
+    let index = req.body.index;
+
+    getGalleryImages(token, index, res);
+});
+app.post(URLS.REMOVE_GALLERY_IMAGE, verifyToken, (req, res) => {
+    let token = req.token;
+    let index = req.body.index;
+
+    removeGalleryItem(token, index, res)
 });
 // Server
 app.listen(5555, function () {

@@ -449,6 +449,99 @@ export function changeLocale(locale) {
     }
 }
 
+export function addGalleryImages(images) {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    let formData = new FormData();
+
+    images.forEach((img) => {
+        formData.append('images', img);
+    });
+
+    return dispatch => {
+        return fetch(URLS.ADD_GALLERY_IMAGES, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData,
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+
+                    return;
+                }
+                dispatch({type: 'ADD_GALLERY_IMAGES', images: data.images})
+            });
+    }
+}
+export function getGalleryImages(index) {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+    return dispatch => {
+        return fetch(URLS.GET_GALLERY_IMAGES, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({index})
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+                    return;
+                }
+
+                dispatch({type: 'LOAD_GALLERY_IMAGES', images: data.images, stopLoad: data.isAll})
+            });
+    }
+}
+export function removeGalleryImage(index) {
+    let token = localStorage.getItem('token');
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    return dispatch => {
+        return fetch(URLS.REMOVE_GALLERY_IMAGE, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({index})
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+                    return;
+                }
+                dispatch({type: 'REMOVE_GALLERY_IMAGE', index: data.index})
+            });
+    }
+}
+
 
 export function fillFormFields(user) {
     let { name, surname, middleName, email, gender, photo, age } = user;

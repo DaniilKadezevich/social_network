@@ -3,7 +3,7 @@ import { Switch, Route, Redirect } from 'react-router-dom'
 
 import './Home.sass'
 
-import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu } from '../containers/index';
+import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu, Gallery } from '../containers/index';
 
 
  export default class HomePage extends Component {
@@ -21,6 +21,7 @@ import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, Side
                                 <Route path='/news' component={News}/>
                                 <Route path='/settings' component={Settings}/>
                                 <Route path='/users/:userId' component={UserAccount}/>
+                                <Route path='/gallery' component={Gallery}/>
                                 <Route exact path='/' component={News}/>
                             </Switch>
                         </div>

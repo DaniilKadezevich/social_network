@@ -66,7 +66,10 @@ export const URLS = {
     DELETE_POST: '/delete-post',
     CHANGE_PASSWORD: '/change-password',
     CHANGE_LOCALE: '/change-locale',
-    GET_USERS_POSTS: '/get-users-posts'
+    GET_USERS_POSTS: '/get-users-posts',
+    ADD_GALLERY_IMAGES: '/add-gallery-images',
+    GET_GALLERY_IMAGES: '/get-gallery-images',
+    REMOVE_GALLERY_IMAGE: '/remove-gallery-image',
 };
 
 export const preDelay = 1000;
@@ -111,6 +114,7 @@ export const TRANSLATIONS_OBJECT = {
                 friends: 'Friends',
                 searchPeople: 'Search people',
                 newsFeed: 'News feed',
+                gallery: 'Gallery',
                 settings: 'Settings',
             },
             settingsSidebar: {
@@ -181,6 +185,7 @@ export const TRANSLATIONS_OBJECT = {
                 friends: 'Друзья',
                 searchPeople: 'Поиск',
                 newsFeed: 'Новостная лента',
+                gallery: 'Галерея',
                 settings: 'Настройки',
             },
             settingsSidebar: {
