@@ -352,7 +352,6 @@ export function getUsersPosts(index, _id) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.isError) {
                     errorHandler(dispatch, data.message, false);
                     return;
@@ -474,13 +473,12 @@ export function addGalleryImages(images) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.isError) {
                     errorHandler(dispatch, data.message, false);
 
                     return;
                 }
-                dispatch({type: 'ADD_GALLERY_IMAGES', images: data.images})
+                dispatch({type: ACTION_TYPES.ADD_GALLERY_IMAGES, images: data.images})
             });
     }
 }
@@ -503,13 +501,12 @@ export function getGalleryImages(index) {
         })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.isError) {
                     errorHandler(dispatch, data.message, false);
                     return;
                 }
 
-                dispatch({type: 'LOAD_GALLERY_IMAGES', images: data.images, stopLoad: data.isAll})
+                dispatch({type: ACTION_TYPES.LOAD_GALLERY_IMAGES, images: data.images, stopLoad: data.isAll})
             });
     }
 }
@@ -537,7 +534,7 @@ export function removeGalleryImage(index) {
                     errorHandler(dispatch, data.message, false);
                     return;
                 }
-                dispatch({type: 'REMOVE_GALLERY_IMAGE', index: data.index})
+                dispatch({type: ACTION_TYPES.REMOVE_GALLERY_IMAGE, index: data.index})
             });
     }
 }

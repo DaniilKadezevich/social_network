@@ -19,7 +19,6 @@ module.exports = function (token, index, res) {
                 }
 
                 if (!result.gallery.length) {
-                    console.log('!result.gallery.length');
                     res.send({
                         images: result.gallery,
                         isError: false,
@@ -32,7 +31,6 @@ module.exports = function (token, index, res) {
                 const deadline = (result.gallery.length < (index + 12)) ? result.gallery.length : (index + 12);
 
                 if (index === deadline) {
-                    console.log('index === deadline');
                     res.send({
                         images,
                         isError: false,
@@ -45,9 +43,7 @@ module.exports = function (token, index, res) {
                 for (let i = index; i < deadline; i++) {
                     images.push(result.gallery[i]);
                     if (deadline - i === 1) {
-                        console.log('deadline - i === 1');
-                        console.log(result.gallery.length);
-                        let isAll = !(!(deadline <e 12));
+                        let isAll = !(!(deadline < 12));
                         res.send({
                             images,
                             isError: false,

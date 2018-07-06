@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import plusImg from '../../../images/plus.png'
 import $ from 'jquery'
+import { Translate } from 'react-redux-i18n';
 
-import ImageAdderItem from '../../../components/imageAdder/ImageAdderItem';
+import ImageAdderGallery from '../../../components/imageAdder/ImageAdderGallery';
 
 import './ImageAdder.sass'
 import {addGalleryImages} from "../../../actions";
+import {ACTION_TYPES} from "../../../constants";
+import { addImages } from '../../../functions'
 
 class ImageAdder extends Component {
     constructor() {
@@ -24,25 +26,7 @@ class ImageAdder extends Component {
         this.props.addGalleryImages(this.props.images)
     }
     addImages(event) {
-        for (let i = 0; i < event.target.files.length; i++) {
-            let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-            let filePath = event.target.value;
-
-            if(!allowedExtensions.exec(filePath)){
-                event.target.value = '';
-
-                return;
-            }
-            let file = event.target.files[i];
-
-            let reader = new FileReader();
-
-            reader.onload = (e) => {
-                this.props.addImages(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-        event.target.value = '';
+       addImages(event, this.props.addImages)
     }
     render() {
         return (
@@ -52,35 +36,23 @@ class ImageAdder extends Component {
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="imageAdder">Upload images</h5>
+                            <h5 className="modal-title" id="imageAdder">
+                                <Translate value='application.uploadPhoto'/>
+                            </h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
                             <div className="row no-gutters">
-                                <div className="image-adder-gallery">
-                                    {this.props.images.map((img, index) => {
-                                        return (
-                                            <ImageAdderItem
-                                                key={index}
-                                                removeHandler={this.props.removeImage.bind(this, index)}
-                                                src={img}
-                                            />
-                                        )
-                                    })}
-
-                                    <div
-                                        onClick={() => this.imagesInput.click()}
-                                        className="add-item-block"
-                                        style={{backgroundImage: `url(${plusImg})`}}
-                                    >
-
-                                    </div>
-                                </div>
+                                <ImageAdderGallery
+                                    images={this.props.images}
+                                    inputHandler={() => this.imagesInput.click()}
+                                    removeHandler={this.props.removeImage}
+                                />
                             </div>
                         </div>
-                        <div className="modal-footer">
+                        <div className="modal-footer border-0">
                             <input
                                 multiple
                                 style={{display: 'none'}}
@@ -99,7 +71,7 @@ class ImageAdder extends Component {
                                 aria-label="Close"
                                 onClick={this.handleClick}
                             >
-                                Publish
+                                <Translate value='application.publish'/>
                             </button>
                         </div>
                     </div>
@@ -116,9 +88,9 @@ function mapStateToProps(state) {
 }
 function mapDispatchToProps(dispatch) {
     return {
-        addImages: images => dispatch({type: 'ADD_ADDER_IMAGES', images}),
-        removeImage: index => dispatch({type: 'REMOVE_ADDER_IMAGE', index}),
-        clearAdder: () => dispatch({type: 'CLEAR_ADDER'}),
+        addImages: images => dispatch({type: ACTION_TYPES.ADD_ADDER_IMAGES, images}),
+        removeImage: index => dispatch({type: ACTION_TYPES.REMOVE_ADDER_IMAGE, index}),
+        clearAdder: () => dispatch({type: ACTION_TYPES.CLEAR_ADDER}),
         addGalleryImages: images => dispatch(addGalleryImages(images)),
     }
 }

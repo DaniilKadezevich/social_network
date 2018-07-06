@@ -49,6 +49,12 @@ export const ACTION_TYPES = {
     SET_REGEXP: 'SET_REGEXP',
     CLEAR_DATA: 'CLEAR_DATA',
     REMOVE_USERS: 'REMOVE_USERS',
+    ADD_GALLERY_IMAGES: 'ADD_GALLERY_IMAGES',
+    LOAD_GALLERY_IMAGES: 'LOAD_GALLERY_IMAGES',
+    REMOVE_GALLERY_IMAGE: 'REMOVE_GALLERY_IMAGE',
+    ADD_ADDER_IMAGES: 'ADD_ADDER_IMAGES',
+    REMOVE_ADDER_IMAGE: 'REMOVE_ADDER_IMAGE',
+    CLEAR_ADDER: 'CLEAR_ADDER',
 };
 
 export const URLS = {
@@ -82,6 +88,10 @@ export const LANGUAGES = {
 export const TRANSLATIONS_OBJECT = {
     en: {
         application: {
+            uploadPhoto: 'Upload photo',
+            addPhoto: 'Add photo',
+            photos: 'Photo',
+            galleryIsEmpty: 'Gallery is empty',
             confirm: {
                 deletePost: 'Delete post',
                 removeFriend: 'Remove friend',
@@ -153,6 +163,10 @@ export const TRANSLATIONS_OBJECT = {
     },
     ru: {
         application: {
+            uploadPhoto: 'Загрузить фото',
+            addPhoto: 'Добавить фото',
+            photos: 'Фото',
+            galleryIsEmpty: 'Галерея пуста',
             confirm: {
                 deletePost: 'Удалить пост',
                 removeFriend: 'Удалить друга',
@@ -165,7 +179,7 @@ export const TRANSLATIONS_OBJECT = {
             removeFriend: 'Удалить из друзей',
             noPosts: 'Нет постов',
             publish: 'Опубликовать',
-            addImages: 'Добавить фотографии',
+            addImages: 'Добавить фото',
             whatsNew: 'Что нового?',
             noFriends: 'У вас нет друзей',
             friends: 'Друзья',

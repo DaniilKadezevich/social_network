@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Translate } from 'react-redux-i18n';
 
 import './Gallery.sass'
 
 import Waypoint from '../../../components/WaypointComponent'
-import GalleryItem from './GalleryItem'
+import GalleryItem from '../../../components/gallery/GalleryItem'
 
 
 import { getGalleryImages, removeGalleryImage } from "../../../actions";
@@ -23,7 +25,7 @@ class Gallery extends Component {
                         <div className="row gallery-header">
                             <div className="col">
                                 <FontAwesomeIcon icon='images' className='mr-1'/>
-                                Photos
+                                <Translate value='application.photos'/>
                             </div>
                             <div className="col d-flex justify-content-end">
 
@@ -33,7 +35,7 @@ class Gallery extends Component {
                                     data-toggle="modal"
                                     data-target="#imageAdder"
                                 >
-                                    Add photo
+                                    <Translate value='application.addPhoto'/>
                                 </button>
                             </div>
                         </div>

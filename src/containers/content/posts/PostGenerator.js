@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Translate, I18n } from 'react-redux-i18n';
 
 import { connect } from 'react-redux';
 import { ACTION_TYPES } from "../../../constants";
 import { addPost, getAllPosts } from "../../../actions";
+import { addImages } from '../../../functions'
 import { Link } from 'react-router-dom';
 
 import Avatar from '../../../components/Avatar';
-import ImageAdderItem from '../../../components/imageAdder/ImageAdderItem'
+import ImageAdderGallery from '../../../components/imageAdder/ImageAdderGallery'
 
 import './PostGenerator.sass'
 
@@ -17,7 +17,7 @@ class PostGenerator extends Component {
         super();
 
         this.addText = this.addText.bind(this);
-        this.addImage = this.addImage.bind(this);
+        this.addImages = this.addImages.bind(this);
         this.addPost = this.addPost.bind(this);
     }
     componentWillUnmount() {
@@ -31,26 +31,8 @@ class PostGenerator extends Component {
 
         this.props.addText(text);
     }
-    addImage(event) {
-        for (let i = 0; i < event.target.files.length; i++) {
-            let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
-            let filePath = event.target.value;
-
-            if(!allowedExtensions.exec(filePath)){
-                event.target.value = '';
-
-                return;
-            }
-            let file = event.target.files[i];
-
-            let reader = new FileReader();
-
-            reader.onload = (e) => {
-                this.props.addImage(e.target.result);
-            };
-            reader.readAsDataURL(file);
-        }
-        event.target.value = '';
+    addImages(event) {
+        addImages(event, this.props.addImages);
     }
     render() {
         return (
@@ -74,18 +56,11 @@ class PostGenerator extends Component {
                         </div>
                         { !(!this.props.post.images.length) &&
                          <div className="row no-gutters">
-                             <div className="post-generator-image-gallery">
-                                 { this.props.post.images.map((image, index) => {
-                                     return (
-                                         <ImageAdderItem
-                                             key={index}
-                                             removeHandler={this.props.removeImage.bind(this, index)}
-                                             src={image}
-                                         />
-                                     )
-
-                                 })}
-                             </div>
+                             <ImageAdderGallery
+                                 images={this.props.post.images}
+                                 removeHandler={this.props.removeImage.bind(this)}
+                                 inputHandler={() => this.imagesInput.click()}
+                             />
                          </div>
                         }
                         <div className="row post-generator-image-input no-gutters">
@@ -99,7 +74,7 @@ class PostGenerator extends Component {
                                     id="post-images"
                                     name='images'
                                     ref={imagesInput => this.imagesInput = imagesInput}
-                                    onChange={this.addImage}
+                                    onChange={this.addImages}
                                 />
                                 <button
                                     className='btn btn-primary btn-sm'
@@ -135,7 +110,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addText: text => dispatch({type: ACTION_TYPES.ADD_POST_TEXT, text}),
-        addImage: images => dispatch({type: ACTION_TYPES.ADD_POST_IMAGE, images}),
+        addImages: images => dispatch({type: ACTION_TYPES.ADD_POST_IMAGE, images}),
         removeImage: index => dispatch({type: ACTION_TYPES.REMOVE_POST_IMAGE, index}),
         clearFields: () => dispatch({type: ACTION_TYPES.CLEAR_POST_FIELDS}),
         addPost: (text, images) => dispatch(addPost(text, images)),

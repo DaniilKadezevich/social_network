@@ -65,3 +65,24 @@ export function setSizeClass() {
     };
     img.src = this.props.src;
 }
+export function addImages(event, callback) {
+    for (let i = 0; i < event.target.files.length; i++) {
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        let filePath = event.target.value;
+
+        if(!allowedExtensions.exec(filePath)){
+            event.target.value = '';
+
+            return;
+        }
+        let file = event.target.files[i];
+
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+            callback(e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+    event.target.value = '';
+}

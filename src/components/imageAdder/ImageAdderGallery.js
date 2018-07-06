@@ -3,7 +3,7 @@ import plusImg from '../../images/plus.png'
 
 import ImageAdderItem from './ImageAdderItem';
 
-import './ImageAdderItem.sass'
+import './ImageAdderGallery.sass'
 
 export default class ImageAdderGallery extends Component {
     render() {
@@ -13,7 +13,7 @@ export default class ImageAdderGallery extends Component {
                     return (
                         <ImageAdderItem
                             key={index}
-                            removeHandler={this.props.removeHandler}
+                            removeHandler={this.props.removeHandler.bind(this, index)}
                             src={img}
                         />
                     )
