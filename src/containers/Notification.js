@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
+import { notificationDelay } from '../constants'
 
 import './Notification.sass'
 
@@ -21,7 +22,7 @@ class Notification extends Component {
         }
 
         if (this.props.notification.isTemporary) {
-            this.timerId = setTimeout(this.props.hideNotification, 4000);
+            this.timerId = setTimeout(this.props.hideNotification, notificationDelay);
         }
 
         return (

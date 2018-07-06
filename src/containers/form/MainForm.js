@@ -20,10 +20,10 @@ class RegistrationForm extends Component {
 
     handleSubmit() {
         let form = {...this.props.form};
-
-        let { gender, name, surname, middleName, email, age, photo } = form;
-
+        delete form.password;
         if (validateFormInputs(form)) {
+            let { gender, name, surname, middleName, email, age, photo } = form;
+
             let formData = new FormData();
 
             formData.append('photo', photo.file);

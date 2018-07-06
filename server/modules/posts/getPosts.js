@@ -1,6 +1,6 @@
 const connectToTheDB = require('../connectToTheDB');
 const { ObjectId } = require('mongodb');
-const { sendErrorMessage } = require('../functions');
+const { sendErrorMessage, checkIsAll } = require('../functions');
 
 module.exports = function (query, index, res) {
     connectToTheDB(function (dbo, db) {
@@ -11,28 +11,15 @@ module.exports = function (query, index, res) {
                 return;
             }
             let result = r.reverse();
-            if (!result.length) {
-                res.send({
-                    posts: result,
-                    isError: false,
-                    isAll: true,
-                });
-                db.close();
-                return;
+
+            if (checkIsAll(result, index, db, res)) {
+                return
             }
+
             const posts = [];
             const deadline = (result.length < (index + 10)) ? result.length : (index + 10);
 
-            if (index === deadline) {
-                res.send({
-                    posts,
-                    isError: false,
-                    isAll: true,
-                });
-                db.close();
-                return;
-            }
-            let autors = [];
+            const autors = [];
             result.forEach((post) => {
                 autors.push(ObjectId(post.author));
             });
@@ -46,7 +33,7 @@ module.exports = function (query, index, res) {
                     if (deadline - i === 1) {
                         const isAll = !(!(deadline < 10));
                         res.send({
-                            posts,
+                            data: posts,
                             isError: false,
                             isAll,
                         });

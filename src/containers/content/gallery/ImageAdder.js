@@ -21,8 +21,18 @@ class ImageAdder extends Component {
         $(this.modal).on('hidden.bs.modal', (e) => {
             this.props.clearAdder();
         });
+        $(this.modal).on('show.bs.modal', (e) => {
+            this.props.clearAdder();
+            $(this.publishBtn).prop('disabled', true);
+        });
+    }
+    componentDidUpdate() {
+        const isDisabled = !this.props.images.length;
+
+        $(this.publishBtn).prop('disabled', isDisabled);
     }
     handleClick() {
+        console.log('HE');
         this.props.addGalleryImages(this.props.images)
     }
     addImages(event) {
@@ -70,6 +80,7 @@ class ImageAdder extends Component {
                                 data-dismiss="modal"
                                 aria-label="Close"
                                 onClick={this.handleClick}
+                                ref={publishBtn => this.publishBtn = publishBtn}
                             >
                                 <Translate value='application.publish'/>
                             </button>

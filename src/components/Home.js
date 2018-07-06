@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 
 import './Home.sass'
+import {ACTION_TYPES, URLS} from "../constants";
 
 import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu, Gallery } from '../containers/index';
 
@@ -15,14 +16,14 @@ import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, Side
                         <SidebarMenu/>
                         <div className="col-10 content">
                             <Switch>
-                                <Route path='/account' component={MyAccount}/>
-                                <Route path='/friends' component={FriendsList}/>
-                                <Route path='/search-people' component={SearchPeople}/>
-                                <Route path='/news' component={News}/>
-                                <Route path='/settings' component={Settings}/>
-                                <Route path='/users/:userId' component={UserAccount}/>
-                                <Route path='/gallery' component={Gallery}/>
-                                <Route exact path='/' component={News}/>
+                                <Route path={URLS.ACCOUNT} component={MyAccount}/>
+                                <Route path={URLS.FRIENDS} component={FriendsList}/>
+                                <Route path={URLS.SEARCH_PEOPLE} component={SearchPeople}/>
+                                <Route path={URLS.NEWS} component={News}/>
+                                <Route path={URLS.SETTINGS} component={Settings}/>
+                                <Route path={URLS.USER} component={UserAccount}/>
+                                <Route path={URLS.GALLERY} component={Gallery}/>
+                                <Route exact path={URLS.HOME} component={News}/>
                             </Switch>
                         </div>
                     </div>

@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 const { generateToken } = require('../jwt');
 const { sendErrorMessage } = require('../functions');
 const i18n = require("i18n");
+const { SALT } = require('../../constants');
 
 module.exports = function (userObj, res) {
     userObj.email = userObj.email.toLowerCase();
@@ -26,7 +27,7 @@ module.exports = function (userObj, res) {
                 return;
             }
 
-            bcrypt.hash(password, 10, function(err, hash) {
+            bcrypt.hash(password, SALT, function(err, hash) {
                 dbo.collection("users").insertOne({...userObj, password: hash, friends: [], gallery: []}, function(err, result) {
                     if (err) {
                         sendErrorMessage(i18n.__('Can\'t add user'), res);

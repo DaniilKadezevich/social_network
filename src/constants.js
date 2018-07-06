@@ -76,9 +76,22 @@ export const URLS = {
     ADD_GALLERY_IMAGES: '/add-gallery-images',
     GET_GALLERY_IMAGES: '/get-gallery-images',
     REMOVE_GALLERY_IMAGE: '/remove-gallery-image',
+
+    SETTINGS_PASSWORD: '/settings/password',
+    SETTINGS_LANGUAGE: '/settings/language',
+
+    ACCOUNT: '/account',
+    FRIENDS: '/friends',
+    SEARCH_PEOPLE: '/search-people',
+    NEWS: '/news',
+    SETTINGS: '/settings',
+    USER: '/users/:userId',
+    GALLERY: '/gallery',
+    HOME: '/',
 };
 
 export const preDelay = 1000;
+export const notificationDelay = 4000;
 
 export const LANGUAGES = {
     en: 'English',

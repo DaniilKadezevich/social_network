@@ -158,7 +158,7 @@ export function getUsers(index, regexp = /.*/, url) {
                     return;
                 }
 
-                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.users, stopLoad: data.isAll});
+                dispatch({type: ACTION_TYPES.ADD_USERS, users: data.data, stopLoad: data.isAll});
             });
     }
 }
@@ -325,7 +325,7 @@ export function getAllPosts(index) {
                     errorHandler(dispatch, data.message, false);
                     return;
                 }
-                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts, stopLoad: data.isAll});
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.data, stopLoad: data.isAll});
             });
     }
 }
@@ -357,7 +357,7 @@ export function getUsersPosts(index, _id) {
                     return;
                 }
 
-                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts, stopLoad: data.isAll});
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.data, stopLoad: data.isAll});
             });
     }
 }
@@ -506,7 +506,7 @@ export function getGalleryImages(index) {
                     return;
                 }
 
-                dispatch({type: ACTION_TYPES.LOAD_GALLERY_IMAGES, images: data.images, stopLoad: data.isAll})
+                dispatch({type: ACTION_TYPES.LOAD_GALLERY_IMAGES, images: data.data, stopLoad: data.isAll})
             });
     }
 }

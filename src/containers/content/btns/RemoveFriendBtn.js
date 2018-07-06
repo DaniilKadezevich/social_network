@@ -12,7 +12,11 @@ class RemoveFriendBtn extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        this.props.showConfirmModal(I18n.t('application.confirm.areYouSure'), this.props.removeFriend.bind(this, { _id: this.props._id }), I18n.t('application.confirm.removeFriend'), I18n.t('application.removeM'));
+        this.props.showConfirmModal(I18n.t('application.confirm.areYouSure'),
+            this.props.removeFriend.bind(this, { _id: this.props._id }),
+            I18n.t('application.confirm.removeFriend'),
+            I18n.t('application.removeM')
+        );
     }
     render() {
         return (

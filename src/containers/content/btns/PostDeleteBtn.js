@@ -15,7 +15,12 @@ class PostDeleteBtn extends Component {
         this.handleClick = this.handleClick.bind(this);
     }
     handleClick() {
-        this.props.showConfirmModal(I18n.t('application.confirm.areYouSure'), this.props.deletePost.bind(this, { _id: this.props._id}), I18n.t('application.confirm.deletePost'), I18n.t('application.deleteM'));
+        this.props.showConfirmModal(
+            I18n.t('application.confirm.areYouSure'),
+            this.props.deletePost.bind(this, { _id: this.props._id}),
+            I18n.t('application.confirm.deletePost'),
+            I18n.t('application.deleteM')
+        );
     }
     render() {
         return(

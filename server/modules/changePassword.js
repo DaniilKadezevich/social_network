@@ -4,6 +4,7 @@ const bcrypt = require('bcrypt');
 const { ObjectId } = require('mongodb');
 const { sendErrorMessage } = require('./functions');
 const i18n = require("i18n");
+const { MIN_PASSWORD_LENGTH, SALT } = require('../constants');
 
 module.exports = function (token, passwords, res) {
     checkToken(token, (error, data) => {
@@ -39,13 +40,13 @@ module.exports = function (token, passwords, res) {
                         return;
                     }
 
-                    if (passwords.new.length < 10) {
+                    if (passwords.new.length < MIN_PASSWORD_LENGTH) {
                         sendErrorMessage(i18n.__('Create a password at least 10 characters long.'), res);
                         db.close();
                         return;
                     }
 
-                    bcrypt.hash(passwords.new, 10, function(err, hash) {
+                    bcrypt.hash(passwords.new, SALT, function(err, hash) {
                         dbo.collection('users').updateOne({ _id: ObjectId(data._id)}, {$set: { password: hash }}, (err, r) => {
                             if (err) {
                                 sendErrorMessage('Can\'t update user', res);

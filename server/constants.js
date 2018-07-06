@@ -27,5 +27,10 @@ const URLS = {
     REMOVE_GALLERY_IMAGE: '/remove-gallery-image',
 };
 
+const MIN_PASSWORD_LENGTH = 10;
+const SALT = 10;
+
 module.exports.REGEXPS = REGEXPS;
 module.exports.URLS = URLS;
+module.exports.MIN_PASSWORD_LENGTH = MIN_PASSWORD_LENGTH;
+module.exports.SALT = SALT;

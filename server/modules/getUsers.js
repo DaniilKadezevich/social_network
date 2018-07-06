@@ -1,4 +1,4 @@
-const { sendErrorMessage } = require('./functions');
+const { sendErrorMessage, checkIsAll } = require('./functions');
 
 module.exports = function (dbo, db, query, res, index) {
     dbo.collection('users').find(query, { fields: {password: 0, middleName: 0, email: 0, gallery: 0} }).toArray(function (err, result) {
@@ -7,33 +7,20 @@ module.exports = function (dbo, db, query, res, index) {
             db.close();
             return;
         }
-        if (!result.length) {
-            res.send({
-                users: result,
-                isError: false,
-                isAll: true,
-            });
-            db.close();
-            return;
+
+        if (checkIsAll(result, index, db, res)) {
+            return
         }
 
         const users = [];
         const deadline = (result.length < (index + 10)) ? result.length : (index + 10);
 
-        if (index === deadline) {
-            res.send({
-                users,
-                isError: false,
-                isAll: true,
-            });
-        }
-
         for (let i = index; i < deadline; i++) {
             users.push(result[i]);
             if (deadline - i === 1) {
-                const isAll = !(!(deadline % 10));
+                const isAll = !(!(deadline < 10));
                 res.send({
-                    users,
+                    data: users,
                     isError: false,
                     isAll,
                 });

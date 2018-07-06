@@ -8,7 +8,7 @@ import { Redirect, Link } from 'react-router-dom';
 import './forms.sass'
 
 import { ACTION_TYPES, REGEXPS } from "../../constants";
-import { validateLogInFormInputs } from "../../functions";
+import { validateFormInputs } from "../../functions";
 
 import { EmailInput, PasswordInput } from './index'
 
@@ -23,7 +23,7 @@ class LogInForm extends Component {
 
         let {password, email} = form;
 
-        if(validateLogInFormInputs(form)) {
+        if(validateFormInputs({email, password})) {
             let formData = new FormData();
 
             formData.append('email', email.value);

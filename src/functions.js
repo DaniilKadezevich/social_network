@@ -2,26 +2,32 @@ import { ACTION_TYPES, preDelay, REGEXPS } from './constants';
 import $ from "jquery";
 
 export function validateFormInputs(form) {
-    let {gender, name, surname, middleName, email, age, photo} = form;
-    let isFormValid = (
-        REGEXPS.name.test(name.value) &&
-        REGEXPS.surname.test(surname.value) &&
-        (REGEXPS.middleName.test(middleName.value) || !middleName.value) &&
-        REGEXPS.email.test(email.value) &&
-        REGEXPS.age.test(age.value) &&
-        gender.value &&
-        photo.file
-    );
-    return isFormValid;
+    for (let field in form) {
+        switch (field) {
+            case 'gender':
+                if (!form[field].value) {
+                    return false;
+                }
+                continue;
+            case 'photo':
+                if (!form[field].file) {
+                    return false;
+                }
+                continue;
+            case 'middleName':
+                if (!(REGEXPS[field].test(form[field].value) || !form[field].value)) {
+                    return false;
+                }
+                continue;
+            default:
+                if (!REGEXPS[field].test(form[field].value)) {
+                    return false;
+                }
+        }
+    }
+    return true;
 }
-export function validateLogInFormInputs(form) {
-    let {password, email} = form;
-    let isFormValid = (
-        REGEXPS.email.test(email.value) &&
-        REGEXPS.password.test(password.value)
-    );
-    return isFormValid;
-}
+
 export function errorHandler(dispatch, message, finish = true) {
     setTimeout(() => {
         if (finish) {
