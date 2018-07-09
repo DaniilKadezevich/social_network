@@ -569,3 +569,16 @@ export function setInvalidFields(form) {
         dispatch({type: ACTION_TYPES.VALIDATE_PHOTO, status: photo.file, error: I18n.t('application.form.errors.required')});
     }
 }
+
+export function showModal(user, images, index) {
+    if (!Array.isArray(images)) {
+        images = [images];
+    }
+
+    return dispatch => {
+        dispatch({type: ACTION_TYPES.SET_MODAL_USER, user});
+        dispatch({type: ACTION_TYPES.SET_INITIAL_SLIDE, index});
+        dispatch({type: ACTION_TYPES.ADD_SLIDER_IMAGES, images});
+        dispatch({type: ACTION_TYPES.SHOW_GALLERY_MODAL});
+    }
+}

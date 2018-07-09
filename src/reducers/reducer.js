@@ -7,6 +7,7 @@ import postReducer from './postReducer';
 import changePasswordReducer from './changePasswordReducer';
 import confirmModalReducer from './confirmModalReducer';
 import imageAdderReducer from './imageAdderReducer';
+import galleryModalReducer from './galleryModalReducer';
 import { i18nReducer } from 'react-redux-i18n';
 
 
@@ -22,6 +23,7 @@ let reducer = combineReducers({
     password: changePasswordReducer,
     confirmM: confirmModalReducer,
     imageAdder: imageAdderReducer,
+    galleryModal: galleryModalReducer,
     i18n: i18nReducer,
 });
 

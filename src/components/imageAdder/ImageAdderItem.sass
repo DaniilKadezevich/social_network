@@ -1,5 +1,6 @@
 .image-adder-item
   position: relative
+  background-color: #000000
   display: inline-block
   height: 110px
   width: 110px
@@ -7,6 +8,12 @@
   margin: 5px 10px 5px 0
   background-size: cover
   background-position: top
+  cursor: pointer
+  img
+    transition: opacity 0.2s ease-in-out
+  &:hover
+    img
+      opacity: 0.7
 .remove-image-adder-item
   position: absolute
   right: 5px

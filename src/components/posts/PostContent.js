@@ -8,7 +8,11 @@ export default class PostContent extends Component {
             <div className="row post-content">
                 <div className="col">
                     <PostTextBlock text={this.props.post.text}/>
-                    <PostImgBlock images={this.props.post.images}/>
+                    <PostImgBlock
+                        images={this.props.post.images}
+                        showModal={this.props.showModal}
+                        author={this.props.post.author}
+                    />
                 </div>
             </div>
         )

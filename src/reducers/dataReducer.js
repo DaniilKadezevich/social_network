@@ -9,6 +9,7 @@ let initialState = {
         age: '',
         gender: '',
         photo: '',
+        _id: '',
     },
     posts: [],
     gallery: [],

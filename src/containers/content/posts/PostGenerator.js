@@ -3,7 +3,7 @@ import { Translate, I18n } from 'react-redux-i18n';
 
 import { connect } from 'react-redux';
 import { ACTION_TYPES } from "../../../constants";
-import { addPost, getAllPosts } from "../../../actions";
+import {addPost, showModal} from "../../../actions";
 import { addImages } from '../../../functions'
 import { Link } from 'react-router-dom';
 
@@ -34,6 +34,9 @@ class PostGenerator extends Component {
     addImages(event) {
         addImages(event, this.props.addImages);
     }
+    showModal(index) {
+        this.props.showModal(this.props.user, this.props.post.images, index);
+    }
     render() {
         return (
             <div className="row no-gutters">
@@ -60,6 +63,7 @@ class PostGenerator extends Component {
                                  images={this.props.post.images}
                                  removeHandler={this.props.removeImage.bind(this)}
                                  inputHandler={() => this.imagesInput.click()}
+                                 showModal={this.showModal.bind(this)}
                              />
                          </div>
                         }
@@ -103,6 +107,7 @@ class PostGenerator extends Component {
 }
 function mapStateToProps(state) {
     return {
+        user: state.user,
         photo: state.user.photo,
         post: state.post,
     }
@@ -114,7 +119,7 @@ function mapDispatchToProps(dispatch) {
         removeImage: index => dispatch({type: ACTION_TYPES.REMOVE_POST_IMAGE, index}),
         clearFields: () => dispatch({type: ACTION_TYPES.CLEAR_POST_FIELDS}),
         addPost: (text, images) => dispatch(addPost(text, images)),
-        getAllPosts: () => dispatch(getAllPosts()),
+        showModal: (user, images, index) => dispatch(showModal(user, images, index)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PostGenerator)

@@ -9,7 +9,10 @@ export default class PostImgBlock extends Component {
             <div className='row no-gutters'>
                 { this.props.images.map((image, index) => {
                     return(
-                        <div key={index} className={`post-image-block`}>
+                        <div key={index}
+                             className={`post-image-block`}
+                             onClick={() => {this.props.showModal(index)}}
+                        >
                             <img className='img-fluid' src={image} alt=""/>
                         </div>
                     )

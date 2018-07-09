@@ -9,7 +9,7 @@ export default class Post extends Component {
                 <div className="col-6 offset-3 post">
                     <div className="container">
                         <PostHeader post={this.props.post} edit={this.props.edit}/>
-                        <PostContent post={this.props.post}/>
+                        <PostContent post={this.props.post} showModal={this.props.showModal}/>
                     </div>
                 </div>
             </div>

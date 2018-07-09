@@ -6,7 +6,7 @@ import { Translate } from 'react-redux-i18n';
 import ImageAdderGallery from '../../../components/imageAdder/ImageAdderGallery';
 
 import './ImageAdder.sass'
-import {addGalleryImages} from "../../../actions";
+import {addGalleryImages, showModal} from "../../../actions";
 import {ACTION_TYPES} from "../../../constants";
 import { addImages } from '../../../functions'
 
@@ -32,11 +32,13 @@ class ImageAdder extends Component {
         $(this.publishBtn).prop('disabled', isDisabled);
     }
     handleClick() {
-        console.log('HE');
         this.props.addGalleryImages(this.props.images)
     }
     addImages(event) {
        addImages(event, this.props.addImages)
+    }
+    showModal(index) {
+        this.props.showModal(this.props.user, this.props.images, index);
     }
     render() {
         return (
@@ -59,6 +61,7 @@ class ImageAdder extends Component {
                                     images={this.props.images}
                                     inputHandler={() => this.imagesInput.click()}
                                     removeHandler={this.props.removeImage}
+                                    showModal={this.showModal.bind(this)}
                                 />
                             </div>
                         </div>
@@ -95,6 +98,7 @@ class ImageAdder extends Component {
 function mapStateToProps(state) {
     return {
         images: state.imageAdder.images,
+        user: state.user,
     }
 }
 function mapDispatchToProps(dispatch) {
@@ -103,6 +107,7 @@ function mapDispatchToProps(dispatch) {
         removeImage: index => dispatch({type: ACTION_TYPES.REMOVE_ADDER_IMAGE, index}),
         clearAdder: () => dispatch({type: ACTION_TYPES.CLEAR_ADDER}),
         addGalleryImages: images => dispatch(addGalleryImages(images)),
+        showModal: (user, images, index) => dispatch(showModal(user, images, index)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(ImageAdder);

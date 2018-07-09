@@ -15,6 +15,7 @@ export default class ImageAdderGallery extends Component {
                             key={index}
                             removeHandler={this.props.removeHandler.bind(this, index)}
                             src={img}
+                            showModal={() => this.props.showModal(index)}
                         />
                     )
                 })}

@@ -1,0 +1,116 @@
+.gallery-modal
+  top: 0
+  right: 0
+  left: 0
+  bottom: 65px
+  .modal-close-btn
+    z-index: 12
+    display: flex
+    justify-content: center
+    align-items: center
+    position: absolute
+    right: 10px
+    top: 10px
+    color: rgba(255, 255, 255, 0.6)
+    font-size: 30px
+    transition: all 0.2s ease-in-out
+    cursor: pointer
+    height: 70px
+    width: 70px
+    &:hover
+      color: #ffffff
+.gallery-modal-overlay
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  bottom: 0
+  background-color: rgba(26,26,26,.7)
+  z-index: 100000
+.gallery-modal-body
+  position: absolute
+  top: 0
+  right: 0
+  left: 0
+  bottom: 65px
+  .slider-img-block-adaptive
+    background-color: #ffffff
+    overflow: hidden
+    position: relative
+    max-width: 850px
+    max-height: 650px
+    border: 1px solid #ffffff
+    img
+      position: relative
+    .horizontal
+      width: 100%
+      max-width: 850px
+    .vertical
+      height: 100%
+      max-height: 650px
+
+  .slider-img-block
+    width: 610px
+    height: 610px
+    background-color: #ffffff
+    overflow: hidden
+    position: relative
+    img
+      position: absolute
+      left: 50%
+      transform: translate(-50%, 0)
+  .slick-slider
+    z-index: 10
+    display: flex
+    height: 100%
+    align-items: center
+    .slick-list
+      width: 100%
+    .slick-arrow.slick-prev
+      width: 100px
+      z-index: 11
+      height: 100%
+      left: 0
+      &::before
+        font-size: 50px
+    .slick-arrow.slick-next
+      width: 100px
+      z-index: 11
+      height: 100%
+      right: 0
+      &::before
+        font-size: 50px
+
+.gallery-modal-footer
+  display: flex
+  align-items: center
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  height: 65px
+  background-color: #313131
+  color: rgba(255, 255, 255, 0.6)
+  .modal-author-block
+    display: flex
+    align-items: center
+    font-weight: 700
+    .avatar-block
+      margin-right: 5px
+      height: 35px
+      width: 35px
+      border-radius: 50%
+    .author-name
+      font-weight: 700
+  .modal-photo-counter-block
+    font-weight: 700
+  .modal-icon-block
+    .modal-delete-image-btn
+      width: 64px
+      height: 64px
+      padding: 17px 23px
+      font-size: 21px
+      cursor: pointer
+      &:hover
+        color: #ffffff
+        background-color: rgba(0, 0, 0, 0.2)

@@ -10,12 +10,15 @@ import Waypoint from '../../../components/WaypointComponent'
 import GalleryItem from '../../../components/gallery/GalleryItem'
 
 
-import { getGalleryImages, removeGalleryImage } from "../../../actions";
+import { getGalleryImages, removeGalleryImage, showModal } from "../../../actions";
 import { ACTION_TYPES } from "../../../constants";
 
 class Gallery extends Component {
     componentWillUnmount() {
         this.props.clearData();
+    }
+    showModal(index) {
+        this.props.showModal(this.props.user, this.props.data.gallery, index);
     }
     render() {
         return(
@@ -42,7 +45,12 @@ class Gallery extends Component {
                         <div className="row gallery-content">
                             {this.props.data.gallery.map((img, index) => {
                                 return (
-                                    <GalleryItem key={index} src={img} removeItem={this.props.removeImage.bind(this, index)}/>
+                                    <GalleryItem
+                                        key={index}
+                                        src={img}
+                                        removeItem={this.props.removeImage.bind(this, index)}
+                                        showModal={this.showModal.bind(this, index)}
+                                    />
                                 )
                             })}
                         </div>
@@ -61,7 +69,8 @@ class Gallery extends Component {
 }
 function mapStateToProps(state) {
     return {
-        data: state.data
+        data: state.data,
+        user: state.user,
     }
 }
 
@@ -70,6 +79,7 @@ function mapDispatchToProps(dispatch) {
         getImages: index => dispatch(getGalleryImages(index)),
         removeImage: index => dispatch(removeGalleryImage(index)),
         clearData: () => {dispatch({type: ACTION_TYPES.CLEAR_DATA})},
+        showModal: (user, images, index) => dispatch(showModal(user, images, index)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Gallery)

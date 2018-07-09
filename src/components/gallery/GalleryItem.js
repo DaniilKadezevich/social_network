@@ -10,16 +10,23 @@ export default class GalleryItem extends Component {
     componentDidUpdate() {
         setSizeClass.bind(this)();
     }
+    handleClick(e) {
+        e.stopPropagation();
+
+        this.props.removeItem();
+    }
     render() {
         return (
-            <div className="gallery-item">
+            <div className="gallery-item"
+                 onClick={this.props.showModal}
+            >
                 <img src={this.props.src}
                      ref={img => this.img = img}
                 />
                 <FontAwesomeIcon
                     icon='times'
                     className='remove-image-btn'
-                    onClick={this.props.removeItem}
+                    onClick={this.handleClick.bind(this)}
                 />
             </div>
         )
