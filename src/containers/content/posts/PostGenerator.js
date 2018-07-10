@@ -39,8 +39,8 @@ class PostGenerator extends Component {
     }
     render() {
         return (
-            <div className="row no-gutters">
-                <div className="col-6 offset-3">
+            <div className="row no-gutters justify-content-center">
+                <div className="col-7">
                 <div className="post-generator">
                     <div className="container-fluid">
                         <div className="row post-generator-header no-gutters">

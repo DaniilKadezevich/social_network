@@ -21,7 +21,7 @@ class SidebarMenu extends Component {
             )
         });
         return(
-            <div className="col-2 sidebar">
+            <div className="col-2 sidebar p-0">
                 <ul className='sidebar-menu'>
                     {sidebarItems}
                 </ul>

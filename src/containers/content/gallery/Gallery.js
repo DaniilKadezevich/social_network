@@ -22,9 +22,9 @@ class Gallery extends Component {
     }
     render() {
         return(
-            <div className='container'>
+            <div className='container-fluid'>
                 <div className="row">
-                    <div className="col-10 offset-1  gallery">
+                    <div className="col-12  gallery">
                         <div className="row gallery-header">
                             <div className="col">
                                 <FontAwesomeIcon icon='images' className='mr-1'/>

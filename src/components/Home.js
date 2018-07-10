@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom'
 
 import './Home.sass'
-import {ACTION_TYPES, URLS} from "../constants";
+import { URLS } from "../constants";
 
 import { UserAccount, MyAccount, FriendsList, SearchPeople, News, Settings, SidebarMenu, Gallery } from '../containers/index';
 

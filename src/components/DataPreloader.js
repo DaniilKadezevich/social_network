@@ -6,7 +6,7 @@ import './Preloader.sass'
 export default class DataPreloader extends Component {
     render() {
         return(
-            <Lines color="#4469B0" />
+            <Lines color="#6490b1" />
         )
     }
 }

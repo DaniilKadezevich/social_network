@@ -14,6 +14,14 @@ import { fab } from '@fortawesome/free-brands-svg-icons'
 import { fas } from '@fortawesome/free-solid-svg-icons'
 import {URLS} from "./constants";
 
+import WebFont from 'webfontloader';
+
+WebFont.load({
+    google: {
+        families: ['Roboto:100,300,400,700',  'sans-serif']
+    }
+});
+
 library.add(fab, fas);
 
 ReactDOM.render(

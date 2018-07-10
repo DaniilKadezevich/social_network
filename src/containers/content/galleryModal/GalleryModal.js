@@ -14,9 +14,6 @@ import { ACTION_TYPES } from "../../../constants";
 Modal.setAppElement('#root');
 
 class GalleryModal extends Component {
-    async componentWillMount() {
-
-    }
     componentWillUnmount() {
         this.props.clearModal();
     }
@@ -36,7 +33,7 @@ class GalleryModal extends Component {
                 </div>
                 <div className="gallery-modal-body">
                     {this.props.galleryModal.images.length &&
-                    <GallerySlider images={this.props.galleryModal.images} initialSlide={this.props.galleryModal.initialSlide}/>
+                        <GallerySlider images={this.props.galleryModal.images} initialSlide={this.props.galleryModal.initialSlide}/>
                     }
                 </div>
                 <div className='gallery-modal-footer'>

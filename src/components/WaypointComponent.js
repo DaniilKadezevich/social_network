@@ -7,7 +7,7 @@ import DataPreloader from './DataPreloader';
 export default class WaypointComponent extends Component {
     render() {
         return (
-            <div>
+            <div className='waypoint'>
             {!this.props.stopLoad ?
                 <div>
                     <Waypoint
