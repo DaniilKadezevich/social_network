@@ -8,6 +8,9 @@ export default class PostImgBlock extends Component {
         return(
             <div className='row no-gutters'>
                 { this.props.images.map((image, index) => {
+                    if (index >= 2) {
+                        return null;
+                    }
                     return(
                         <div key={index}
                              className={`post-image-block`}
@@ -17,6 +20,11 @@ export default class PostImgBlock extends Component {
                         </div>
                     )
                 })}
+                <div className='post-image-counter d-flex justify-content-center align-items-center'
+                     onClick={() => this.props.showModal(2)}
+                >
+                    +{this.props.images.length - 2}
+                </div>
             </div>
         )
     }
