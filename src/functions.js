@@ -1,5 +1,6 @@
 import {ACTION_TYPES, preDelay, REGEXPS} from './constants';
 import fetch from 'cross-fetch';
+import $ from 'jquery';
 
 export function validateFormInputs(form) {
     for (let field in form) {

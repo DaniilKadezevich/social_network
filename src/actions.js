@@ -1,6 +1,6 @@
 import { I18n } from 'react-redux-i18n';
 import { REGEXPS, ACTION_TYPES, URLS } from "./constants";
-import {errorHandler, successHandler, makeRequest, makeRequestWithToken} from "./functions";
+import { errorHandler, successHandler, makeRequest, makeRequestWithToken } from "./functions";
 import moment from "moment/moment";
 
 export function signUp(obj) {
@@ -312,7 +312,7 @@ export function changePassword(oldP, newP, confirmP) {
 
 export function changeLocale(locale) {
     return dispatch => {
-        return makeRequestWithToken(
+        return makeRequest(
             URLS.CHANGE_LOCALE,
             'POST',
             { 'Content-Type': 'application/json', },
@@ -322,14 +322,6 @@ export function changeLocale(locale) {
 }
 
 export function addGalleryImages(images) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     let formData = new FormData();
 
     images.forEach((img) => {
@@ -337,13 +329,12 @@ export function addGalleryImages(images) {
     });
 
     return dispatch => {
-        return fetch(URLS.ADD_GALLERY_IMAGES, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-            body: formData,
-        })
+        return makeRequestWithToken(
+            URLS.ADD_GALLERY_IMAGES,
+            'POST',
+            {},
+            formData
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -356,22 +347,13 @@ export function addGalleryImages(images) {
     }
 }
 export function getGalleryImages(index) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
     return dispatch => {
-        return fetch(URLS.GET_GALLERY_IMAGES, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({index})
-        })
+        return makeRequestWithToken(
+            URLS.GET_GALLERY_IMAGES,
+            'POST',
+            { 'Content-Type': 'application/json' },
+            JSON.stringify({index})
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -384,23 +366,13 @@ export function getGalleryImages(index) {
     }
 }
 export function removeGalleryImage(index) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
-        return fetch(URLS.REMOVE_GALLERY_IMAGE, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({index})
-        })
+        return makeRequestWithToken(
+            URLS.REMOVE_GALLERY_IMAGE,
+            'POST',
+            { 'Content-Type': 'application/json' },
+            JSON.stringify({index})
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
