@@ -1,7 +1,6 @@
 import {ACTION_TYPES, preDelay, REGEXPS} from './constants';
 import fetch from 'cross-fetch';
 
-
 export function validateFormInputs(form) {
     for (let field in form) {
         switch (field) {
