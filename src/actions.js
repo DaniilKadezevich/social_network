@@ -1,4 +1,3 @@
-import fetch from 'cross-fetch';
 import { I18n } from 'react-redux-i18n';
 import { REGEXPS, ACTION_TYPES, URLS } from "./constants";
 import {errorHandler, successHandler, makeRequest, makeRequestWithToken} from "./functions";
