@@ -39,19 +39,23 @@ class GalleryModal extends Component {
                 <div className='gallery-modal-footer'>
                     <div className="container">
                         <div className="row align-items-center">
-                            <div className="modal-author-block col-4">
-                                <Link to={`/users/${this.props.galleryModal.user._id}`}>
-                                    <div
-                                        className="author-photo"
-                                        onClick={this.props.hideModal}
-                                    >
-                                        <Avatar src={this.props.galleryModal.user.photo}/>
+                            {this.props.galleryModal.user._id ?
+                                <div className="modal-author-block col-4">
+                                    <Link to={`/users/${this.props.galleryModal.user._id}`}>
+                                        <div
+                                            className="author-photo"
+                                            onClick={this.props.hideModal}
+                                        >
+                                            <Avatar src={this.props.galleryModal.user.photo}/>
+                                        </div>
+                                    </Link>
+                                    <div className="author-name pb-2">
+                                        {`${this.props.galleryModal.user.name} ${this.props.galleryModal.user.surname}`}
                                     </div>
-                                </Link>
-                                <div className="author-name pb-2">
-                                    {`${this.props.galleryModal.user.name} ${this.props.galleryModal.user.surname}`}
                                 </div>
-                            </div>
+                                :
+                                <div className='col-4'></div>
+                            }
                             <div className="modal-photo-counter-block col-4 d-flex justify-content-center">
                                 <Translate value='application.photos'/>
                             </div>

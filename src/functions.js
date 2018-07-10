@@ -120,9 +120,7 @@ export function makeRequestWithToken(url, method, headers = {}, body) {
     let token = getToken();
 
     if (!token) {
-        return dispatch => {
-
-        }
+        return false
     }
 
     headers = {

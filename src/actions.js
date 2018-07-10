@@ -76,9 +76,12 @@ export function editUser(obj) {
 export function getUserByToken() {
     return dispatch => {
         dispatch({type: ACTION_TYPES.START_LOADING});
-
-        return makeRequestWithToken(URLS.GET_USER_BY_TOKEN, 'GET')
-            .then(response => response.json())
+        const promise = makeRequestWithToken(URLS.GET_USER_BY_TOKEN, 'GET');
+        if (!promise) {
+            dispatch({type: ACTION_TYPES.FINISH_LOADING});
+            return
+        }
+        promise.then(response => response.json())
             .then(data => {
                 if (data.isError) {
                     errorHandler(dispatch);

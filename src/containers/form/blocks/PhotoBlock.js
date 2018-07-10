@@ -6,6 +6,7 @@ import './PhotoForm.sass'
 
 import { Avatar }  from '../../../components/index'
 import { ACTION_TYPES } from "../../../constants";
+import {showModal} from "../../../actions";
 
 class PhotoBlock extends Component {
     constructor() {
@@ -59,6 +60,12 @@ class PhotoBlock extends Component {
             this.props.validate(false, I18n.t('application.form.errors.required'))
         }
     }
+    showModal() {
+        if (this.props.photo.file) {
+            this.props.showModal({}, this.props.photo.file, 0)
+        }
+
+    }
     render() {
         let statusClass;
 
@@ -72,9 +79,10 @@ class PhotoBlock extends Component {
                 <div className='row align-items-center'>
                     <div className=" col-6 d-flex justify-content-center">
                         <button
-                            className='btn btn-primary btn-sm'
+                            className='btn btn-light btn-sm'
                             type='button'
                             onClick={() => this.photoInput.click()}
+                            style={{border: '1px solid #dbdbdb'}}
                         >
                             <Translate value='application.form.photoBtn'/>
                         </button>
@@ -90,8 +98,11 @@ class PhotoBlock extends Component {
                             name='avatar'
                             ref={photoInput => this.photoInput = photoInput}
                         />
-
-                        <Avatar class='avatar-middle' src={this.props.photo.file}/>
+                        <div className="form-avatar"
+                             onClick={this.showModal.bind(this)}
+                        >
+                            <Avatar class='avatar-middle' src={this.props.photo.file} />
+                        </div>
                     </div>
                     {this.props.photo.error &&
                     <div className='col-12'>
@@ -113,7 +124,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         addPhotoFile: (file) => dispatch({type: ACTION_TYPES.ADD_PHOTO, file}),
-        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_PHOTO, status, error})
+        validate: (status, error) => dispatch({type: ACTION_TYPES.VALIDATE_PHOTO, status, error}),
+        showModal: (user, images, index) => dispatch(showModal(user, images, index)),
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(PhotoBlock)

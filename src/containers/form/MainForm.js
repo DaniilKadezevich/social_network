@@ -43,13 +43,12 @@ class RegistrationForm extends Component {
         if (this.props.isAuthorized && !this.props.edit) {
             return <Redirect to='/'/>
         }
-        const [ btnText, size ] = this.props.edit ? [<Translate value="application.form.edit"/>, 'col-5'] :
-            [<Translate value="application.form.signIn"/>, 'col-4'];
+        const btnText = this.props.edit ? <Translate value="application.form.edit"/> : <Translate value="application.form.signIn"/>;
 
         return (
             <div className='container'>
                 <div className="row align-items-center flex-column justify-content-center">
-                    <div className={`form-container ${size} text-center`}>
+                    <div className={`form-container col-5 text-center`}>
                         <form action="">
                             <div className=" form-group form-row">
                                 <div className="col-6">
@@ -75,14 +74,14 @@ class RegistrationForm extends Component {
                             </div>
                             <PhotoBlock/>
                             <div className="row d-flex justify-content-center">
-                                <button className="btn btn-success" type="button" onClick={this.handleSubmit}>
+                                <button className="btn btn-primary" type="button" onClick={this.handleSubmit}>
                                     {btnText}
                                 </button>
                             </div>
                         </form>
                     </div>
                     {!this.props.edit && (
-                        <div className='rerender mt-3 col-4 text-center'>
+                        <div className='rerender mt-3 col-5 text-center'>
                             <Translate value='application.form.haventAnAcc'/>
                             <Link to='/login' onClick={this.props.clearForm}> <Translate value='application.form.logIn'/></Link>
                         </div>
