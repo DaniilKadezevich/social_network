@@ -21,6 +21,7 @@ const URLS = {
     DELETE_POST: '/delete-post',
     CHANGE_PASSWORD: '/change-password',
     CHANGE_LOCALE: '/change-locale',
+    GET_USERS_POSTS: '/get-users-posts',
 };
 
 module.exports.REGEXPS = REGEXPS;

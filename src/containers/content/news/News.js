@@ -5,13 +5,10 @@ import './News.sass'
 
 import Waypoint from '../../../components/WaypointComponent'
 import Post from '../../../components/posts/Post';
-import PostGenerator from './PostGenerator'
-
+import PostGenerator from '../posts/PostGenerator'
 
 import { getAllPosts } from "../../../actions";
 import { ACTION_TYPES } from "../../../constants";
-
-
 
 class News extends Component {
     componentWillUnmount() {
@@ -19,7 +16,7 @@ class News extends Component {
     }
     render() {
         return(
-            <div className='container'>
+            <div className='container posts'>
                 <PostGenerator/>
                     {this.props.posts.map((post, index) => {
                             let edit = (post.author === this.props.user_id);

@@ -10,9 +10,10 @@ export default class SettingsSidebar extends Component {
             <div className="col-4 text-center settings-sidebar">
                 <ul className="settings-menu">
                     {settingsSidebarMenu.map((title, index) => {
+                        let active = this.props.history.location.pathname.includes(`/${title}`) ? 'active' : '';
                        return (
                            <Link key={index} to={`/settings/${title}`}>
-                               <li className="settings-menu-el">
+                               <li className={`settings-menu-el ${active}`}>
                                    <Translate value={`application.settingsSidebar.${[title]}`}/>
                                </li>
                            </Link>

@@ -1,17 +1,13 @@
-import fetch from 'cross-fetch';
 import { I18n } from 'react-redux-i18n';
 import { REGEXPS, ACTION_TYPES, URLS } from "./constants";
-import { errorHandler, successHandler } from "./functions";
+import {errorHandler, successHandler, makeRequest, makeRequestWithToken} from "./functions";
 import moment from "moment/moment";
 
 export function signUp(obj) {
     return dispatch => {
         dispatch({type: ACTION_TYPES.START_LOADING});
 
-        return fetch(URLS.SIGN_UP, {
-            method: "POST",
-            body: obj
-        })
+        return makeRequest(URLS.SIGN_UP, 'POST', {}, obj)
             .then(response => response.json())
             .then(data => {
                 if (data.isError){
@@ -35,10 +31,7 @@ export function logIn(obj) {
     return dispatch => {
         dispatch({type: ACTION_TYPES.START_LOADING});
 
-        return fetch(URLS.LOG_IN, {
-            method: "POST",
-            body: obj,
-        })
+        return makeRequest(URLS.LOG_IN, 'POST', {}, obj)
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -59,25 +52,10 @@ export function logIn(obj) {
 }
 
 export function editUser(obj) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
         dispatch({type: ACTION_TYPES.START_LOADING});
 
-        return fetch(URLS.EDIT_USER, {
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-
-            method: "POST",
-            body: obj
-        })
+        return makeRequestWithToken(URLS.EDIT_USER, 'POST', {}, obj)
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -96,23 +74,10 @@ export function editUser(obj) {
     }
 }
 export function getUserByToken() {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
         dispatch({type: ACTION_TYPES.START_LOADING});
 
-        return fetch(URLS.GET_USER_BY_TOKEN, {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
+        return makeRequestWithToken(URLS.GET_USER_BY_TOKEN, 'GET')
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -128,28 +93,15 @@ export function getUserByToken() {
 }
 
 export function getUsers(index, regexp = /.*/, url) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
         let serialized = regexp.source;
 
-        return fetch(url, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                index,
-                regexp: serialized
-            })
-        })
+        return makeRequestWithToken(
+            url,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify({ index, regexp: serialized })
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -164,23 +116,13 @@ export function getUsers(index, regexp = /.*/, url) {
 }
 
 export function addFriend(obj) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
-        return fetch(URLS.ADD_FRIEND, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj),
-        })
+        return makeRequestWithToken(
+            URLS.ADD_FRIEND,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify(obj)
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -195,23 +137,13 @@ export function addFriend(obj) {
 }
 
 export function removeFriend(obj) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
-        return fetch(URLS.REMOVE_FRIEND, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj),
-        })
+        return makeRequestWithToken(
+            URLS.REMOVE_FRIEND,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify(obj)
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -226,25 +158,15 @@ export function removeFriend(obj) {
 }
 
 export function uploadUser(obj) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
         dispatch({type: ACTION_TYPES.START_LOADING});
 
-        return fetch(URLS.UPLOAD_USER, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj),
-        })
+        return makeRequestWithToken(
+            URLS.UPLOAD_USER,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify(obj)
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -272,23 +194,13 @@ export function addPost(text, images) {
     } else {
         formData.append('images', '');
     }
-
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     return dispatch => {
-        return fetch(URLS.ADD_POST, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-            body: formData,
-        })
+        return makeRequestWithToken(
+            URLS.ADD_POST,
+            'POST',
+            {},
+            formData
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -303,22 +215,13 @@ export function addPost(text, images) {
     }
 }
 export function getAllPosts(index) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
     return dispatch => {
-        return fetch(URLS.GET_ALL_POSTS, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({index})
-        })
+        return makeRequestWithToken(
+            URLS.GET_ALL_POSTS,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify({index})
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -329,24 +232,37 @@ export function getAllPosts(index) {
             });
     }
 }
-export function deletePost(obj) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
+export function getUsersPosts(index, _id) {
     return dispatch => {
-        return fetch(URLS.DELETE_POST, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(obj),
-        })
+        return makeRequestWithToken(
+            URLS.GET_USERS_POSTS,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify({
+                _id,
+                index,
+            })
+        )
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.isError) {
+                    errorHandler(dispatch, data.message, false);
+                    return;
+                }
+
+                dispatch({type: ACTION_TYPES.LOAD_POSTS, posts: data.posts, stopLoad: data.isAll});
+            });
+    }
+}
+export function deletePost(obj) {
+    return dispatch => {
+        return makeRequestWithToken(
+            URLS.DELETE_POST,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify(obj)
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -360,27 +276,18 @@ export function deletePost(obj) {
 }
 
 export function changePassword(oldP, newP, confirmP) {
-    let token = localStorage.getItem('token');
-
-    if (!token) {
-        return dispatch => {
-
-        }
-    }
-
     let formData = new FormData();
     formData.append('old', oldP);
     formData.append('new', newP);
     formData.append('confirm', confirmP);
 
     return dispatch => {
-        return fetch(URLS.CHANGE_PASSWORD, {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-            body: formData,
-        })
+        return makeRequestWithToken(
+            URLS.CHANGE_PASSWORD,
+            'POST',
+            {},
+            formData
+        )
             .then(response => response.json())
             .then(data => {
                 if (data.isError) {
@@ -406,13 +313,12 @@ export function changePassword(oldP, newP, confirmP) {
 
 export function changeLocale(locale) {
     return dispatch => {
-        return fetch(URLS.CHANGE_LOCALE, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({locale}),
-        })
+        return makeRequestWithToken(
+            URLS.CHANGE_LOCALE,
+            'POST',
+            { 'Content-Type': 'application/json', },
+            JSON.stringify({locale})
+        )
     }
 }
 

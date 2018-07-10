@@ -1,5 +1,5 @@
 import AccountHeader from './header/AccountHeader';
-import AccountContent from './content/AccountContent';
+import AccountContent from '../../containers/content/account/AccountContent';
 import EditBtn from './header/AccountEditBtn';
 import AddFriendBtn from '../../containers/content/btns/AddFriendBtn';
 import RemoveFriendBtn from '../../containers/content/btns/RemoveFriendBtn';

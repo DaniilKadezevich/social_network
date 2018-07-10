@@ -23,6 +23,7 @@ const addFriend = require('./modules/friends/addFriend');
 const addPost = require('./modules/posts/addPost');
 const deletePost = require('./modules/posts/deletePost');
 const getAllPosts = require('./modules/posts/getAllPosts');
+const getUsersPosts = require('./modules/posts/getUsersPosts');
 const removeFriend = require('./modules/friends/removeFriend');
 const changePassword = require('./modules/changePassword');
 
@@ -73,6 +74,11 @@ app.post(URLS.GET_ALL_POSTS, verifyToken, (req, res) => {
     let token = req.token;
 
     getAllPosts(token, req.body.index,res)
+});
+app.post(URLS.GET_USERS_POSTS, verifyToken, (req, res) => {
+    let token = req.token;
+
+    getUsersPosts(token, req.body.index, res, req.body._id)
 });
 app.post(URLS.DELETE_POST, verifyToken, (req, res) => {
     let token = req.token;
