@@ -1,6 +1,7 @@
 const connectToTheDB = require('../connectToTheDB');
 const { ObjectId } = require('mongodb');
 const { sendErrorMessage } = require('../functions');
+const { maxImages } = require('../../constants');
 const {checkToken} = require('../jwt');
 
 module.exports = function (token, index, res) {
@@ -28,7 +29,7 @@ module.exports = function (token, index, res) {
                     return;
                 }
                 const images = [];
-                const deadline = (result.gallery.length < (index + 12)) ? result.gallery.length : (index + 12);
+                const deadline = (result.gallery.length < (index + maxImages)) ? result.gallery.length : (index + maxImages);
 
                 if (index === deadline) {
                     res.send({
@@ -43,7 +44,7 @@ module.exports = function (token, index, res) {
                 for (let i = index; i < deadline; i++) {
                     images.push(result.gallery[i]);
                     if (deadline - i === 1) {
-                        let isAll = !(!(deadline < 12));
+                        let isAll = !(!(deadline < maxImages));
                         res.send({
                             images,
                             isError: false,

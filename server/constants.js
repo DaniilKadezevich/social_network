@@ -29,3 +29,7 @@ const URLS = {
 
 module.exports.REGEXPS = REGEXPS;
 module.exports.URLS = URLS;
+
+module.exports.maxUsers = 10;
+module.exports.maxPosts = 10;
+module.exports.maxImages = 12;
