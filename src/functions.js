@@ -1,5 +1,9 @@
-import { ACTION_TYPES, preDelay, REGEXPS } from './constants';
+
 import $ from "jquery";
+
+import {ACTION_TYPES, preDelay, REGEXPS, URLS} from './constants';
+import fetch from 'cross-fetch';
+
 
 export function validateFormInputs(form) {
     let {gender, name, surname, middleName, email, age, photo} = form;
@@ -54,6 +58,7 @@ export function successHandler(dispatch, message, isTemporary = true) {
     }, preDelay);
 }
 
+
 export function setSizeClass() {
     let img = new Image();
     let sizeClass;
@@ -70,7 +75,7 @@ export function addImages(event, callback) {
         let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
         let filePath = event.target.value;
 
-        if(!allowedExtensions.exec(filePath)){
+        if (!allowedExtensions.exec(filePath)) {
             event.target.value = '';
 
             return;
@@ -85,4 +90,41 @@ export function addImages(event, callback) {
         reader.readAsDataURL(file);
     }
     event.target.value = '';
+}
+export function getToken() {
+    let token = localStorage.getItem('token');
+
+    return !token ? false : token;
+}
+
+export function makeRequest(url, method, headers = {}, body) {
+    if (method === 'GET') {
+        return fetch(url, {
+            method,
+            headers,
+        });
+    }
+    return fetch(url, {
+        method,
+        headers,
+        body,
+    });
+
+}
+
+export function makeRequestWithToken(url, method, headers = {}, body) {
+    let token = getToken();
+
+    if (!token) {
+        return dispatch => {
+
+        }
+    }
+
+    headers = {
+        'Authorization': `Bearer ${token}`,
+        ...headers,
+    };
+
+    return makeRequest(url, method, headers, body);
 }
