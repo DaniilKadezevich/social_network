@@ -1,5 +1,9 @@
+
+import $ from "jquery";
+
 import {ACTION_TYPES, preDelay, REGEXPS, URLS} from './constants';
 import fetch from 'cross-fetch';
+
 
 export function validateFormInputs(form) {
     let {gender, name, surname, middleName, email, age, photo} = form;
@@ -54,6 +58,39 @@ export function successHandler(dispatch, message, isTemporary = true) {
     }, preDelay);
 }
 
+
+export function setSizeClass() {
+    let img = new Image();
+    let sizeClass;
+
+    img.onload = (e) => {
+        sizeClass = e.target.width < e.target.height ? 'vertical' : 'horizontal';
+        $(this.img).removeClass();
+        $(this.img).addClass(sizeClass);
+    };
+    img.src = this.props.src;
+}
+export function addImages(event, callback) {
+    for (let i = 0; i < event.target.files.length; i++) {
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        let filePath = event.target.value;
+
+        if (!allowedExtensions.exec(filePath)) {
+            event.target.value = '';
+
+            return;
+        }
+        let file = event.target.files[i];
+
+        let reader = new FileReader();
+
+        reader.onload = (e) => {
+            callback(e.target.result);
+        };
+        reader.readAsDataURL(file);
+    }
+    event.target.value = '';
+}
 export function getToken() {
     let token = localStorage.getItem('token');
 

@@ -39,6 +39,15 @@ export const sidebarMenu = [
         }
     },
     {
+        text: 'gallery',
+        link: '/gallery',
+        component: FontAwesomeIcon,
+        props: {
+            icon: 'images',
+            className: 'mr-1 sidebar-icon'
+        }
+    },
+    {
         text: 'settings',
         link: '/settings',
         component: FontAwesomeIcon,

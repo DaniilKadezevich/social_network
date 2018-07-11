@@ -1,12 +1,23 @@
 import React, { Component } from 'react';
 import img from '../images/add_photo.png';
-import './Avatar.sass'
+import './Avatar.sass';
+
+import { setSizeClass } from '../functions'
+
 
 export default class Avatar extends Component {
+    componentDidMount() {
+        setSizeClass.bind(this)();
+    }
+    componentDidUpdate() {
+        setSizeClass.bind(this)();
+    }
     render() {
-        const style = this.props.src ? {backgroundImage: `url(${this.props.src})`} : {backgroundImage: img};
         return (
-            <div className={`avatar-block ${this.props.class}`} style={style}>
+            <div className={`avatar-block ${this.props.class}`}>
+                <img src={this.props.src} alt=""
+                     ref={img => this.img = img}
+                />
             </div>
         )
     }

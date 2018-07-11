@@ -49,6 +49,12 @@ export const ACTION_TYPES = {
     SET_REGEXP: 'SET_REGEXP',
     CLEAR_DATA: 'CLEAR_DATA',
     REMOVE_USERS: 'REMOVE_USERS',
+    ADD_GALLERY_IMAGES: 'ADD_GALLERY_IMAGES',
+    LOAD_GALLERY_IMAGES: 'LOAD_GALLERY_IMAGES',
+    REMOVE_GALLERY_IMAGE: 'REMOVE_GALLERY_IMAGE',
+    ADD_ADDER_IMAGES: 'ADD_ADDER_IMAGES',
+    REMOVE_ADDER_IMAGE: 'REMOVE_ADDER_IMAGE',
+    CLEAR_ADDER: 'CLEAR_ADDER',
 };
 
 export const URLS = {
@@ -66,7 +72,10 @@ export const URLS = {
     DELETE_POST: '/delete-post',
     CHANGE_PASSWORD: '/change-password',
     CHANGE_LOCALE: '/change-locale',
-    GET_USERS_POSTS: '/get-users-posts'
+    GET_USERS_POSTS: '/get-users-posts',
+    ADD_GALLERY_IMAGES: '/add-gallery-images',
+    GET_GALLERY_IMAGES: '/get-gallery-images',
+    REMOVE_GALLERY_IMAGE: '/remove-gallery-image',
 };
 
 export const preDelay = 1000;
@@ -79,6 +88,10 @@ export const LANGUAGES = {
 export const TRANSLATIONS_OBJECT = {
     en: {
         application: {
+            uploadPhoto: 'Upload photo',
+            addPhoto: 'Add photo',
+            photos: 'Photo',
+            galleryIsEmpty: 'Gallery is empty',
             confirm: {
                 deletePost: 'Delete post',
                 removeFriend: 'Remove friend',
@@ -111,6 +124,7 @@ export const TRANSLATIONS_OBJECT = {
                 friends: 'Friends',
                 searchPeople: 'Search people',
                 newsFeed: 'News feed',
+                gallery: 'Gallery',
                 settings: 'Settings',
             },
             settingsSidebar: {
@@ -149,6 +163,10 @@ export const TRANSLATIONS_OBJECT = {
     },
     ru: {
         application: {
+            uploadPhoto: 'Загрузить фото',
+            addPhoto: 'Добавить фото',
+            photos: 'Фото',
+            galleryIsEmpty: 'Галерея пуста',
             confirm: {
                 deletePost: 'Удалить пост',
                 removeFriend: 'Удалить друга',
@@ -161,7 +179,7 @@ export const TRANSLATIONS_OBJECT = {
             removeFriend: 'Удалить из друзей',
             noPosts: 'Нет постов',
             publish: 'Опубликовать',
-            addImages: 'Добавить фотографии',
+            addImages: 'Добавить фото',
             whatsNew: 'Что нового?',
             noFriends: 'У вас нет друзей',
             friends: 'Друзья',
@@ -181,6 +199,7 @@ export const TRANSLATIONS_OBJECT = {
                 friends: 'Друзья',
                 searchPeople: 'Поиск',
                 newsFeed: 'Новостная лента',
+                gallery: 'Галерея',
                 settings: 'Настройки',
             },
             settingsSidebar: {

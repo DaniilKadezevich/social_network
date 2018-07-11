@@ -9,7 +9,7 @@ module.exports = function (userInfo, res) {
 
         let query = {email: userInfo.email};
 
-        dbo.collection('users').findOne(query, { fields: {friends: 0} }, (err, result) => {
+        dbo.collection('users').findOne(query, { fields: {friends: 0, gallery: 0} }, (err, result) => {
             if (!result) {
                 sendErrorMessage(i18n.__('There is no user with this email.'), res);
                 db.close();

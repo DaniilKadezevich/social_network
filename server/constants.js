@@ -22,7 +22,14 @@ const URLS = {
     CHANGE_PASSWORD: '/change-password',
     CHANGE_LOCALE: '/change-locale',
     GET_USERS_POSTS: '/get-users-posts',
+    ADD_GALLERY_IMAGES: '/add-gallery-images',
+    GET_GALLERY_IMAGES: '/get-gallery-images',
+    REMOVE_GALLERY_IMAGE: '/remove-gallery-image',
 };
 
 module.exports.REGEXPS = REGEXPS;
 module.exports.URLS = URLS;
+
+module.exports.maxUsers = 10;
+module.exports.maxPosts = 10;
+module.exports.maxImages = 12;

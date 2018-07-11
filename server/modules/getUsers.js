@@ -1,7 +1,8 @@
 const { sendErrorMessage } = require('./functions');
+const { maxUsers } = require('../constants');
 
 module.exports = function (dbo, db, query, res, index) {
-    dbo.collection('users').find(query, { fields: {password: 0, middleName: 0, email: 0} }).toArray(function (err, result) {
+    dbo.collection('users').find(query, { fields: {password: 0, middleName: 0, email: 0, gallery: 0} }).toArray(function (err, result) {
         if (err) {
             sendErrorMessage('Can\'t get users', res);
             db.close();
@@ -18,7 +19,7 @@ module.exports = function (dbo, db, query, res, index) {
         }
 
         const users = [];
-        const deadline = (result.length < (index + 10)) ? result.length : (index + 10);
+        const deadline = (result.length < (index + maxUsers)) ? result.length : (index + maxUsers);
 
         if (index === deadline) {
             res.send({
@@ -31,7 +32,7 @@ module.exports = function (dbo, db, query, res, index) {
         for (let i = index; i < deadline; i++) {
             users.push(result[i]);
             if (deadline - i === 1) {
-                const isAll = !(!(deadline % 10));
+                const isAll = !(!(deadline % maxUsers));
                 res.send({
                     users,
                     isError: false,

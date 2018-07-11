@@ -1,15 +1,17 @@
 const connectToTheDB = require('../connectToTheDB');
 const { ObjectId } = require('mongodb');
 const { sendErrorMessage } = require('../functions');
+const { maxPosts } = require('../../constants');
 
 module.exports = function (query, index, res) {
     connectToTheDB(function (dbo, db) {
-        dbo.collection('posts').find(query).toArray(function (err, result) {
+        dbo.collection('posts').find(query).toArray(function (err, r) {
             if (err) {
                 sendErrorMessage('Can\'t get posts', res);
                 db.close();
                 return;
             }
+            let result = r.reverse();
             if (!result.length) {
                 res.send({
                     posts: result,
@@ -20,7 +22,7 @@ module.exports = function (query, index, res) {
                 return;
             }
             const posts = [];
-            const deadline = (result.length < (index + 10)) ? result.length : (index + 10);
+            const deadline = (result.length < (index + maxPosts)) ? result.length : (index + maxPosts);
 
             if (index === deadline) {
                 res.send({
@@ -28,6 +30,8 @@ module.exports = function (query, index, res) {
                     isError: false,
                     isAll: true,
                 });
+                db.close();
+                return;
             }
             let autors = [];
             result.forEach((post) => {
@@ -41,7 +45,7 @@ module.exports = function (query, index, res) {
                         }
                     });
                     if (deadline - i === 1) {
-                        const isAll = !(!(deadline % 10));
+                        const isAll = !(!(deadline < maxPosts));
                         res.send({
                             posts,
                             isError: false,
